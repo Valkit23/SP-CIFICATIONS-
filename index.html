@@ -2269,6 +2269,64 @@ document.getElementById('nexusForm').addEventListener('submit', function(e) {
 ```
 
     //Ajout des fonctionnalités NEXUS (ID, GPS, dates auto)"//
+
+
+    // ============================================================
+// GESTION DES SECTEURS SPÉCIFIQUES (AMÉLIORÉE)
+// ============================================================
+secteurSelect.addEventListener('change', function() {
+    // 1. Masquer toutes les sections
+    document.querySelectorAll('.section-specifique').forEach(section => {
+        section.classList.remove('active');
+        section.style.display = 'none';
+    });
+
+    // 2. Réinitialiser les champs de la section précédente
+    document.querySelectorAll('.section-specifique input, .section-specifique select, .section-specifique textarea')
+        .forEach(input => {
+            input.value = '';
+            if (input.tagName === 'SELECT') {
+                input.selectedIndex = 0;
+            }
+        });
+
+    // 3. Afficher la section correspondante
+    const secteur = this.value;
+    if (secteur) {
+        const sectionId = 'secteur-' + secteur;
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.classList.add('active');
+            section.style.display = 'block';
+        }
+    }
+});
+
+// ============================================================
+// VALIDATION AMÉLIORÉE POUR NEXUS
+// ============================================================
+function getChampsObligatoiresParType(typeEntite) {
+    const mapping = {
+        'Personne physique': ['nom', 'prenom', 'sexe', 'date_naissance'],
+        'Ménage / famille': ['nom', 'prenom', 'nb_personnes', 'chef_menage'],
+        'Entreprise': ['denomination', 'forme_juridique', 'num_enregistrement'],
+        'Gouvernement / administration': ['gouv_pays', 'gouv_niveau', 'gouv_ministere'],
+        'Organisation internationale': ['gouv_pays', 'gouv_ministere'],
+        'ONG / association': ['denomination', 'gouv_pays'],
+        'Établissement d\'enseignement': ['denomination', 'gouv_pays', 'etablissement_etude'],
+        'Établissement de santé': ['denomination', 'gouv_pays'],
+        'Institution financière': ['denomination', 'forme_juridique'],
+        'Entreprise minière': ['denomination', 'mines_type', 'mines_permis'],
+        'Industrie / usine': ['denomination', 'ind_type'],
+        'Entreprise de transport/logistique': ['denomination'],
+        'Exploitation agricole': ['denomination', 'agri_type'],
+        'Projet / chantier': ['projet_nom', 'projet_promoteur'],
+        'Infrastructure': ['infra_nom', 'infra_type'],
+        'Localité / territoire': ['ville', 'pays'],
+        'Autre entité': ['nom', 'prenom']
+    };
+    return mapping[typeEntite] || ['nom', 'prenom'];
+}
 </script>
 
 </body>
