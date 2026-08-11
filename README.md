@@ -1,10 +1,10 @@
-# 🌍 NEXUS - Multisectoral Data Collection Framework
+#  NEXUS - Multisectoral Data Collection Framework
 
 **NEXUS** est une plateforme de profilage structuré et adaptatif conçue pour la collecte de données multisectorielles, multi-acteurs et internationales.
 
 ---
 
-## 🎯 Vision
+##  Vision
 
 NEXUS passe d'un simple « formulaire de recensement » à une **architecture de profilage structurée** permettant :
 
@@ -80,7 +80,7 @@ Le tout premier champ du formulaire détermine les modules à afficher :
 
 ---
 
-## 🛡️ Gouvernance des données NEXUS
+##  Gouvernance des données NEXUS
 
 | Champ | Description |
 |-------|-------------|
@@ -125,7 +125,7 @@ Monde
 
 ---
 
-## 🔗 Liens utiles
+##  Liens utiles
 
 | Lien | Description |
 |------|-------------|
