@@ -1,11 +1,12 @@
-```html
+html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recensement Multisectoriel - Lubumbashi</title>
+    <title>NEXUS - Profilage Multisectoriel</title>
     <style>
+        /* ===== STYLES GÉNÉRAUX ===== */
         * {
             margin: 0;
             padding: 0;
@@ -13,40 +14,46 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             min-height: 100vh;
             padding: 20px;
         }
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
         .container {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
-            background: rgba(255,255,255,0.95);
+            background: rgba(255,255,255,0.97);
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6);
         }
         h1 {
             text-align: center;
-            color: #1a2a6c;
-            margin-bottom: 5px;
-            font-size: 28px;
+            color: #0f0c29;
+            font-size: 32px;
+            letter-spacing: 2px;
+        }
+        h1 span {
+            color: #302b63;
         }
         .subtitle {
             text-align: center;
-            color: #555;
+            color: #666;
             margin-bottom: 30px;
             font-size: 16px;
             border-bottom: 2px solid #eee;
             padding-bottom: 15px;
         }
+        .badge-version {
+            display: inline-block;
+            background: #302b63;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        /* ===== FORMULAIRES ===== */
         .form-group {
             margin-bottom: 20px;
         }
@@ -61,6 +68,15 @@
             color: #e74c3c;
             margin-left: 3px;
         }
+        label .badge-module {
+            background: #302b63;
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 8px;
+            font-weight: normal;
+        }
         input, select, textarea {
             width: 100%;
             padding: 12px 15px;
@@ -72,8 +88,8 @@
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #1a2a6c;
-            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.15);
+            border-color: #302b63;
+            box-shadow: 0 0 0 3px rgba(48, 43, 99, 0.15);
             background: white;
         }
         textarea {
@@ -85,46 +101,90 @@
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
-        .checkbox-group {
-            display: flex;
-            gap: 25px;
-            padding: 10px 0;
-            flex-wrap: wrap;
+        .row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
         }
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            font-weight: normal;
-            cursor: pointer;
-        }
-        .checkbox-group input[type="radio"] {
-            width: auto;
-            margin-right: 8px;
-            transform: scale(1.2);
-            accent-color: #1a2a6c;
-        }
-        .section-specifique {
+
+        /* ===== SECTEURS ET MODULES ===== */
+        .module-section {
             background: #f8f9ff;
             border-radius: 12px;
-            padding: 20px;
-            margin-top: 10px;
-            border: 2px dashed #1a2a6c;
+            padding: 25px;
+            margin-top: 20px;
+            border: 2px solid #302b63;
             display: none;
+            animation: fadeIn 0.5s ease;
         }
-        .section-specifique.active {
+        .module-section.active {
             display: block;
         }
-        .section-specifique h3 {
-            color: #1a2a6c;
-            margin-bottom: 15px;
-            font-size: 18px;
-            border-bottom: 2px solid #1a2a6c;
-            padding-bottom: 8px;
+        .module-section h2 {
+            color: #0f0c29;
+            font-size: 20px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+        .module-section .module-desc {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .module-section .module-icon {
+            font-size: 28px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== TYPES D'ENTITÉ ===== */
+        .entity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            margin: 10px 0 20px 0;
+        }
+        .entity-grid label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f2ff;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            margin: 0;
+        }
+        .entity-grid label:hover {
+            background: #e4e7ff;
+            border-color: #302b63;
+        }
+        .entity-grid input[type="radio"] {
+            width: auto;
+            accent-color: #302b63;
+            transform: scale(1.1);
+            margin: 0;
+        }
+        .entity-grid input[type="radio"]:checked + label {
+            background: #302b63;
+            color: #fff;
+            border-color: #302b63;
+        }
+/* ===== BOUTONS ===== */
         .btn-submit {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 100%);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
             color: white;
             border: none;
             border-radius: 12px;
@@ -132,11 +192,11 @@
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 10px;
+            margin-top: 20px;
         }
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(26, 42, 108, 0.4);
+            box-shadow: 0 10px 25px rgba(48, 43, 99, 0.4);
         }
         .btn-submit:active {
             transform: translateY(0);
@@ -156,6 +216,8 @@
         .btn-reset:hover {
             background: #ccc;
         }
+
+        /* ===== MESSAGES ===== */
         .success {
             background: #d4edda;
             color: #155724;
@@ -179,22 +241,49 @@
             font-weight: 500;
         }
         .info-badge {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
+            background: #e8eaff;
+            border: 1px solid #302b63;
             border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 20px;
-            color: #856404;
+            padding: 12px 16px;
+            margin-bottom: 25px;
+            color: #0f0c29;
             font-size: 14px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         .info-badge strong {
-            color: #533f03;
+            color: #302b63;
         }
-        @media (max-width: 650px) {
-            .row {
+
+        /* ===== ZONE DONNÉES ===== */
+        #zoneDonnees {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f2ff;
+            border-radius: 12px;
+            border: 2px solid #302b63;
+        }
+        #zoneDonnees h3 {
+            color: #0f0c29;
+            margin-bottom: 10px;
+        }
+        #affichageDonnees {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            overflow: auto;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .row, .row-3 {
                 grid-template-columns: 1fr;
             }
             .container {
@@ -203,246 +292,524 @@
             h1 {
                 font-size: 22px;
             }
+            .entity-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .entity-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>📋 Recensement Multisectoriel</h1>
-    <p class="subtitle">Collecte de données statistiques - Ville de Lubumbashi</p>
+    <div class="container">
+    <h1>🌍 NEXUS <span>Multisectoral Data Collection</span> <span class="badge-version">v2.0</span></h1>
+    <p class="subtitle">Profilage structuré — 29 modules adaptatifs — Audit & Gouvernance des données</p>
 
     <div class="info-badge">
-        <span>ℹ️</span>
+        <span>🧠</span>
         <div>
-            <strong>Prototype en test :</strong> Les données sont affichées dans la console du navigateur (F12). 
-            Le développeur pourra ensuite les connecter à la base Oracle.
+            <strong>NEXUS Framework :</strong> Le type d'entité sélectionné déclenche dynamiquement les modules appropriés. 
+            Seules les sections pertinentes s'affichent.
         </div>
     </div>
 
     <div id="successMessage" class="success">✅ Données enregistrées avec succès !</div>
     <div id="errorMessage" class="error">❌ Veuillez remplir tous les champs obligatoires.</div>
 
-    <form id="recensementForm">
-        <!-- ========== SECTEUR ========== -->
+    <form id="nexusForm">
+
+        <!-- ========================================================= -->
+        <!-- 1. TYPE D'ENTITÉ (Déclencheur principal)                    -->
+        <!-- ========================================================= -->
         <div class="form-group">
-            <label>Secteur d'activité <span class="required">*</span></label>
-            <select name="secteur" id="secteur" required>
-                <option value="">-- Choisissez un secteur --</option>
-                <option value="Infrastructures">🏗️ Infrastructures</option>
-                <option value="Finance">💰 Finance</option>
-                <option value="Économie">📊 Économie</option>
-                <option value="Santé">🏥 Santé</option>
-                <option value="Éducation">📚 Éducation</option>
-                <option value="Démographie">👨‍👩‍👧‍👦 Démographie</option>
-                <option value="Transport">🚗 Transport</option>
-                <option value="Industrie">🏭 Industrie</option>
-                <option value="Mine">⛏️ Mine</option>
-                <option value="Environnement">🌿 Environnement</option>
-                <option value="Énergie">⚡ Énergie</option>
-            </select>
-        </div>
-
-        <!-- ========== SOCLE COMMUN ========== -->
-        <div class="row">
-            <div class="form-group">
-                <label>Nom <span class="required">*</span></label>
-                <input type="text" name="nom" placeholder="Ex: Mbemba" required>
-            </div>
-            <div class="form-group">
-                <label>Prénom <span class="required">*</span></label>
-                <input type="text" name="prenom" placeholder="Ex: Marie" required>
+            <label>Type d'entité <span class="required">*</span></label>
+            <div class="entity-grid" id="entityTypeGrid">
+                <label><input type="radio" name="type_entite" value="Personne physique"> 👤 Personne physique</label>
+                <label><input type="radio" name="type_entite" value="Ménage / famille"> 👨‍👩‍👧‍👦 Ménage / famille</label>
+                <label><input type="radio" name="type_entite" value="Entreprise"> 🏢 Entreprise</label>
+                <label><input type="radio" name="type_entite" value="Institution publique"> 🏛️ Institution publique</label>
+                <label><input type="radio" name="type_entite" value="Gouvernement / administration"> 🏛️ Gouvernement / administration</label>
+                <label><input type="radio" name="type_entite" value="Organisation internationale"> 🌍 Organisation internationale</label>
+                <label><input type="radio" name="type_entite" value="ONG / association"> 🤝 ONG / association</label>
+                <label><input type="radio" name="type_entite" value="Établissement d'enseignement"> 🎓 Établissement d'enseignement</label>
+                <label><input type="radio" name="type_entite" value="Établissement de santé"> 🏥 Établissement de santé</label>
+                <label><input type="radio" name="type_entite" value="Institution financière"> 🏦 Institution financière</label>
+                <label><input type="radio" name="type_entite" value="Entreprise minière"> ⛏️ Entreprise minière</label>
+                <label><input type="radio" name="type_entite" value="Industrie / usine"> 🏭 Industrie / usine</label>
+                <label><input type="radio" name="type_entite" value="Entreprise de transport/logistique"> 🚛 Transport/logistique</label>
+                <label><input type="radio" name="type_entite" value="Exploitation agricole"> 🌾 Exploitation agricole</label>
+                <label><input type="radio" name="type_entite" value="Projet / chantier"> 🏗️ Projet / chantier</label>
+                <label><input type="radio" name="type_entite" value="Infrastructure"> 📍 Infrastructure</label>
+                <label><input type="radio" name="type_entite" value="Localité / territoire"> 📌 Localité / territoire</label>
+                <label><input type="radio" name="type_entite" value="Autre entité"> 📊 Autre entité</label>
             </div>
         </div>
 
-        <div class="row">
-            <div class="form-group">
-                <label>Âge <span class="required">*</span></label>
-                <input type="number" name="age" placeholder="Ex: 34" min="0" max="150" required>
-            </div>
-            <div class="form-group">
-                <label>Sexe <span class="required">*</span></label>
-                <select name="sexe" required>
-                    <option value="">-- Choisissez --</option>
-                    <option value="Masculin">Masculin</option>
-                    <option value="Féminin">Féminin</option>
-                </select>
-            </div>
-        </div>
+        <!-- ========================================================= -->
+        <!-- 2. MODULE IDENTITÉ / IDENTIFICATION (Universel)            -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-identite">
+            <h2><span class="module-icon">🆔</span> Module Identité / Identification</h2>
+            <div class="module-desc">Identification unique, vérification d'identité et résolution d'entité.</div>
 
-        <div class="row">
-            <div class="form-group">
-                <label>État civil <span class="required">*</span></label>
-                <select name="etat_civil" required>
-                    <option value="">-- Choisissez --</option>
-                    <option value="Célibataire">Célibataire</option>
-                    <option value="Marié(e)">Marié(e)</option>
-                    <option value="Divorcé(e)">Divorcé(e)</option>
-                    <option value="Veuf(ve)">Veuf(ve)</option>
-                    <option value="Union libre">Union libre</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Profession <span class="required">*</span></label>
-                <input type="text" name="profession" placeholder="Ex: Ingénieur, Enseignant..." required>
-            </div>
-        </div>
-
-        <!-- ========== LOCALISATION ========== -->
-        <div class="row">
-            <div class="form-group">
-                <label>Commune <span class="required">*</span></label>
-                <select name="commune" id="commune" required>
-                    <option value="">-- Choisissez une commune --</option>
-                    <option value="Lubumbashi">Lubumbashi (Centre-ville)</option>
-                    <option value="Kampemba">Kampemba</option>
-                    <option value="Kamalondo">Kamalondo</option>
-                    <option value="Kenya">Kenya</option>
-                    <option value="Katuba">Katuba</option>
-                    <option value="Ruashi">Ruashi</option>
-                    <option value="Annexe">Annexe (urbano-rurale)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Quartier <span class="required">*</span></label>
-                <select name="quartier" id="quartier" required>
-                    <option value="">-- Choisissez d'abord une commune --</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- ========== SANTÉ ========== -->
-        <div class="form-group">
-            <label>La personne est-elle malade ? <span class="required">*</span></label>
-            <div class="checkbox-group">
-                <label><input type="radio" name="est_malade" value="oui" required> Oui</label>
-                <label><input type="radio" name="est_malade" value="non"> Non</label>
-            </div>
-        </div>
-
-        <div id="champsMaladie" style="display: none;">
-            <div class="form-group">
-                <label>Maladie diagnostiquée</label>
-                <input type="text" name="maladie" placeholder="Ex: Paludisme, Hypertension...">
-            </div>
-            <div class="form-group">
-                <label>Traitement en cours</label>
-                <textarea name="traitement" placeholder="Décrivez le traitement..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Date du diagnostic</label>
-                <input type="date" name="date_diagnostic">
-            </div>
-            <div class="form-group">
-                <label>Structure de santé</label>
-                <select name="structure_sante">
-                    <option value="">-- Choisissez --</option>
-                    <option value="Hôpital">Hôpital</option>
-                    <option value="Clinique">Clinique</option>
-                    <option value="Centre de santé">Centre de santé</option>
-                    <option value="Autre">Autre</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Couverture santé</label>
-                <select name="couverture_sante">
-                    <option value="">-- Choisissez --</option>
-                    <option value="Mutuelle">Mutuelle</option>
-                    <option value="Assurance">Assurance</option>
-                    <option value="Autre">Autre</option>
-                    <option value="Aucune">Aucune</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Vaccination</label>
-                <select name="vaccination">
-                    <option value="">-- Choisissez --</option>
-                    <option value="À jour">À jour</option>
-                    <option value="Non à jour">Non à jour</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- ========== SECTEURS SPÉCIFIQUES (Dynamiques) ========== -->
-        <div id="sectionsSpecifiques">
-
-            <!-- Transport -->
-            <div class="section-specifique" id="secteur-Transport">
-                <h3>🚗 Transport</h3>
+            <div class="row">
                 <div class="form-group">
-                    <label>Mode de transport principal</label>
-                    <select name="transport_mode">
-                        <option value="">-- Choisissez --</option>
-                        <option value="Transport en commun">Transport en commun</option>
-                        <option value="Transport urbain">Transport urbain</option>
-                        <option value="Véhicule personnel">Véhicule personnel</option>
-                        <option value="Vélo">Vélo</option>
-                        <option value="Marche">Marche</option>
-                    </select>
+                    <label>Identifiant NEXUS unique</label>
+                    <input type="text" name="nexus_id" placeholder="Généré automatiquement" readonly style="background:#e8e8e8; cursor:not-allowed;">
                 </div>
                 <div class="form-group">
-                    <label>Type de transport</label>
-                    <input type="text" name="transport_type" placeholder="Ex: Bus, Taxi, Moto...">
-                </div>
-                <div class="form-group">
-                    <label>Fréquence d'utilisation</label>
-                    <select name="transport_frequence">
-                        <option value="">-- Choisissez --</option>
-                        <option value="Quotidien">Quotidien</option>
-                        <option value="Hebdomadaire">Hebdomadaire</option>
-                        <option value="Occasionnel">Occasionnel</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label>Durée moyenne (minutes)</label>
-                        <input type="number" name="transport_duree" placeholder="Ex: 45">
-                    </div>
-                    <div class="form-group">
-                        <label>Coût mensuel (FC)</label>
-                        <input type="number" name="transport_cout" placeholder="Ex: 150000">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Santé -->
-            <div class="section-specifique" id="secteur-Santé">
-                <h3>🏥 Santé (spécifique)</h3>
-                <div class="form-group">
-                    <label>Structure de santé</label>
-                    <select name="sante_structure">
-                        <option value="">-- Choisissez --</option>
-                        <option value="Hôpital">Hôpital</option>
-                        <option value="Clinique">Clinique</option>
-                        <option value="Centre de santé">Centre de santé</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Couverture santé</label>
-                    <select name="sante_couverture">
-                        <option value="">-- Choisissez --</option>
-                        <option value="Mutuelle">Mutuelle</option>
-                        <option value="Assurance">Assurance</option>
-                        <option value="Aucune">Aucune</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Vaccination</label>
-                    <select name="sante_vaccination">
-                        <option value="">-- Choisissez --</option>
-                        <option value="À jour">À jour</option>
-                        <option value="Non à jour">Non à jour</option>
+                    <label>Statut de vérification de l'identité</label>
+                    <select name="statut_verification">
+                        <option value="Non vérifié">Non vérifié</option>
+                        <option value="En cours">En cours</option>
+                        <option value="Vérifié">Vérifié</option>
+                        <option value="Rejeté">Rejeté</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Éducation -->
-            <div class="section-specifique" id="secteur-Éducation">
-                <h3>📚 Éducation</h3>
+            <div class="row">
                 <div class="form-group">
-                    <label>Niveau d'étude</label>
-                    <select name="edu_niveau">
+                    <label>Nom <span class="required">*</span></label>
+                    <input type="text" name="nom" placeholder="Nom de famille" required>
+                </div>
+                <div class="form-group">
+                    <label>Postnom</label>
+                    <input type="text" name="postnom" placeholder="Postnom (si applicable)">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label>Prénom <span class="required">*</span></label>
+                    <input type="text" name="prenom" placeholder="Prénom(s)" required>
+                </div>
+                <div class="form-group">
+                    <label>Sexe</label>
+                    <select name="sexe">
                         <option value="">-- Choisissez --</option>
+                        <option value="Masculin">Masculin</option>
+                        <option value="Féminin">Féminin</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Date de naissance</label>
+                    <input type="date" name="date_naissance">
+                </div>
+                <div class="form-group">
+                    <label>Lieu de naissance</label>
+                    <input type="text" name="lieu_naissance" placeholder="Ville, pays">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Nationalité</label>
+                    <input type="text" name="nationalite" placeholder="Nationalité">
+                </div>
+                <div class="form-group">
+                    <label>Pays de résidence</label>
+                    <input type="text" name="pays_residence" placeholder="Pays de résidence actuel">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Langues</label>
+                <input type="text" name="langues" placeholder="Français, Anglais, Swahili...">
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>État civil</label>
+                    <select name="etat_civil">
+                        <option value="">-- Choisissez --</option>
+                        <option value="Célibataire">Célibataire</option>
+                        <option value="Marié(e)">Marié(e)</option>
+                        <option value="Divorcé(e)">Divorcé(e)</option>
+                        <option value="Veuf(ve)">Veuf(ve)</option>
+                        <option value="Union libre">Union libre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Numéro d'identification national</label>
+                    <input type="text" name="id_national" placeholder="NIN, CIN, etc.">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Type de pièce d'identité</label>
+                    <select name="type_piece">
+                        <option value="">-- Choisissez --</option>
+                        <option value="Carte d'identité">Carte d'identité</option>
+                        <option value="Passeport">Passeport</option>
+                        <option value="Permis de conduire">Permis de conduire</option>
+                        <option value="Carte de séjour">Carte de séjour</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Numéro de document</label>
+                    <input type="text" name="num_document" placeholder="Numéro du document">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Date d'émission</label>
+                    <input type="date" name="date_emission">
+                </div>
+                <div class="form-group">
+                    <label>Date d'expiration</label>
+                    <input type="date" name="date_expiration">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Autorité émettrice</label>
+                <input type="text" name="autorite_emettrice" placeholder="Ministère, service...">
+            </div>
+                        </div>
+        
+          <div class="form-group">
+                <label>Autorité émettrice</label>
+                <input type="text" name="autorite_emettrice" placeholder="Ministère, service...">
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 3. MODULE GÉOLOCALISATION                                  -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-geolocalisation">
+            <h2><span class="module-icon">📍</span> Module Géolocalisation</h2>
+            <div class="module-desc">Hiérarchie administrative complète + coordonnées GPS précises.</div>
+
+            <div class="row-3">
+                <div class="form-group">
+                    <label>Continent</label>
+                    <input type="text" name="continent" placeholder="Afrique, Europe, Asie...">
+                </div>
+                <div class="form-group">
+                    <label>Région</label>
+                    <input type="text" name="region" placeholder="Afrique centrale, etc.">
+                </div>
+                <div class="form-group">
+                    <label>Pays</label>
+                    <input type="text" name="pays" placeholder="République Démocratique du Congo">
+                </div>
+            </div>
+
+            <div class="row-3">
+                <div class="form-group">
+                    <label>Province / État</label>
+                    <input type="text" name="province" placeholder="Haut-Katanga">
+                </div>
+                <div class="form-group">
+                    <label>Ville</label>
+                    <input type="text" name="ville" placeholder="Lubumbashi">
+                </div>
+                <div class="form-group">
+                    <label>Commune / District</label>
+                    <input type="text" name="commune" placeholder="Ruashi, Kampemba...">
+                </div>
+            </div>
+
+            <div class="row-3">
+                <div class="form-group">
+                    <label>Quartier</label>
+                    <input type="text" name="quartier" placeholder="Luano 1, Bel-Air...">
+                </div>
+                <div class="form-group">
+                    <label>Avenue / Rue</label>
+                    <input type="text" name="avenue" placeholder="Avenue Lumumba">
+                </div>
+                <div class="form-group">
+                    <label>Numéro / Localisation</label>
+                    <input type="text" name="numero_localisation" placeholder="N° 12, Parcelle 45">
+                </div>
+            </div>
+
+            <div class="row-3">
+                <div class="form-group">
+                    <label>Latitude</label>
+                    <input type="text" name="latitude" placeholder="-11.6646">
+                </div>
+                <div class="form-group">
+                    <label>Longitude</label>
+                    <input type="text" name="longitude" placeholder="27.4826">
+                </div>
+                <div class="form-group">
+                    <label>Altitude (m)</label>
+                    <input type="text" name="altitude" placeholder="1290">
+                </div>
+            </div>
+
+            <div class="row-3">
+                <div class="form-group">
+                    <label>Précision GPS</label>
+                    <select name="precision_gps">
+                        <option value="Inconnue">Inconnue</option>
+                        <option value="5 m">5 m</option>
+                        <option value="10 m">10 m</option>
+                        <option value="50 m">50 m</option>
+                        <option value="> 100 m">> 100 m</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Zone urbaine / rurale</label>
+                    <select name="zone_urbaine_rurale">
+                        <option value="Urbaine">Urbaine</option>
+                        <option value="Rurale">Rurale</option>
+                        <option value="Périurbaine">Périurbaine</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Code postal</label>
+                    <input type="text" name="code_postal" placeholder="Code postal">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Adresse physique complète</label>
+                <input type="text" name="adresse_physique" placeholder="Adresse détaillée">
+            </div>
+            <div class="form-group">
+                <label>Géohash</label>
+                <input type="text" name="geohash" placeholder="Géohash (si disponible)">
+            </div>
+            <div class="form-group">
+                <label>Date de dernière vérification</label>
+                <input type="date" name="date_verification_geo">
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 4. MODULE COORDONNÉES ET CONTACT                           -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-contact">
+            <h2><span class="module-icon">📞</span> Module Coordonnées et Contact</h2>
+            <div class="module-desc">Tous les canaux de communication pour personnes et organisations.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Téléphone principal</label>
+                    <input type="text" name="tel_principal" placeholder="+243 999 999 999">
+                </div>
+                <div class="form-group">
+                    <label>Téléphone secondaire</label>
+                    <input type="text" name="tel_secondaire" placeholder="+243 888 888 888">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>WhatsApp</label>
+                    <input type="text" name="whatsapp" placeholder="+243 999 999 999">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="nom@domaine.com">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Site web</label>
+                    <input type="text" name="site_web" placeholder="https://www.example.com">
+                </div>
+                <div class="form-group">
+                    <label>Contact d'urgence</label>
+                    <input type="text" name="contact_urgence" placeholder="Nom et téléphone">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Préférence de communication</label>
+                    <select name="pref_communication">
+                        <option value="Téléphone">Téléphone</option>
+                        <option value="Email">Email</option>
+                        <option value="WhatsApp">WhatsApp</option>
+                        <option value="SMS">SMS</option>
+                        <option value="Courrier">Courrier</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Langue de communication</label>
+                    <select name="langue_communication">
+                        <option value="Français">Français</option>
+                        <option value="Anglais">Anglais</option>
+                        <option value="Swahili">Swahili</option>
+                        <option value="Lingala">Lingala</option>
+                        <option value="Portugais">Portugais</option>
+                        <option value="Arabe">Arabe</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Réseaux sociaux professionnels</label>
+                <input type="text" name="reseaux_sociaux" placeholder="LinkedIn, Twitter, etc.">
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 5. MODULE MÉNAGE / FAMILLE (Activé pour Ménage/Personne)  -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-menage">
+            <h2><span class="module-icon">🏠</span> Module Ménage / Famille</h2>
+            <div class="module-desc">Structure du ménage, conditions de vie et situation économique.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Identifiant du ménage</label>
+                    <input type="text" name="menage_id" placeholder="ID ménage NEXUS">
+                </div>
+                <div class="form-group">
+                    <label>Chef / Responsable du ménage</label>
+                    <input type="text" name="chef_menage" placeholder="Nom du chef de famille">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Nombre de personnes</label>
+                    <input type="number" name="nb_personnes" placeholder="Ex: 5">
+                </div>
+                <div class="form-group">
+                    <label>Lien familial</label>
+                    <input type="text" name="lien_familial" placeholder="Père, mère, enfant, etc.">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Enfants (nombre)</label>
+                    <input type="number" name="nb_enfants" placeholder="Ex: 3">
+                </div>
+                <div class="form-group">
+                    <label>Personnes âgées (nombre)</label>
+                    <input type="number" name="nb_personnes_agees" placeholder="Ex: 2">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Personnes dépendantes (nombre)</label>
+                    <input type="number" name="nb_dependants" placeholder="Ex: 1">
+                </div>
+                <div class="form-group">
+                    <label>Situation matrimoniale</label>
+                    <select name="situation_matrimoniale">
+                        <option value="Célibataire">Célibataire</option>
+                        <option value="Marié(e)">Marié(e)</option>
+                        <option value="Divorcé(e)">Divorcé(e)</option>
+                        <option value="Veuf(ve)">Veuf(ve)</option>
+                        <option value="Union libre">Union libre</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Conditions de logement</label>
+                    <select name="condition_logement">
+                        <option value="Maison individuelle">Maison individuelle</option>
+                        <option value="Appartement">Appartement</option>
+                        <option value="Chambre">Chambre</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Statut d'occupation</label>
+                    <select name="statut_occupation">
+                        <option value="Propriétaire">Propriétaire</option>
+                        <option value="Locataire">Locataire</option>
+                        <option value="Hébergé">Hébergé</option>
+                        <option value="Sans domicile">Sans domicile</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row-3">
+                <div class="form-group">
+                    <label>Nombre de pièces</label>
+                    <input type="number" name="nb_pieces" placeholder="Ex: 4">
+                </div>
+                <div class="form-group">
+                    <label>Eau</label>
+                    <select name="acces_eau">
+                        <option value="Oui">Oui</option>
+                        <option value="Non">Non</option>
+                        <option value="Partiel">Partiel</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Électricité</label>
+                    <select name="acces_electricite">
+                        <option value="Oui">Oui</option>
+                        <option value="Non">Non</option>
+                        <option value="Partiel">Partiel</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row-3">
+                <div class="form-group">
+                    <label>Assainissement</label>
+                    <select name="acces_assainissement">
+                        <option value="Oui">Oui</option>
+                        <option value="Non">Non</option>
+                        <option value="Partiel">Partiel</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Internet</label>
+                    <select name="acces_internet">
+                        <option value="Oui">Oui</option>
+                        <option value="Non">Non</option>
+                        <option value="Partiel">Partiel</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Énergie utilisée</label>
+                    <select name="energie_utilisee">
+                        <option value="Électricité réseau">Électricité réseau</option>
+                        <option value="Groupe électrogène">Groupe électrogène</option>
+                        <option value="Panneaux solaires">Panneaux solaires</option>
+                        <option value="Bois/Charbon">Bois/Charbon</option>
+                        <option value="Gaz">Gaz</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                        </div>
+
+            
+            <div class="form-group">
+                <label>Situation économique du ménage</label>
+                <textarea name="situation_economique" placeholder="Décrivez la situation économique..."></textarea>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 6. MODULE ÉDUCATION                                        -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-education">
+            <h2><span class="module-icon">🎓</span> Module Éducation</h2>
+            <div class="module-desc">Niveau d'instruction, diplômes, certifications et compétences.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Niveau d'instruction</label>
+                    <select name="niveau_instruction">
+                        <option value="Aucun">Aucun</option>
                         <option value="Primaire">Primaire</option>
                         <option value="Secondaire">Secondaire</option>
                         <option value="Supérieur">Supérieur</option>
@@ -450,632 +817,1257 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label>Diplômes</label>
+                    <input type="text" name="diplomes" placeholder="Licence, Master, Doctorat...">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Certifications</label>
+                    <input type="text" name="certifications" placeholder="Certification(s) obtenue(s)">
+                </div>
+                <div class="form-group">
+                    <label>Domaine d'étude</label>
+                    <input type="text" name="domaine_etude" placeholder="Informatique, Médecine, etc.">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
                     <label>Établissement</label>
-                    <select name="edu_etablissement">
-                        <option value="">-- Choisissez --</option>
-                        <option value="Public">Public</option>
-                        <option value="Privé">Privé</option>
-                    </select>
+                    <input type="text" name="etablissement_etude" placeholder="Nom de l'établissement">
                 </div>
                 <div class="form-group">
-                    <label>Classe / Année</label>
-                    <input type="text" name="edu_classe" placeholder="Ex: 6e année, L1...">
-                </div>
-                <div class="form-group">
-                    <label>Discipline / Filière</label>
-                    <input type="text" name="edu_discipline" placeholder="Ex: Mathématiques, Informatique...">
-                </div>
-                <div class="form-group">
-                    <label>Résultats scolaires</label>
-                    <input type="text" name="edu_resultats" placeholder="Ex: 65% (moyen)">
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label>Bourses/aides</label>
-                        <select name="edu_bourses">
-                            <option value="Non">Non</option>
-                            <option value="Oui">Oui</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Matériel disponible</label>
-                        <select name="edu_materiel">
-                            <option value="Non">Non</option>
-                                 <option value="Oui">Oui</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Matériel disponible</label>
-                        <select name="edu_materiel">
-                            <option value="Non">Non</option>
-                            <option value="Oui">Oui</option>
-                        </select>
-                    </div>
+                    <label>Année d'obtention</label>
+                    <input type="text" name="annee_obtention" placeholder="2020">
                 </div>
             </div>
 
-            <!-- Démographie -->
-            <div class="section-specifique" id="secteur-Démographie">
-                <h3>👨‍👩‍👧‍👦 Démographie</h3>
-                <div class="row">
-                    <div class="form-group">
-                        <label>Taille du ménage</label>
-                        <input type="number" name="demo_ménage" placeholder="Ex: 4">
-                    </div>
-                    <div class="form-group">
-                        <label>Nombre d'enfants</label>
-                        <input type="number" name="demo_enfants" placeholder="Ex: 2">
-                    </div>
+            <div class="row">
+                <div class="form-group">
+                    <label>Formation en cours</label>
+                    <input type="text" name="formation_cours" placeholder="Formation actuelle">
                 </div>
                 <div class="form-group">
-                    <label>Nationalité</label>
-                    <input type="text" name="demo_nationalite" placeholder="Ex: Congolaise">
-                </div>
-                <div class="form-group">
-                    <label>Lieu de naissance</label>
-                    <input type="text" name="demo_naissance" placeholder="Ex: Lubumbashi">
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label>Année d'arrivée</label>
-                        <input type="number" name="demo_arrivee" placeholder="Ex: 2020">
-                    </div>
-                    <div class="form-group">
-                        <label>Motif de migration</label>
-                        <select name="demo_motif">
-                            <option value="">-- Choisissez --</option>
-                            <option value="Travail">Travail</option>
-                            <option value="Études">Études</option>
-                            <option value="Famille">Famille</option>
-                            <option value="Autre">Autre</option>
-                        </select>
-                    </div>
+                    <label>Compétences</label>
+                    <input type="text" name="competences" placeholder="Python, Gestion de projet, etc.">
                 </div>
             </div>
 
-            <!-- Infrastructures -->
-            <div class="section-specifique" id="secteur-Infrastructures">
-                <h3>🏗️ Infrastructures</h3>
+            <div class="row">
                 <div class="form-group">
-                    <label>Type d'infrastructure</label>
-                    <select name="infra_type">
-                        <option value="">-- Choisissez --</option>
-                        <option value="Ponts">Ponts</option>
-                        <option value="Routes">Routes</option>
-                        <option value="Bâtiments publics">Bâtiments publics</option>
-                        <option value="Réseaux eau/électricité">Réseaux eau/électricité</option>
-                    </select>
+                    <label>Langues parlées</label>
+                    <input type="text" name="langues_parlees" placeholder="Français, Anglais, Swahili...">
                 </div>
                 <div class="form-group">
-                    <label>Statut du projet</label>
-                    <select name="infra_statut">
-                        <option value="">-- Choisissez --</option>
-                        <option value="En construction">En construction</option>
-                        <option value="En maintenance">En maintenance</option>
-                        <option value="Terminé">Terminé</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label>Année de construction</label>
-                        <input type="number" name="infra_annee" placeholder="Ex: 2020">
-                    </div>
-                    <div class="form-group">
-                        <label>État actuel</label>
-                        <select name="infra_etat">
-                            <option value="Bon">Bon</option>
-                            <option value="Moyen">Moyen</option>
-                            <option value="Mauvais">Mauvais</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label>Budget alloué (USD)</label>
-                        <input type="number" name="infra_budget" placeholder="Ex: 500000">
-                    </div>
-                    <div class="form-group">
-                        <label>Source de financement</label>
-                        <select name="infra_financement">
-                            <option value="État">État</option>
-                            <option value="Partenaires">Partenaires</option>
-                            <option value="Privé">Privé</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Finance -->
-            <div class="section-specifique" id="secteur-Finance">
-                <h3>💰 Finance</h3>
-                <div class="form-group">
-                    <label>Institution financière</label>
-                    <select name="fin_institution">
-                        <option value="">-- Choisissez --</option>
-                        <option value="Banque">Banque</option>
-                        <option value="Assurance">Assurance</option>
-                        <option value="Microfinance">Microfinance</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Poste occupé</label>
-                    <input type="text" name="fin_poste" placeholder="Ex: Conseiller, Directeur...">
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label>Années d'expérience</label>
-                        <input type="number" name="fin_experience" placeholder="Ex: 5">
-                    </div>
-                    <div class="form-group">
-                        <label>Nombre de clients</label>
-                        <input type="number" name="fin_clients" placeholder="Ex: 200">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Zone d'opération</label>
-                    <select name="fin_zone">
-                        <option value="Urbain">Urbain</option>
-                        <option value="Rural">Rural</option>
-                        <option value="National">National</option>
+                    <label>Alphabétisation</label>
+                    <select name="alphabetisation">
+                        <option value="Oui">Oui</option>
+                        <option value="Non">Non</option>
+                        <option value="Partielle">Partielle</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Économie -->
-            <div class="section-specifique" id="secteur-Économie">
-                <h3>📊 Économie</h3>
+            <div class="form-group">
+                <label>Besoins de formation</label>
+                <textarea name="besoins_formation" placeholder="Formations souhaitées..."></textarea>
+            </div>
+        </div>
+ <!-- ========================================================= -->
+        <!-- 7. MODULE EMPLOI / ACTIVITÉ ÉCONOMIQUE                     -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-emploi">
+            <h2><span class="module-icon">💼</span> Module Emploi / Activité Économique</h2>
+            <div class="module-desc">Profil professionnel, expérience et activités économiques.</div>
+
+            <div class="row">
                 <div class="form-group">
-                    <label>Type d'activité économique</label>
-                    <select name="eco_type">
-                        <option value="Commerce">Commerce</option>
-                        <option value="Agriculture">Agriculture</option>
-                        <option value="Services">Services</option>
-                        <option value="Industrie">Industrie</option>
+                    <label>Profession</label>
+                    <input type="text" name="profession" placeholder="Médecin, Ingénieur...">
+                </div>
+                <div class="form-group">
+                    <label>Fonction</label>
+                    <input type="text" name="fonction" placeholder="Directeur, Technicien...">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Employeur</label>
+                    <input type="text" name="employeur" placeholder="Nom de l'entreprise/organisation">
+                </div>
+                <div class="form-group">
+                    <label>Secteur</label>
+                    <input type="text" name="secteur_emploi" placeholder="Santé, Éducation, Mines...">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Type d'emploi</label>
+                    <select name="type_emploi">
+                        <option value="Permanent">Permanent</option>
+                        <option value="Contractuel">Contractuel</option>
+                        <option value="Temporaire">Temporaire</option>
+                        <option value="Indépendant">Indépendant</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Taille de l'entreprise</label>
-                    <select name="eco_taille">
-                        <option value="Petite">Petite</option>
-                        <option value="Moyenne">Moyenne</option>
-                        <option value="Grande">Grande</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label>Nombre d'employés</label>
-                        <input type="number" name="eco_employes" placeholder="Ex: 10">
-                    </div>
-                    <div class="form-group">
-                        <label>Chiffre d'affaires (USD)</label>
-                        <input type="number" name="eco_ca" placeholder="Ex: 50000">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Zones de marché</label>
-                    <select name="eco_marche">
-                        <option value="Local">Local</option>
-                        <option value="National">National</option>
-                        <option value="International">International</option>
+                    <label>Statut professionnel</label>
+                    <select name="statut_professionnel">
+                        <option value="Salarié">Salarié</option>
+                        <option value="Indépendant">Indépendant</option>
+                        <option value="Entrepreneur">Entrepreneur</option>
+                        <option value="Sans emploi">Sans emploi</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Industrie -->
-            <div class="section-specifique" id="secteur-Industrie">
-                <h3>🏭 Industrie</h3>
+            <div class="row">
                 <div class="form-group">
-                    <label>Type d'industrie</label>
-                    <select name="ind_type">
-                        <option value="Agroalimentaire">Agroalimentaire</option>
-                        <option value="Textile">Textile</option>
-                        <option value="Chimique">Chimique</option>
-                        <option value="Métallurgique">Métallurgique</option>
-                        <option value="Pharmaceutique">Pharmaceutique</option>
-                        <option value="Énergétique">Énergétique</option>
+                    <label>Années d'expérience</label>
+                    <input type="number" name="annees_experience" placeholder="Ex: 5">
+                </div>
+                <div class="form-group">
+                    <label>Compétences professionnelles</label>
+                    <input type="text" name="competences_pro" placeholder="Compétences clés">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Revenus par tranche (USD)</label>
+                    <select name="revenus_tranche">
+                        <option value="Moins de 500">Moins de 500 $</option>
+                        <option value="500 - 1 000">500 - 1 000 $</option>
+                        <option value="1 000 - 5 000">1 000 - 5 000 $</option>
+                        <option value="5 000 - 10 000">5 000 - 10 000 $</option>
+                        <option value="Plus de 10 000">Plus de 10 000 $</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Poste occupé</label>
-                    <select name="ind_poste">
-                        <option value="Ouvrier">Ouvrier</option>
-                        <option value="Technicien">Technicien</option>
-                        <option value="Ingénieur">Ingénieur</option>
-                        <option value="Cadre">Cadre</option>
+                    <label>Source principale de revenus</label>
+                    <input type="text" name="source_revenus" placeholder="Emploi, Entrepreneuriat...">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Entrepreneur ?</label>
+                    <select name="entrepreneur">
+                        <option value="Oui">Oui</option>
+                        <option value="Non">Non</option>
                     </select>
                 </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label>Années d'expérience</label>
-                        <input type="number" name="ind_experience" placeholder="Ex: 8">
-                    </div>
-                    <div class="form-group">
-                        <label>Conditions de travail</label>
-                        <select name="ind_conditions">
-                            <option value="Bonnes">Bonnes</option>
-                            <option value="Moyennes">Moyennes</option>
-                            <option value="Difficiles">Difficiles</option>
-                        </select>
-                    </div>
-                </div>
                 <div class="form-group">
-                    <label>Équipements de protection</label>
-                    <select name="ind_protection">
+                    <label>Recherche d'emploi ?</label>
+                    <select name="recherche_emploi">
                         <option value="Oui">Oui</option>
                         <option value="Non">Non</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Mine -->
-            <div class="section-specifique" id="secteur-Mine">
-                <h3>⛏️ Mine</h3>
+            <div class="form-group">
+                <label>Formation recherchée</label>
+                <input type="text" name="formation_recherchee" placeholder="Formation souhaitée">
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 8. MODULE ENTREPRISE                                       -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-entreprise">
+            <h2><span class="module-icon">🏢</span> Module Entreprise</h2>
+            <div class="module-desc">Identification légale, activité, structure et performance économique.</div>
+
+            <div class="row">
                 <div class="form-group">
-                    <label>Type de mine</label>
-                    <select name="mine_type">
-                        <option value="Cuivre">Cuivre</option>
-                        <option value="Cobalt">Cobalt</option>
-                        <option value="Or">Or</option>
-                        <option value="Diamant">Diamant</option>
-                        <option value="Charbon">Charbon</option>
+                    <label>Dénomination</label>
+                    <input type="text" name="denomination" placeholder="Nom officiel de l'entreprise">
+                </div>
+                <div class="form-group">
+                    <label>Nom commercial</label>
+                    <input type="text" name="nom_commercial" placeholder="Nom d'usage">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Forme juridique</label>
+                    <select name="forme_juridique">
+                        <option value="SARL">SARL</option>
+                        <option value="SA">SA</option>
+                        <option value="SAS">SAS</option>
+                        <option value="Entreprise individuelle">Entreprise individuelle</option>
                         <option value="Autre">Autre</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Site d'extraction</label>
-                    <input type="text" name="mine_site" placeholder="Ex: Kamoto, Tenke...">
+                    <label>Numéro d'enregistrement</label>
+                    <input type="text" name="num_enregistrement" placeholder="Registre de commerce">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Numéro fiscal</label>
+                    <input type="text" name="num_fiscal" placeholder="Numéro d'identification fiscale">
                 </div>
                 <div class="form-group">
-                    <label>Poste occupé</label>
-                    <select name="mine_poste">
-                        <option value="Mineur">Mineur</option>
-                        <option value="Géologue">Géologue</option>
-                        <option value="Ingénieur">Ingénieur</option>
-                        <option value="Superviseur">Superviseur</option>
+                    <label>Date de création</label>
+                    <input type="date" name="date_creation">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Pays d'enregistrement</label>
+                    <input type="text" name="pays_enregistrement" placeholder="Pays">
+                </div>
+                <div class="form-group">
+                    <label>Statut juridique</label>
+                    <select name="statut_juridique">
+                        <option value="Actif">Actif</option>
+                        <option value="En liquidation">En liquidation</option>
+                        <option value="Cessé">Cessé</option>
+                        <option value="En sommeil">En sommeil</option>
                     </select>
                 </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label>Années d'expérience</label>
-                        <input type="number" name="mine_experience" placeholder="Ex: 10">
-                    </div>
-                    <div class="form-group">
-                        <label>Conditions de travail</label>
-                        <select name="mine_conditions">
-                            <option value="Souterrain">Souterrain</option>
-                            <option value="À ciel ouvert">À ciel ouvert</option>
-                        </select>
-                    </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Secteur principal</label>
+                    <input type="text" name="secteur_principal" placeholder="Mines, Agriculture, Finance...">
                 </div>
                 <div class="form-group">
-                    <label>Équipements de sécurité</label>
+                    <label>Secteurs secondaires</label>
+                    <input type="text" name="secteurs_secondaires" placeholder="Autres secteurs">
+                </div>
+            </div>
 
-                  <select name="mine_securite">
+            <div class="row">
+                <div class="form-group">
+                    <label>Produits / Services</label>
+                    <input type="text" name="produits_services" placeholder="Principaux produits">
+                </div>
+                <div class="form-group">
+                    <label>Marchés</label>
+                    <input type="text" name="marches" placeholder="Marchés desservis">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Clients cibles</label>
+                    <input type="text" name="clients_cibles" placeholder="Type de clients">
+                </div>
+                <div class="form-group">
+                    <label>Zones d'activité</label>
+                    <input type="text" name="zones_activite" placeholder="Zones géographiques">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Nombre d'employés</label>
+                    <input type="number" name="nb_employes" placeholder="Ex: 150">
+                </div>
+                <div class="form-group">
+                    <label>Chiffre d'affaires (tranche USD)</label>
+                    <select name="ca_tranche">
+                        <option value="Moins de 10 000">Moins de 10 000 $</option>
+                        <option value="10 000 - 100 000">10 000 - 100 000 $</option>
+                        <option value="100 000 - 1M">100 000 - 1 M $</option>
+                        <option value="1M - 10M">1 M - 10 M $</option>
+                        <option value="Plus de 10M">Plus de 10 M $</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Fondateur</label>
+                    <input type="text" name="fondateur" placeholder="Nom du fondateur">
+                </div>
+                <div class="form-group">
+                    <label>Dirigeants</label>
+                    <input type="text" name="dirigeants" placeholder="Nom du/des dirigeants">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Actionnaires / Bénéficiaires effectifs</label>
+                <textarea name="actionnaires" placeholder="Structure actionnariale..."></textarea>
+            </div>
+    </div>
+       <!-- ========================================================= -->
+        <!-- 9. MODULE GOUVERNEMENT / ADMINISTRATION                    -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-gouvernement">
+            <h2><span class="module-icon">🏛️</span> Module Gouvernement / Administration</h2>
+            <div class="module-desc">Identification, gouvernance, mandat et services publics.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Pays</label>
+                    <input type="text" name="gouv_pays" placeholder="Pays">
+                </div>
+                <div class="form-group">
+                    <label>Niveau administratif</label>
+                    <select name="gouv_niveau">
+                        <option value="National">National</option>
+                        <option value="Provincial">Provincial</option>
+                        <option value="Local">Local</option>
+                        <option value="Municipal">Municipal</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Ministère / Direction</label>
+                    <input type="text" name="gouv_ministere" placeholder="Ministère de la Santé">
+                </div>
+                <div class="form-group">
+                    <label>Service / Entité</label>
+                    <input type="text" name="gouv_service" placeholder="Direction des Statistiques">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Autorité de tutelle</label>
+                    <input type="text" name="gouv_tutelle" placeholder="Ministère de tutelle">
+                </div>
+                <div class="form-group">
+                    <label>Base juridique</label>
+                    <input type="text" name="gouv_base_juridique" placeholder="Loi / Décret">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Responsable</label>
+                    <input type="text" name="gouv_responsable" placeholder="Nom du responsable">
+                </div>
+                <div class="form-group">
+                    <label>Territoire couvert</label>
+                    <input type="text" name="gouv_territoire" placeholder="Zone de compétence">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Effectifs</label>
+                    <input type="number" name="gouv_effectifs" placeholder="Nombre d'agents">
+                </div>
+                <div class="form-group">
+                    <label>Budget annuel (USD)</label>
+                    <input type="number" name="gouv_budget" placeholder="Budget">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Services publics proposés</label>
+                <textarea name="gouv_services" placeholder="Liste des services..."></textarea>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 10. MODULE INFRASTRUCTURES                                 -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-infrastructure">
+            <h2><span class="module-icon">🏗️</span> Module Infrastructures</h2>
+            <div class="module-desc">Identification, localisation, capacité et état des infrastructures.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Type d'infrastructure</label>
+                    <select name="infra_type">
+                        <option value="Route">Route</option>
+                        <option value="Pont">Pont</option>
+                        <option value="Barrage">Barrage</option>
+                        <option value="Centrale électrique">Centrale électrique</option>
+                        <option value="Hôpital">Hôpital</option>
+                        <option value="École">École</option>
+                        <option value="Port">Port</option>
+                        <option value="Aéroport">Aéroport</option>
+                        <option value="Réseau électrique">Réseau électrique</option>
+                        <option value="Station d'eau">Station d'eau</option>
+                        <option value="Télécommunications">Télécommunications</option>
+                        <option value="Bâtiment public">Bâtiment public</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" name="infra_nom" placeholder="Nom de l'infrastructure">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Propriétaire</label>
+                    <input type="text" name="infra_proprietaire" placeholder="Propriétaire">
+                </div>
+                <div class="form-group">
+                    <label>Gestionnaire</label>
+                    <input type="text" name="infra_gestionnaire" placeholder="Gestionnaire">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Date de construction</label>
+                    <input type="date" name="infra_date_construction">
+                </div>
+                <div class="form-group">
+                    <label>Capacité</label>
+                    <input type="text" name="infra_capacite" placeholder="Capacité (nombre, volume, etc.)">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>État actuel</label>
+                    <select name="infra_etat">
+                        <option value="Bon">Bon</option>
+                        <option value="Moyen">Moyen</option>
+                        <option value="Mauvais">Mauvais</option>
+                        <option value="En construction">En construction</option>
+                        <option value="Hors service">Hors service</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Population desservie</label>
+                    <input type="text" name="infra_population" placeholder="Nombre estimé">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Valeur estimée (USD)</label>
+                    <input type="number" name="infra_valeur" placeholder="Valeur">
+                </div>
+                <div class="form-group">
+                    <label>Dernière inspection</label>
+                    <input type="date" name="infra_derniere_inspection">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Niveau de criticité</label>
+                    <select name="infra_criticite">
+                        <option value="Basse">Basse</option>
+                        <option value="Moyenne">Moyenne</option>
+                        <option value="Haute">Haute</option>
+                        <option value="Critique">Critique</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Risques identifiés</label>
+                    <input type="text" name="infra_risques" placeholder="Risques associés">
+                </div>
+            </div>
+                            </div>
+   <!-- ========================================================= -->
+        <!-- 11. MODULE SANTÉ (Niveau de protection élevé)              -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-sante">
+            <h2><span class="module-icon">🏥</span> Module Santé <span class="badge-module">⚡ Protégé</span></h2>
+            <div class="module-desc">⚠️ Données médicales sensibles — Collecte seulement si légalement et éthiquement justifiée.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>État de santé déclaré</label>
+                    <select name="sante_etat">
+                        <option value="Bon">Bon</option>
+                        <option value="Moyen">Moyen</option>
+                        <option value="Mauvais">Mauvais</option>
+                        <option value="Malade">Malade</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Maladie/condition déclarée</label>
+                    <input type="text" name="sante_maladie" placeholder="Paludisme, Hypertension...">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Handicap</label>
+                    <select name="sante_handicap">
+                        <option value="Aucun">Aucun</option>
+                        <option value="Physique">Physique</option>
+                        <option value="Sensoriel">Sensoriel</option>
+                        <option value="Mental">Mental</option>
+                        <option value="Multiple">Multiple</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Besoin médical actuel</label>
+                    <input type="text" name="sante_besoin" placeholder="Besoin médical">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Accès aux soins</label>
+                    <select name="sante_acces_soins">
+                        <option value="Facile">Facile</option>
+                        <option value="Moyen">Moyen</option>
+                        <option value="Difficile">Difficile</option>
+                        <option value="Aucun">Aucun</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Établissement fréquenté</label>
+                    <input type="text" name="sante_etablissement" placeholder="Hôpital, Clinique...">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Assurance/Couverture santé</label>
+                    <select name="sante_couverture">
+                        <option value="Mutuelle">Mutuelle</option>
+                        <option value="Assurance privée">Assurance privée</option>
+                        <option value="Aucune">Aucune</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Vaccination</label>
+                    <select name="sante_vaccination">
+                        <option value="À jour">À jour</option>
+                        <option value="Non à jour">Non à jour</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Situation nutritionnelle</label>
+                <textarea name="sante_nutrition" placeholder="Description nutritionnelle..."></textarea>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 12. MODULE AGRICULTURE                                     -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-agriculture">
+            <h2><span class="module-icon">🌾</span> Module Agriculture</h2>
+            <div class="module-desc">Exploitation agricole, cultures, élevage et besoins.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Type d'exploitation</label>
+                    <select name="agri_type">
+                        <option value="Vivrière">Vivrière</option>
+                        <option value="Commerciale">Commerciale</option>
+                        <option value="Mixte">Mixte</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Superficie (ha)</label>
+                    <input type="number" name="agri_superficie" placeholder="Ex: 50">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Cultures principales</label>
+                    <input type="text" name="agri_cultures" placeholder="Maïs, Manioc, Café...">
+                </div>
+                <div class="form-group">
+                    <label>Rendement estimé (tonnes/ha)</label>
+                    <input type="text" name="agri_rendement" placeholder="Ex: 2.5">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Élevage</label>
+                    <input type="text" name="agri_elevage" placeholder="Bovins, Caprins, Volailles...">
+                </div>
+                <div class="form-group">
+                    <label>Nombre d'animaux</label>
+                    <input type="text" name="agri_nb_animaux" placeholder="Ex: 50">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Irrigation</label>
+                    <select name="agri_irrigation">
+                        <option value="Oui">Oui</option>
+                        <option value="Non">Non</option>
+                        <option value="Partielle">Partielle</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Accès aux intrants</label>
+                    <select name="agri_intrants">
+                        <option value="Facile">Facile</option>
+                        <option value="Moyen">Moyen</option>
+                        <option value="Difficile">Difficile</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Risques climatiques</label>
+                <textarea name="agri_risques" placeholder="Sécheresse, Inondations, etc."></textarea>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 13. MODULE MINES / INDUSTRIE                               -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-mines">
+            <h2><span class="module-icon">⛏️</span> Module Mines / Industrie</h2>
+            <div class="module-desc">Activité minière et industrielle, permis, production et risques.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Type d'activité</label>
+                    <select name="mines_type">
+                        <option value="Extraction minière">Extraction minière</option>
+                        <option value="Traitement">Traitement</option>
+                        <option value="Exploration">Exploration</option>
+                        <option value="Industrie lourde">Industrie lourde</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Permis / Concession</label>
+                    <input type="text" name="mines_permis" placeholder="Numéro de permis">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Ressources</label>
+                    <input type="text" name="mines_ressources" placeholder="Cuivre, Cobalt, Or...">
+                </div>
+                <div class="form-group">
+                    <label>Production mensuelle (tonnes)</label>
+                    <input type="text" name="mines_production" placeholder="Ex: 5000">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Capacité installée</label>
+                    <input type="text" name="mines_capacite" placeholder="Capacité max">
+                </div>
+                <div class="form-group">
+                    <label>Effectifs</label>
+                    <input type="number" name="mines_effectifs" placeholder="Nombre d'employés">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Risques opérationnels</label>
+                <textarea name="mines_risques" placeholder="Effondrement, produits chimiques..."></textarea>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 14. MODULE FINANCE (Sensible)                              -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-finance">
+            <h2><span class="module-icon">💰</span> Module Finance <span class="badge-module">🔐 Sensible</span></h2>
+            <div class="module-desc">Données financières — Accès restreint et traçabilité obligatoire.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Mode de financement</label>
+                    <select name="finance_mode">
+                        <option value="Fonds propres">Fonds propres</option>
+                        <option value="Crédit bancaire">Crédit bancaire</option>
+                        <option value="Subvention">Subvention</option>
+                        <option value="Investissement">Investissement</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Budget annuel (USD)</label>
+                    <input type="number" name="finance_budget" placeholder="Budget">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Revenus (tranche USD)</label>
+                    <select name="finance_revenus">
+                        <option value="Moins de 10 000">Moins de 10 000 $</option>
+                        <option value="10 000 - 100 000">10 000 - 100 000 $</option>
+                        <option value="100 000 - 1M">100 000 - 1 M $</option>
+                        <option value="1M - 10M">1 M - 10 M $</option>
+                        <option value="Plus de 10M">Plus de 10 M $</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Investissements (USD)</label>
+                    <input type="number" name="finance_investissements" placeholder="Investissements">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Capacité financière</label>
+                <textarea name="finance_capacite" placeholder="Analyse de la capacité financière..."></textarea>
+            </div>
+    </div>
+       <!-- ========================================================= -->
+        <!-- 15. MODULE BESOINS / PROBLÈMES / OPPORTUNITÉS              -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-besoins">
+            <h2><span class="module-icon">🎯</span> Module Besoins / Problèmes / Opportunités</h2>
+            <div class="module-desc">Identification structurée des problèmes, besoins et opportunités.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Catégorie de problème</label>
+                    <select name="besoin_categorie">
+                        <option value="Économique">Économique</option>
+                        <option value="Social">Social</option>
+                        <option value="Sanitaire">Sanitaire</option>
+                        <option value="Environnemental">Environnemental</option>
+                        <option value="Infrastructure">Infrastructure</option>
+                        <option value="Sécurité">Sécurité</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Gravité</label>
+                    <select name="besoin_gravite">
+                        <option value="Faible">Faible</option>
+                        <option value="Moyenne">Moyenne</option>
+                        <option value="Élevée">Élevée</option>
+                        <option value="Critique">Critique</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Description du problème</label>
+                <textarea name="besoin_description" placeholder="Description détaillée..."></textarea>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Population affectée</label>
+                    <input type="text" name="besoin_population" placeholder="Nombre estimé">
+                </div>
+                <div class="form-group">
+                    <label>Urgence</label>
+                    <select name="besoin_urgence">
+                        <option value="Immédiate">Immédiate</option>
+                        <option value="Courte échéance">Courte échéance</option>
+                        <option value="Moyen terme">Moyen terme</option>
+                        <option value="Long terme">Long terme</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Coût estimé (USD)</label>
+                    <input type="number" name="besoin_cout" placeholder="Coût">
+                </div>
+                <div class="form-group">
+                    <label>Responsable</label>
+                    <input type="text" name="besoin_responsable" placeholder="Acteur responsable">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Opportunité</label>
+                <textarea name="besoin_opportunite" placeholder="Description de l'opportunité..."></textarea>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 16. MODULE SOURCES ET VÉRIFICATION                         -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-sources">
+            <h2><span class="module-icon">📋</span> Module Sources et Vérification</h2>
+            <div class="module-desc">Traçabilité, niveau de confiance et vérification des données.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Source</label>
+                    <input type="text" name="source_nom" placeholder="Nom de la source">
+                </div>
+                <div class="form-group">
+                    <label>Type de source</label>
+                    <select name="source_type">
+                        <option value="Déclaration">Déclaration</option>
+                        <option value="Document officiel">Document officiel</option>
+                        <option value="Observation">Observation</option>
+                        <option value="Enquête">Enquête</option>
+                        <option value="API">API</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Date de collecte</label>
+                    <input type="date" name="source_date_collecte">
+                </div>
+                <div class="form-group">
+                    <label>Date de mise à jour</label>
+                    <input type="date" name="source_date_maj">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Collecteur</label>
+                    <input type="text" name="source_collecteur" placeholder="Nom du collecteur">
+                </div>
+                <div class="form-group">
+                    <label>Méthode de collecte</label>
+                    <select name="source_methode">
+                        <option value="Entretien">Entretien</option>
+                        <option value="Questionnaire">Questionnaire</option>
+                        <option value="Observation terrain">Observation terrain</option>
+                        <option value="Document">Document</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Niveau de confiance</label>
+                    <select name="source_confiance">
+                        <option value="Faible">Faible</option>
+                        <option value="Moyen">Moyen</option>
+                        <option value="Élevé">Élevé</option>
+                        <option value="Vérifié">Vérifié</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Statut de vérification</label>
+                    <select name="source_statut_verification">
+                        <option value="Non vérifié">Non vérifié</option>
+                        <option value="En cours">En cours</option>
+                        <option value="Vérifié">Vérifié</option>
+                        <option value="Rejeté">Rejeté</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Preuve / Document associé</label>
+                <input type="text" name="source_preuve" placeholder="URL, chemin, référence">
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 17. MODULE CONSENTEMENT & GOUVERNANCE DES DONNÉES          -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-consentement">
+            <h2><span class="module-icon">🛡️</span> Module Consentement & Gouvernance</h2>
+            <div class="module-desc">Base légale, consentement et gouvernance des données.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Finalité de collecte</label>
+                    <input type="text" name="consent_finalite" placeholder="Objectif de la collecte">
+                </div>
+                <div class="form-group">
+                    <label>Base légale</label>
+                    <select name="consent_base_legale">
+                        <option value="Consentement">Consentement</option>
+                        <option value="Obligation légale">Obligation légale</option>
+                        <option value="Intérêt public">Intérêt public</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Consentement obtenu ?</label>
+                    <select name="consent_obtenu">
+                        <option value="Oui">Oui</option>
+                        <option value="Non">Non</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Date du consentement</label>
+                    <input type="date" name="consent_date">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Politique de confidentialité acceptée</label>
+                    <select name="consent_politique">
+                        <option value="Oui">Oui</option>
+                        <option value="Non">Non</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Niveau de confidentialité</label>
+                    <select name="consent_confidentialite">
+                        <option value="Public">Public</option>
+                        <option value="Interne">Interne</option>
+                        <option value="Restreint">Restreint</option>
+                        <option value="Confidentiel">Confidentiel</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Durée de conservation</label>
+                    <input type="text" name="conservation_duree" placeholder="Ex: 5 ans">
+                </div>
+                <div class="form-group">
+                    <label>Droit de suppression applicable</label>
+                    <select name="droit_suppression">
+                        <option value="Oui">Oui</option>
+                        <option value="Non">Non</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 18. MODULE IDENTITÉ DU COLLECTEUR                         -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-collecteur">
+            <h2><span class="module-icon">👤</span> Module Identité du Collecteur</h2>
+            <div class="module-desc">Audit trail : qui a enregistré quoi, quand et comment.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>ID agent</label>
+                    <input type="text" name="collecteur_id" placeholder="Identifiant unique">
+                </div>
+                <div class="form-group">
+                    <label>Organisation</label>
+                    <input type="text" name="collecteur_organisation" placeholder="Nom de l'organisation">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Fonction</label>
+                    <input type="text" name="collecteur_fonction" placeholder="Rôle/fonction">
+                </div>
+                <div class="form-group">
+                    <label>Identité vérifiée</label>
+                    <select name="collecteur_verifie">
                         <option value="Oui">Oui</option>
                         <option value="Non">Non</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Environnement -->
-            <div class="section-specifique" id="secteur-Environnement">
-                <h3>🌿 Environnement</h3>
+            <div class="row">
                 <div class="form-group">
-                    <label>Type d'activité</label>
-                    <select name="env_type">
-                        <option value="Protection de la nature">Protection de la nature</option>
-                        <option value="Gestion des déchets">Gestion des déchets</option>
-                        <option value="Énergie renouvelable">Énergie renouvelable</option>
-                        <option value="Reboisement">Reboisement</option>
-                        <option value="Sensibilisation">Sensibilisation</option>
-                    </select>
+                    <label>Appareil utilisé</label>
+                    <input type="text" name="collecteur_appareil" placeholder="Téléphone, Tablette...">
                 </div>
                 <div class="form-group">
-                    <label>Organisation</label>
-                    <input type="text" name="env_organisation" placeholder="Nom de l'organisation">
-                </div>
-                <div class="form-group">
-                    <label>Zone d'intervention</label>
-                    <select name="env_zone">
-                        <option value="Urbain">Urbain</option>
-                        <option value="Rural">Rural</option>
-                        <option value="Forêt">Forêt</option>
-                        <option value="Bord de mer">Bord de mer</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Problèmes environnementaux</label>
-                    <textarea name="env_problemes" placeholder="Décrivez les problèmes..."></textarea>
+                    <label>Version du formulaire</label>
+                    <input type="text" name="collecteur_version" placeholder="v2.0">
                 </div>
             </div>
 
-            <!-- Énergie -->
-            <div class="section-specifique" id="secteur-Énergie">
-                <h3>⚡ Énergie</h3>
+            <div class="form-group">
+                <label>Position de collecte</label>
+                <input type="text" name="collecteur_position" placeholder="Lat, Long (si disponible)">
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 19. MODULE PROJETS                                         -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-projets">
+            <h2><span class="module-icon">📋</span> Module Projets</h2>
+            <div class="module-desc">Identification, suivi et évaluation des projets.</div>
+
+            <div class="row">
                 <div class="form-group">
-                    <label>Domaine d'activité</label>
-                    <select name="energie_domaine">
-                        <option value="Production d'énergie">Production d'énergie</option>
-                        <option value="Transport/distribution">Transport/distribution</option>
-                        <option value="Énergie renouvelable">Énergie renouvelable</option>
-                        <option value="Efficacité énergétique">Efficacité énergétique</option>
-                        <option value="Recherche">Recherche</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Type d'énergie</label>
-                    <select name="energie_type">
-                        <option value="Électrique">Électrique</option>
-                        <option value="Solaire">Solaire</option>
-                        <option value="Éolienne">Éolienne</option>
-                        <option value="Hydraulique">Hydraulique</option>
-                        <option value="Biomasse">Biomasse</option>
-                        <option value="Gaz">Gaz</option>
-                        <option value="Pétrole">Pétrole</option>
-                        <option value="Charbon">Charbon</option>
-                    </select>
+                    <label>ID Projet</label>
+                    <input type="text" name="projet_id" placeholder="ID unique">
                 </div>
                 <div class="form-group">
-                    <label>Poste occupé</label>
-                    <select name="energie_poste">
-                        <option value="Technicien">Technicien</option>
-                        <option value="Ingénieur">Ingénieur</option>
-                        <option value="Opérateur">Opérateur</option>
-                        <option value="Cadre">Cadre</option>
-                        <option value="Chercheur">Chercheur</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label>Années d'expérience</label>
-                        <input type="number" name="energie_experience" placeholder="Ex: 8">
-                    </div>
-                    <div class="form-group">
-                        <label>Structure/Entreprise</label>
-                        <input type="text" name="energie_structure" placeholder="Ex: SNEL, Soleil Vert...">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label>Accès à l'électricité</label>
-                        <select name="energie_acces">
-                            <option value="Oui">Oui</option>
-                            <option value="Non">Non</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Source principale à domicile</label>
-                        <select name="energie_source">
-                            <option value="Électricité réseau">Électricité réseau</option>
-                            <option value="Groupe électrogène">Groupe électrogène</option>
-                            <option value="Panneaux solaires">Panneaux solaires</option>
-                            <option value="Bois/charbon">Bois/charbon</option>
-                            <option value="Gaz">Gaz</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Consommation mensuelle (kWh)</label>
-                    <input type="number" name="energie_consommation" placeholder="Ex: 200">
+                    <label>Nom du projet</label>
+                    <input type="text" name="projet_nom" placeholder="Nom">
                 </div>
             </div>
-  </div>
 
-         <!-- ========== CAUSE ET OBSERVATIONS ========== -->
-        <div class="form-group">
-            <label>Cause / Problème détaillé</label>
-            <textarea name="cause" placeholder="Décrivez la cause ou le problème rencontré..."></textarea>
-        </div>
-        <div class="form-group">
-            <label>Observations complémentaires</label>
-            <textarea name="observations" placeholder="Informations supplémentaires..."></textarea>
+            <div class="row">
+                <div class="form-group">
+                    <label>Promoteur</label>
+                    <input type="text" name="projet_promoteur" placeholder="Promoteur">
+                </div>
+                <div class="form-group">
+                    <label>Investisseur</label>
+                    <input type="text" name="projet_investisseur" placeholder="Investisseur">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Secteur</label>
+                    <input type="text" name="projet_secteur" placeholder="Mines, Énergie, Santé...">
+                </div>
+                <div class="form-group">
+                    <label>Budget (USD)</label>
+                    <input type="number" name="projet_budget" placeholder="Budget total">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Financement</label>
+                    <input type="text" name="projet_financement" placeholder="Source de financement">
+                </div>
+                <div class="form-group">
+                    <label>Phase actuelle</label>
+                    <select name="projet_phase">
+                        <option value="Étude">Étude</option>
+                        <option value="Conception">Conception</option>
+                        <option value="Construction">Construction</option>
+                        <option value="Exploitation">Exploitation</option>
+                        <option value="Clôturé">Clôturé</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Avancement (%)</label>
+                    <input type="number" name="projet_avancement" placeholder="Ex: 75" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label>Calendrier prévisionnel</label>
+                    <input type="text" name="projet_calendrier" placeholder="Dates clés">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Indicateurs KPI</label>
+                <textarea name="projet_kpi" placeholder="Indicateurs clés de performance..."></textarea>
+            </div>
         </div>
 
-        <!-- ========== BOUTONS ========== -->
-        <button type="submit" class="btn-submit">📊 Enregistrer les données</button>
+        <!-- ========================================================= -->
+        <!-- 20. MODULE RELATIONS (Knowledge Graph)                     -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-relations">
+            <h2><span class="module-icon">🔗</span> Module Relations <span class="badge-module">NEXUS Graph</span></h2>
+            <div class="module-desc">Construction progressive du Knowledge Graph NEXUS.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Entité liée (Nom/ID)</label>
+                    <input type="text" name="relation_entite" placeholder="Nom ou ID de l'entité liée">
+                </div>
+                <div class="form-group">
+                    <label>Type de relation</label>
+                    <select name="relation_type">
+                        <option value="Possède">Possède</option>
+                        <option value="Exploite">Exploite</option>
+                        <option value="Emploie">Emploie</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Fournit">Fournit</option>
+                        <option value="Participe">Participe</option>
+                        <option value="Dépend de">Dépend de</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Description de la relation</label>
+                <textarea name="relation_description" placeholder="Description détaillée de la relation..."></textarea>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 21. MODULE INTERNATIONAL & MULTILINGUE                     -->
+        <!-- ========================================================= -->
+        <div class="module-section" id="module-international">
+            <h2><span class="module-icon">🌍</span> Module International</h2>
+            <div class="module-desc">Normalisation internationale, devises, juridictions et multilingue.</div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Pays (ISO)</label>
+                    <input type="text" name="int_pays_iso" placeholder="CD, FR, US...">
+                </div>
+                <div class="form-group">
+                    <label>Devise</label>
+                    <input type="text" name="int_devise" placeholder="USD, EUR, CDF...">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Fuseau horaire</label>
+                    <input type="text" name="int_fuseau" placeholder="UTC+2">
+                </div>
+                <div class="form-group">
+                    <label>Langue(s) du formulaire</label>
+                    <input type="text" name="int_langues" placeholder="Français, Anglais, Swahili...">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Juridiction</label>
+                    <input type="text" name="int_juridiction" placeholder="Loi applicable">
+                </div>
+                <div class="form-group">
+                    <label>Réglementation applicable</label>
+                    <input type="text" name="int_reglementation" placeholder="RGPD, etc.">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Identifiants internationaux</label>
+                <input type="text" name="int_identifiants" placeholder="DUNS, LEI, etc.">
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- BOUTONS FINAUX                                             -->
+        <!-- ========================================================= -->
+        <button type="submit" class="btn-submit">📊 Enregistrer les données NEXUS</button>
         <button type="reset" class="btn-reset">🗑️ Réinitialiser le formulaire</button>
+
     </form>
+
+    <!-- Zone d'affichage des données -->
+    <div id="zoneDonnees">
+        <h3>📊 Données NEXUS collectées</h3>
+        <div id="affichageDonnees"></div>
+    </div>
+
 </div>
 
 <script>
-    // =====================================================
-    // 1. QUARTIERS PAR COMMUNE (Lubumbashi)
-    // =====================================================
-    const quartiersParCommune = {
-        'Lubumbashi': [
-            'Gambela', 'Gambela II', 'Kalubwe', 'Kiwele', 'Lido-Golf',
-            'Lumumba', 'Malela', 'Météo', 'Kabulameshi', 'Makutano',
-            'Mampala (Cité GCM)', 'Baudoin', 'Makomeno', 'La Légende'
-        ],
-        'Kampemba': [
-            'Bel-Air I', 'Bel-Air II', 'Kigoma', 'Kampemba', 'Kafubu',
-            'Bongonga', 'Naviund (Navyundu)', 'Quartier Industriel'
-        ],
-        'Kamalondo': [
-            'Njanja', 'Kafubu', 'Kitumaini'
-        ],
-        'Kenya': [
-            'Lualaba', 'Luapula (Luapul)', 'Luvua'
-        ],
-        'Katuba': [
-            'Musumba', 'Kisale', 'Kaponda (Nord et Sud)', 'Bukama',
-            'Upemba', 'Lufira', 'Mwana-Shaba', 'N\'sele', 'Kinyama', 'Kimilolo'
-        ],
-        'Ruashi': [
-            'Matoleo', 'Bendera', 'Luano (Luano 1 & 2)', 'Kalukuluku', 'Shindaika'
-        ],
-        'Annexe': [
-            'Kasapa', 'Kabeluka (Kalebuka)', 'Kasungami (Kasangiri)',
-            'Kimbembe', 'Kisanga', 'Luwowoshi', 'Munua', 'Navyundu (Naviundu)',
-            'Kamasaka', 'Kamisepe', 'Kamatete', 'Kapanta'
-        ]
-    };
+// ============================================================
+// 1. GESTION DES MODULES DYNAMIQUES (Type d'entité)
+// ============================================================
+const modules = {
+    'Personne physique': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-education', 'module-emploi', 'module-sante', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations'],
+    'Ménage / famille': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-menage', 'module-education', 'module-emploi', 'module-sante', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international'],
+    'Entreprise': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-entreprise', 'module-finance', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations', 'module-projets'],
+    'Institution publique': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-gouvernement', 'module-finance', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations'],
+    'Gouvernement / administration': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-gouvernement', 'module-finance', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations'],
+    'Organisation internationale': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-gouvernement', 'module-finance', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations', 'module-projets'],
+    'ONG / association': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-finance', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations', 'module-projets'],
+    'Établissement d\'enseignement': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-education', 'module-emploi', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations', 'module-infrastructure'],
+    'Établissement de santé': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-sante', 'module-emploi', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations', 'module-infrastructure'],
+    'Institution financière': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-entreprise', 'module-finance', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations'],
+    'Entreprise minière': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-entreprise', 'module-mines', 'module-finance', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations', 'module-projets'],
+    'Industrie / usine': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-entreprise', 'module-mines', 'module-finance', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations', 'module-projets'],
+    'Entreprise de transport/logistique': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-entreprise', 'module-finance', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations', 'module-projets'],
+    'Exploitation agricole': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-agriculture', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations'],
+    'Projet / chantier': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-projets', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations'],
+    'Infrastructure': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-infrastructure', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international', 'module-relations'],
+    'Localité / territoire': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international'],
+    'Autre entité': ['module-identite', 'module-geolocalisation', 'module-contact', 'module-besoins', 'module-sources', 'module-consentement', 'module-collecteur', 'module-international']
+};
 
-    // =====================================================
-    // 2. METTRE À JOUR LES QUARTIERS
-    // =====================================================
-    const communeSelect = document.getElementById('commune');
-    const quartierSelect = document.getElementById('quartier');
-
-    communeSelect.addEventListener('change', function() {
-        const commune = this.value;
-        quartierSelect.innerHTML = '<option value="">-- Choisissez un quartier --</option>';
-        
-        if (commune && quartiersParCommune[commune]) {
-            quartiersParCommune[commune].forEach(function(quartier) {
-                const option = document.createElement('option');
-                option.value = quartier;
-                option.textContent = quartier;
-                quartierSelect.appendChild(option);
-            });
+    // Fonction d'activation des modules
+function activerModules(typeEntite) {
+    const modulesToShow = modules[typeEntite] || [];
+    const allModules = document.querySelectorAll('.module-section');
+    
+    // Masquer tous les modules
+    allModules.forEach(mod => mod.classList.remove('active'));
+    
+    // Afficher les modules correspondants
+    modulesToShow.forEach(moduleId => {
+        const moduleElement = document.getElementById(moduleId);
+        if (moduleElement) {
+            moduleElement.classList.add('active');
         }
     });
+}
 
-    // =====================================================
-    // 3. AFFICHER/MASQUER LES CHAMPS MALADIE
-    // =====================================================
-    document.querySelectorAll('input[name="est_malade"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            const champsMaladie = document.getElementById('champsMaladie');
-            if (this.value === 'oui') {
-                champsMaladie.style.display = 'block';
-            } else {
-                champsMaladie.style.display = 'none';
-                // Réinitialiser les champs maladie
-                document.querySelectorAll('#champsMaladie input, #champsMaladie textarea, #champsMaladie select')
-                    .forEach(el => el.value = '');
-            }
-        });
-    });
-
-    // =====================================================
-    // 4. AFFICHER LES SECTEURS SPÉCIFIQUES (DYNAMIQUE)
-    // =====================================================
-    const secteurSelect = document.getElementById('secteur');
-    const sectionsSpecifiques = document.querySelectorAll('.section-specifique');
-
-    secteurSelect.addEventListener('change', function() {
-        // Masquer toutes les sections
-        sectionsSpecifiques.forEach(section => {
-            section.classList.remove('active');
-        });
-
-        // Afficher la section correspondante
-        const secteur = this.value;
-        if (secteur) {
-            const sectionId = 'secteur-' + secteur;
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.classList.add('active');
-            }
+// Gestionnaire du changement de type d'entité
+document.querySelectorAll('input[name="type_entite"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        if (this.checked) {
+            activerModules(this.value);
         }
     });
+});
 
-    // =====================================================
-    // 5. GÉRER LA CLASSIFICATION D'ÂGE
-    // =====================================================
-    // Ajout d'un champ caché pour la classification (sera calculé côté serveur)
-    // Mais on peut l'afficher pour information
-    const ageInput = document.querySelector('input[name="age"]');
-    const classificationDiv = document.createElement('div');
-    classificationDiv.className = 'form-group';
-    classificationDiv.innerHTML = `
-        <label>Classification d'âge (calcul automatique)</label>
-        <input type="text" id="classificationAge" value="" disabled style="background:#f0f0f0; cursor:not-allowed;">
-    `;
-    // Insérer après le champ Âge
-    ageInput.closest('.row').after(classificationDiv);
-    const classificationField = document.getElementById('classificationAge');
+// ============================================================
+// 2. GÉOLOCALISATION : Quartiers dynamiques pour Lubumbashi
+//    (Gardé pour la compatibilité avec la version précédente)
+// ============================================================
+const quartiersParCommune = {
+    'Lubumbashi': ['Gambela', 'Gambela II', 'Kalubwe', 'Kiwele', 'Lido-Golf', 'Lumumba', 'Malela', 'Météo', 'Kabulameshi', 'Makutano', 'Mampala (Cité GCM)', 'Baudoin', 'Makomeno', 'La Légende'],
+    'Kampemba': ['Bel-Air I', 'Bel-Air II', 'Kigoma', 'Kampemba', 'Kafubu', 'Bongonga', 'Naviund (Navyundu)', 'Quartier Industriel'],
+    'Kamalondo': ['Njanja', 'Kafubu', 'Kitumaini'],
+    'Kenya': ['Lualaba', 'Luapula (Luapul)', 'Luvua'],
+    'Katuba': ['Musumba', 'Kisale', 'Kaponda (Nord et Sud)', 'Bukama', 'Upemba', 'Lufira', 'Mwana-Shaba', 'N\'sele', 'Kinyama', 'Kimilolo'],
+    'Ruashi': ['Matoleo', 'Bendera', 'Luano (Luano 1 & 2)', 'Kalukuluku', 'Shindaika'],
+    'Annexe': ['Kasapa', 'Kabeluka (Kalebuka)', 'Kasungami (Kasangiri)', 'Kimbembe', 'Kisanga', 'Luwowoshi', 'Munua', 'Navyundu (Naviundu)', 'Kamasaka', 'Kamisepe', 'Kamatete', 'Kapanta']
+};
 
-    ageInput.addEventListener('input', function() {
-        const age = parseInt(this.value);
-        let categorie = '';
-        if (isNaN(age)) {
-            categorie = '--';
-        } else if (age <= 17) {
-            categorie = '🧒 Mineur (0-17 ans)';
-        } else if (age <= 25) {
-            categorie = '🧑 Majeur (18-25 ans)';
-        } else if (age <= 59) {
-            categorie = '👨 Adulte (26-59 ans)';
-        } else {
-            categorie = '👴 Vieux (60 ans et +)';
-        }
-        classificationField.value = categorie;
-    });
+// ============================================================
+// 3. SOUMISSION DU FORMULAIRE
+// ============================================================
+document.getElementById('nexusForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-    // =====================================================
-    // 6. SOUMISSION DU FORMULAIRE
-    // =====================================================
-    document.getElementById('recensementForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    const formData = new FormData(this);
+    const data = {};
+    for (let [key, value] of formData.entries()) {
+        if (value) data[key] = value;
+    }
+    
+    // Ajouter date/heure de saisie
+    data['date_saisie'] = new Date().toLocaleString('fr-FR');
 
-        // Récupérer les données
-        const formData = new FormData(this);
-        const data = {};
+    // Vérifier si un type d'entité est sélectionné
+    if (!data['type_entite']) {
+        document.getElementById('errorMessage').style.display = 'block';
+        document.getElementById('successMessage').style.display = 'none';
+        setTimeout(() => { document.getElementById('errorMessage').style.display = 'none'; }, 4000);
+        return;
+    }
 
-        // Champs communs
-        const champsCommuns = ['secteur', 'nom', 'prenom', 'age', 'sexe', 'etat_civil', 
-                               'profession', 'commune', 'quartier', 'est_malade', 'cause', 'observations'];
-        champsCommuns.forEach(champ => {
-            data[champ] = formData.get(champ) || '';
-        });
+    // Afficher les données
+    console.log('📊 DONNÉES NEXUS :');
+    console.log(JSON.stringify(data, null, 2));
 
-        // Champs spécifiques (tous les autres)
-        for (let [key, value] of formData.entries()) {
-            if (!champsCommuns.includes(key) && key !== 'date_diagnostic') {
-                data[key] = value || '';
-            }
-        }
+    const zoneDonnees = document.getElementById('zoneDonnees');
+    const affichageDonnees = document.getElementById('affichageDonnees');
+    zoneDonnees.style.display = 'block';
+    affichageDonnees.textContent = JSON.stringify(data, null, 2);
 
-        // Ajouter la date du diagnostic si présente
-        const dateDiag = formData.get('date_diagnostic');
-        if (dateDiag) {
-            data['date_diagnostic'] = dateDiag;
-        }
-
-        // Ajouter la classification d'âge
-        data['classification_age'] = classificationField.value;
-
-        // Ajouter la date de saisie
-        data['date_saisie'] = new Date().toLocaleString('fr-FR');
-
-        // Afficher dans la console (pour le test)
-        console.log('📊 DONNÉES DU RECENSEMENT :');
-        console.log(JSON.stringify(data, null, 2));
-
-        // Afficher un message de succès
-        const successDiv = document.getElementById('successMessage');
-        const errorDiv = document.getElementById('errorMessage');
-        
-        // Vérification rapide des champs obligatoires
-        const requiredFields = ['secteur', 'nom', 'prenom', 'age', 'sexe', 'etat_civil', 'profession', 'commune', 'quartier'];
-        let missing = false;
-        requiredFields.forEach(field => {
-            if (!data[field]) {
-                missing = true;
-            }
-        });
-
-        if (missing) {
-            errorDiv.style.display = 'block';
-            successDiv.style.display = 'none';
-            setTimeout(() => { errorDiv.style.display = 'none'; }, 4000);
-            return;
-        }
-
-        successDiv.style.display = 'block';
-        errorDiv.style.display = 'none';
-        setTimeout(() => { successDiv.style.display = 'none'; }, 5000);
-
-        // Optionnel : réinitialiser le formulaire après soumission ?
-        // this.reset();
-        // document.querySelectorAll('.section-specifique').forEach(s => s.classList.remove('active'));
-        // classificationField.value = '--';
-        // document.getElementById('champsMaladie').style.display = 'none';
-    });
+    document.getElementById('successMessage').style.display = 'block';
+    document.getElementById('errorMessage').style.display = 'none';
+    setTimeout(() => { document.getElementById('successMessage').style.display = 'none'; }, 5000);
+});
 </script>
 
 </body>
 </html>
 ```
+
+    
+            
+    
+    
