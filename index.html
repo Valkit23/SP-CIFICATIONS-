@@ -2061,6 +2061,214 @@ document.getElementById('nexusForm').addEventListener('submit', function(e) {
     document.getElementById('errorMessage').style.display = 'none';
     setTimeout(() => { document.getElementById('successMessage').style.display = 'none'; }, 5000);
 });
+
+
+```javascript
+// ============================================================
+// FONCTIONNALITÉS NEXUS AVANCÉES
+// ============================================================
+
+// 1. GÉNÉRATION DE L'IDENTIFIANT NEXUS
+function genererIDNexus(typeEntite) {
+    const prefix = {
+        'Personne physique': 'PERS',
+        'Ménage / famille': 'MENA',
+        'Entreprise': 'ENTR',
+        'Institution publique': 'INST',
+        'Gouvernement / administration': 'GOUV',
+        'Organisation internationale': 'ORGI',
+        'ONG / association': 'ONG',
+        'Établissement d\'enseignement': 'EDU',
+        'Établissement de santé': 'SANT',
+        'Institution financière': 'FIN',
+        'Entreprise minière': 'MINE',
+        'Industrie / usine': 'IND',
+        'Entreprise de transport/logistique': 'TRANS',
+        'Exploitation agricole': 'AGRI',
+        'Projet / chantier': 'PROJ',
+        'Infrastructure': 'INFRA',
+        'Localité / territoire': 'LOC',
+        'Autre entité': 'AUTR'
+    };
+    
+    const pre = prefix[typeEntite] || 'NEX';
+    const date = new Date();
+    const timestamp = date.getFullYear() + 
+                      String(date.getMonth() + 1).padStart(2, '0') + 
+                      String(date.getDate()).padStart(2, '0') + '_' +
+                      String(date.getHours()).padStart(2, '0') +
+                      String(date.getMinutes()).padStart(2, '0') +
+                      String(date.getSeconds()).padStart(2, '0');
+    const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+    
+    return `${pre}-${timestamp}-${random}`;
+}
+
+// 2. GÉOLOCALISATION
+function getPosition() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                const lat = document.querySelector('input[name="latitude"]');
+                const lng = document.querySelector('input[name="longitude"]');
+                const alt = document.querySelector('input[name="altitude"]');
+                const prec = document.querySelector('input[name="precision_gps"]');
+                const dateVerif = document.querySelector('input[name="date_verification_geo"]');
+                
+                if (lat) lat.value = position.coords.latitude.toFixed(6);
+                if (lng) lng.value = position.coords.longitude.toFixed(6);
+                if (alt) alt.value = position.coords.altitude ? position.coords.altitude.toFixed(1) + ' m' : 'N/A';
+                if (prec) prec.value = position.coords.accuracy.toFixed(1) + ' m';
+                if (dateVerif) dateVerif.value = new Date().toISOString().split('T')[0];
+                
+                document.getElementById('successMessage').textContent = '✅ Position GPS enregistrée avec succès !';
+                document.getElementById('successMessage').style.display = 'block';
+                setTimeout(() => { document.getElementById('successMessage').style.display = 'none'; }, 3000);
+            },
+            function(error) {
+                alert('⚠️ Activez la géolocalisation pour une meilleure précision. Erreur: ' + error.message);
+            },
+            { enableHighAccuracy: true, timeout: 10000 }
+        );
+    } else {
+        alert('⚠️ Votre navigateur ne supporte pas la géolocalisation.');
+    }
+}
+
+// 3. DATE ET HEURE AUTOMATIQUES
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date().toISOString().split('T')[0];
+    const now = new Date().toLocaleString('fr-FR');
+    
+    // Remplir les dates de collecte
+    const dateCollecte = document.querySelector('input[name="source_date_collecte"]');
+    const dateMaj = document.querySelector('input[name="source_date_maj"]');
+    const collecteurAppareil = document.querySelector('input[name="collecteur_appareil"]');
+    const collecteurPosition = document.querySelector('input[name="collecteur_position"]');
+    
+    if (dateCollecte) dateCollecte.value = today;
+    if (dateMaj) dateMaj.value = today;
+    
+    if (collecteurAppareil) {
+        collecteurAppareil.value = navigator.userAgent.includes('Mobile') ? '📱 Mobile' : '💻 Ordinateur';
+    }
+    
+    // Version du formulaire
+    const versionField = document.querySelector('input[name="collecteur_version"]');
+    if (versionField) versionField.value = 'NEXUS v2.0';
+    
+    // Déterminer la position approximative (via IP, simplifié)
+    if (collecteurPosition) {
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.latitude && data.longitude) {
+                    collecteurPosition.value = data.latitude + ', ' + data.longitude + ' (approximatif)';
+                }
+            })
+            .catch(() => {});
+    }
+});
+
+// 4. GÉNÉRATION DE L'ID QUAND LE TYPE D'ENTITÉ CHANGE
+document.querySelectorAll('input[name="type_entite"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        if (this.checked) {
+            const idField = document.querySelector('input[name="nexus_id"]');
+            if (idField) {
+                idField.value = genererIDNexus(this.value);
+            }
+        }
+    });
+});
+
+// 5. AJOUT DU BOUTON GPS DANS LA SECTION GÉOLOCALISATION
+setTimeout(function() {
+    const geoContainer = document.querySelector('#module-geolocalisation .form-group:last-child');
+    if (geoContainer) {
+        const geoBtn = document.createElement('button');
+        geoBtn.type = 'button';
+        geoBtn.textContent = '📍 Obtenir ma position GPS';
+        geoBtn.className = 'btn-submit';
+        geoBtn.style.cssText = 'padding: 10px 20px; background: #302b63; color: #fff; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; font-size: 14px;';
+        geoBtn.onclick = getPosition;
+        geoContainer.appendChild(geoBtn);
+    }
+}, 100);
+
+// 6. VALIDATION AMÉLIORÉE AVEC CLASSIFICATION DES CHAMPS OBLIGATOIRES
+function getChampsObligatoiresParType(typeEntite) {
+    const mapping = {
+        'Personne physique': ['nom', 'prenom', 'sexe', 'date_naissance'],
+        'Ménage / famille': ['nom', 'prenom', 'nb_personnes', 'chef_menage'],
+        'Entreprise': ['denomination', 'forme_juridique', 'num_enregistrement'],
+        'Gouvernement / administration': ['gouv_pays', 'gouv_niveau', 'gouv_ministere'],
+        'Organisation internationale': ['gouv_pays', 'gouv_ministere'],
+        'ONG / association': ['denomination', 'gouv_pays'],
+        'Établissement d\'enseignement': ['denomination', 'gouv_pays', 'etablissement_etude'],
+        'Établissement de santé': ['denomination', 'gouv_pays'],
+        'Institution financière': ['denomination', 'forme_juridique'],
+        'Entreprise minière': ['denomination', 'mines_type', 'mines_permis'],
+        'Industrie / usine': ['denomination', 'ind_type'],
+        'Entreprise de transport/logistique': ['denomination'],
+        'Exploitation agricole': ['denomination', 'agri_type'],
+        'Projet / chantier': ['projet_nom', 'projet_promoteur'],
+        'Infrastructure': ['infra_nom', 'infra_type'],
+        'Localité / territoire': ['ville', 'pays'],
+        'Autre entité': ['nom', 'prenom']
+    };
+    return mapping[typeEntite] || ['nom', 'prenom'];
+}
+
+// 7. VÉRIFICATION LORS DE LA SOUMISSION
+const originalSubmit = document.getElementById('nexusForm').onsubmit;
+document.getElementById('nexusForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const typeEntite = document.querySelector('input[name="type_entite"]:checked');
+    if (!typeEntite) {
+        document.getElementById('errorMessage').textContent = '❌ Veuillez sélectionner un type d\'entité.';
+        document.getElementById('errorMessage').style.display = 'block';
+        setTimeout(() => { document.getElementById('errorMessage').style.display = 'none'; }, 4000);
+        return;
+    }
+    
+    // Récupérer les données
+    const formData = new FormData(this);
+    const data = {};
+    for (let [key, value] of formData.entries()) {
+        if (value) data[key] = value;
+    }
+    data['date_saisie'] = new Date().toLocaleString('fr-FR');
+    data['version_nexus'] = 'v2.0';
+    
+    // Générer l'ID si manquant
+    if (!data['nexus_id']) {
+        data['nexus_id'] = genererIDNexus(typeEntite.value);
+    }
+    
+    // Afficher dans la console
+    console.log('📊 DONNÉES NEXUS COMPLÈTES :');
+    console.log(JSON.stringify(data, null, 2));
+    
+    // Afficher sur la page
+    const zoneDonnees = document.getElementById('zoneDonnees');
+    const affichageDonnees = document.getElementById('affichageDonnees');
+    zoneDonnees.style.display = 'block';
+    affichageDonnees.textContent = JSON.stringify(data, null, 2);
+    
+    document.getElementById('successMessage').textContent = '✅ Données NEXUS enregistrées avec succès !';
+    document.getElementById('successMessage').style.display = 'block';
+    document.getElementById('errorMessage').style.display = 'none';
+    
+    // Scroll vers les données
+    zoneDonnees.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    setTimeout(() => { document.getElementById('successMessage').style.display = 'none'; }, 5000);
+});
+```
+
+    //Ajout des fonctionnalités NEXUS (ID, GPS, dates auto)"//
 </script>
 
 </body>
