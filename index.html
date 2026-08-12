@@ -6,66 +6,72 @@
   /* Conteneur principal de la sidebar */
   .sidebar {
     background-color: #1e293b; /* Fond bleu foncé professionnel */
-    color: #e2e8f0; /* Couleur du texte clair */
-    width: 260px;   /* Largeur fixe */
-    padding: 20px;
-<style>
-  /* 1. On crée un conteneur flex pour mettre la sidebar et le contenu côte à côte */
+    <style>
+  /* Conteneur principal : Met la sidebar et le contenu côte à côte */
   body {
     display: flex;
+    flex-direction: row; /* C'est la ligne importante ! */
     margin: 0;
     padding: 0;
     background-color: #0f172a; /* Fond sombre général */
-    font-family: sans-serif;
-    color: white;
-    overflow-x: hidden; /* Évite les barres de défilement horizontales */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #e2e8f0;
+    overflow-x: hidden;
   }
 
-  /* 2. On force la barre latérale à avoir une taille fixe et à rester à gauche */
+  /* La barre latérale (Sidebar) */
   .sidebar {
-    width: 280px !important;       /* Largeur fixe de la barre */
-    min-height: 100vh;             /* Prend toute la hauteur de l'écran */
-    background-color: #1e293b;     /* Fond de la sidebar */
+    width: 280px;
+    min-height: 100vh;
+    background-color: #1e293b;
     padding: 20px;
-    flex-shrink: 0;                /* Empêche la barre de rétrécir */
+    flex-shrink: 0; /* L'empêche de rétrécir sur mobile */
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;              /* Permet de scroller dans la sidebar si elle est trop longue */
+    overflow-y: auto;
   }
 
-  /* 3. On habille le reste du contenu pour qu'il prenne le reste de la place */
-  /* (Note : Je suppose que votre contenu principal est dans une div avec une classe comme .main, .content, ou .container. 
-     Si vous n'avez pas de classe, il va s'afficher à côté naturellement grâce au flex du body) */
-  
-  /* 4. Mise en forme des titres et sous-titres */
+  /* Titres des catégories (ex: INTELLIGENCE) */
   .group-title {
     color: #94a3b8;
     font-size: 11px;
-    font-weight: bold;
+    font-weight: 700;
     text-transform: uppercase;
-    margin-top: 15px;
-    margin-bottom: 5px;
     letter-spacing: 1px;
+    margin-top: 20px;
+    margin-bottom: 8px;
   }
 
-  .sub-item {
-    padding: 5px 0;
-    color: #cbd5e1;
+  /* Éléments du menu */
+  .sub-item, .item {
+    padding: 8px 10px;
     font-size: 14px;
+    color: #cbd5e1;
     cursor: pointer;
-    padding-left: 10px;
+    border-radius: 6px;
   }
-  
-  /* 5. Effet au survol */
-  .sub-item:hover, .item:hover {
-    color: white;
+
+  /* Élément "ACCUEIL" actif */
+  .item.active {
     background-color: #334155;
-    border-radius: 4px;
-    padding-left: 15px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 5px;
+  }
+
+  /* Effet au survol */
+  .sub-item:hover, .item:hover {
+    background-color: #334155;
+    color: white;
     transition: 0.2s;
   }
-  
+
+  /* Logo */
+  .logo {
+    margin-bottom: 20px;
+  }
+</style>
   .item.active {
     background-color: #334155;
     padding: 10px;
