@@ -187,7 +187,7 @@
 
         /* ===== MAP ===== */
         .map { height: 140px; background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid #1e293b; font-size: 12px; color: #475569; position: relative; overflow: hidden; }
-        .map::before { content: "🌍"; font-size: 48px; opacity: 0.2; position: absolute; }
+        .map::before { content: ; font-size: 48px; opacity: 0.2; position: absolute; }
         .map span { background: #0a0e1a; padding: 6px 16px; border-radius: 20px; border: 1px solid #1e293b; font-size: 11px; color: #94a3b8; z-index: 1; }
 
         /* ===== ALERTES ===== */
@@ -305,10 +305,14 @@
 
     
 <!-- ===== SIDEBAR ===== -->
-<div class="sidebar">
-    <div class="logo">NEXUS</div>
-    <div class="sub">GLOBAL INTELLIGENCE PLATFORM</div>
 
+    <div class="sidebar">
+    <div class="logo" style="text-align: left; margin-bottom: 4px;">
+        <div style="font-size: 24px; font-weight: 700; color: #00d4ff; letter-spacing: 3px;">NEXUS</div>
+        <div style="font-size: 9px; color: #64748b; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px;">Data platforms and solutions ecosystems</div>
+    </div>
+    <div class="sub" style="display: none;">GLOBAL INTELLIGENCE PLATFORM</div>
+    <!-- Le reste de la sidebar -->
     <div class="item active"> ACCUEIL</div>
 
     <div class="group-title">RECHERCHE</div>
@@ -368,7 +372,7 @@
     <!-- HEADER -->
     <div class="header">
         <div class="left">
-            <h1>NEXUS <span>✦</span></h1>
+            <h1>NEXUS <span> 🌐 </span></h1>
             <div class="sub">GLOBAL INTELLIGENCE PLATFORM</div>
         </div>
         <div class="right">
@@ -388,7 +392,7 @@
         <div class="search-box-container">
             <input placeholder="Rechercher une entreprise, personne, pays, marché, secteur, projet, donnée, événement ou poser une question à NEXUS AI…">
             <button>🔍</button>
-            <button class="search-btn"> NEXUS'IA</button>
+            <button class="search-btn">🤖 NEXUS IA</button>
         </div>
 
         <div class="search-filters">
@@ -707,10 +711,10 @@
                 <button>🔍 Rechercher</button>
             </div>
             <div style="color:#94a3b8; font-size:13px; margin-bottom:10px;">Résultats récents :</div>
-            <div class="result-item"><div class="title">📄 Rapport cybersécurité 2025</div><div class="desc">Document · Mis à jour il y a 2 heures</div></div>
-            <div class="result-item"><div class="title">🏢 Entreprise Minière SARL</div><div class="desc">Entité · Profil complet disponible</div></div>
-            <div class="result-item"><div class="title">🌍 Analyse Afrique subsaharienne</div><div class="desc">Rapport · Publié il y a 4 heures</div></div>
-            <div class="result-item"><div class="title">👤 Jean-Pierre Mukendi</div><div class="desc">Personne · Identifiant NEXUS-0042</div></div>
+            <div class="result-item"><div class="title"> Rapport cybersécurité 2025</div><div class="desc">Document · Mis à jour il y a 2 heures</div></div>
+            <div class="result-item"><div class="title"> Entreprise Minière SARL</div><div class="desc">Entité · Profil complet disponible</div></div>
+            <div class="result-item"><div class="title"> Analyse Afrique subsaharienne</div><div class="desc">Rapport · Publié il y a 4 heures</div></div>
+            <div class="result-item"><div class="title"> Jean-Pierre Mukendi</div><div class="desc">Personne · Identifiant NEXUS-0042</div></div>
             <div style="margin-top:12px; color:#64748b; font-size:11px;">16 résultats trouvés · Affichage de 1 à 4</div>
         </div>
     </div>
@@ -718,7 +722,7 @@
     <!-- FOOTER -->
     <div class="footer">
         <span>© 2024 NEXUS Global Intelligence Platform. Tous droits réservés.</span>
-        <span>🔒 Confidentialité & Sécurité</span>
+        <span> Confidentialité & Sécurité</span>
     </div>
 
     </div>
@@ -760,7 +764,7 @@
     document.querySelector('.search-box-container .search-btn')?.addEventListener('click', function() {
         const query = document.querySelector('.search-box-container input').value;
         if (query.trim()) {
-            alert(' NEXUS AI analyse : "' + query + '"\n\n🔍 Niveau 3 - Recherche analytique\n📊 Données : Cuivre RDC\n🏢 Entreprises : 12 identifiées\n🌍 Pays : 3 opportunités\n📈 Risque : Modéré\n⏳ Analyse en cours...');
+            alert(' NEXUS AI analyse : "' + query + '"\n\n  Niveau 3 - Recherche analytique\n Données : Cuivre RDC\n Entreprises : 12 identifiées\n Pays : 3 opportunités\n Risque : Modéré\n Analyse en cours...');
         }
     });
 
