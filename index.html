@@ -9,46 +9,55 @@
     color: #e2e8f0; /* Couleur du texte clair */
     width: 260px;   /* Largeur fixe */
     padding: 20px;
-    font-family: 'Segoe UI', sans-serif;
+<style>
+  /* 1. On crée un conteneur flex pour mettre la sidebar et le contenu côte à côte */
+  body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    background-color: #0f172a; /* Fond sombre général */
+    font-family: sans-serif;
+    color: white;
+    overflow-x: hidden; /* Évite les barres de défilement horizontales */
+  }
+
+  /* 2. On force la barre latérale à avoir une taille fixe et à rester à gauche */
+  .sidebar {
+    width: 280px !important;       /* Largeur fixe de la barre */
+    min-height: 100vh;             /* Prend toute la hauteur de l'écran */
+    background-color: #1e293b;     /* Fond de la sidebar */
+    padding: 20px;
+    flex-shrink: 0;                /* Empêche la barre de rétrécir */
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 5px; /* Espace entre les éléments */
+    overflow-y: auto;              /* Permet de scroller dans la sidebar si elle est trop longue */
   }
 
-  /* Le logo */
-  .logo {
-    margin-bottom: 20px;
-  }
-
-  /* Le titre "ACCUEIL" qui est actif */
-  .item.active {
-    background-color: #334155;
-    padding: 10px 15px;
-    border-radius: 6px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  /* Les catégories (ex: RECHERCHE, INTELLIGENCE...) */
+  /* 3. On habille le reste du contenu pour qu'il prenne le reste de la place */
+  /* (Note : Je suppose que votre contenu principal est dans une div avec une classe comme .main, .content, ou .container. 
+     Si vous n'avez pas de classe, il va s'afficher à côté naturellement grâce au flex du body) */
+  
+  /* 4. Mise en forme des titres et sous-titres */
   .group-title {
-    color: #94a3b8; /* Gris clair */
+    color: #94a3b8;
     font-size: 11px;
+    font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 1px;
     margin-top: 15px;
     margin-bottom: 5px;
+    letter-spacing: 1px;
   }
 
-  /* Les éléments de menu (ex: Analyses Stratégiques) */
-  .sub-item, .item {
-    padding: 6px 0;
-    font-size: 14px;
+  .sub-item {
+    padding: 5px 0;
     color: #cbd5e1;
+    font-size: 14px;
     cursor: pointer;
     padding-left: 10px;
   }
-
-  /* Effet quand on passe la souris dessus */
+  
+  /* 5. Effet au survol */
   .sub-item:hover, .item:hover {
     color: white;
     background-color: #334155;
@@ -56,7 +65,13 @@
     padding-left: 15px;
     transition: 0.2s;
   }
-    </style>
+  
+  .item.active {
+    background-color: #334155;
+    padding: 10px;
+    border-radius: 6px;
+  }
+</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
