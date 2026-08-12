@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS</title>
+    <title>NEXUS - Intelligence Platform</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
         body { background: #0a0e1a; color: #fff; }
 
-        /* SIDEBAR */
+        /* ===== SIDEBAR ===== */
         .sidebar {
             width: 240px;
             background: #111827;
@@ -20,6 +20,7 @@
             height: 100vh;
             overflow-y: auto;
             border-right: 1px solid #1e293b;
+            z-index: 100;
         }
         .sidebar .logo { font-size: 22px; font-weight: bold; color: #00d4ff; }
         .sidebar .sub { font-size: 10px; color: #64748b; border-bottom: 1px solid #1e293b; padding-bottom: 14px; margin-bottom: 16px; }
@@ -28,68 +29,197 @@
         .sidebar .item.active { background: #1e293b; color: #fff; }
         .sidebar .group-title { font-size: 11px; color: #475569; padding: 12px 12px 6px; text-transform: uppercase; font-weight: bold; }
         .sidebar .sub-item { padding-left: 34px; font-size: 13px; color: #64748b; }
+        .sidebar .sub-item:hover { color: #fff; }
 
-        /* MAIN */
+        /* ===== MAIN ===== */
         .main { margin-left: 240px; padding: 24px 32px; height: 100vh; overflow-y: auto; }
 
-        /* HEADER */
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 14px; margin-bottom: 20px; }
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .header .left { display: flex; align-items: center; gap: 16px; }
         .header h1 { font-size: 24px; }
         .header h1 span { color: #00d4ff; }
         .header .sub { font-size: 10px; color: #64748b; }
-        .header .right { text-align: right; font-size: 12px; color: #94a3b8; }
-        .header .badge { background: #1e293b; padding: 2px 12px; border-radius: 12px; font-size: 10px; color: #10b981; border: 1px solid #10b98133; display: inline-block; margin-top: 4px; }
+        .header .right { display: flex; align-items: center; gap: 16px; font-size: 12px; color: #94a3b8; }
+        .header .badge { background: #1e293b; padding: 2px 12px; border-radius: 12px; font-size: 10px; color: #10b981; border: 1px solid #10b98133; }
+        .header .icon-btn { background: transparent; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; padding: 4px; }
+        .header .icon-btn:hover { color: #fff; }
 
-        /* KPI */
-        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-        .kpi-card { background: #111827; padding: 14px; border-radius: 10px; border: 1px solid #1e293b; text-align: center; }
-        .kpi-card .num { font-size: 22px; font-weight: bold; }
-        .kpi-card .label { font-size: 9px; color: #94a3b8; text-transform: uppercase; margin-top: 4px; }
-        .kpi-card .trend { font-size: 9px; color: #10b981; background: #10b9811a; padding: 2px 10px; border-radius: 10px; display: inline-block; margin-top: 4px; }
+        /* ===== BARRE DE RECHERCHE UNIVERSELLE ===== */
+        .search-hero {
+            text-align: center;
+            padding: 30px 20px 24px;
+            background: #111827;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            border: 1px solid #1e293b;
+        }
+        .search-hero h2 {
+            font-size: 26px;
+            font-weight: 300;
+            color: #94a3b8;
+            margin-bottom: 6px;
+        }
+        .search-hero h2 strong { color: #fff; font-weight: 600; }
+        .search-hero .subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 18px;
+        }
 
-        /* GRID 2 colonnes */
+        .search-box-container {
+            max-width: 800px;
+            margin: 0 auto 10px;
+            display: flex;
+            background: #0a0e1a;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .search-box-container:focus-within {
+            border-color: #00d4ff;
+            box-shadow: 0 0 30px #00d4ff11;
+        }
+        .search-box-container input {
+            flex: 1;
+            padding: 14px 18px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+        }
+        .search-box-container input::placeholder {
+            color: #475569;
+            font-size: 13px;
+        }
+        .search-box-container button {
+            padding: 14px 20px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .search-box-container button:hover { color: #00d4ff; }
+        .search-box-container .search-btn {
+            background: #00d4ff;
+            color: #0a0e1a;
+            font-weight: bold;
+        }
+        .search-box-container .search-btn:hover { background: #00b8d4; }
+
+        .search-filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .search-filters .filter {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: #64748b;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .search-filters .filter:hover { color: #fff; border-color: #1e293b; }
+        .search-filters .filter.active { color: #00d4ff; border-color: #00d4ff33; background: #00d4ff11; }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .suggestions .chip {
+            background: #1e293b;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+        .suggestions .chip:hover { background: #2d3a4f; color: #fff; border-color: #00d4ff33; }
+        .suggestions .chip .icon { margin-right: 4px; }
+
+        /* ===== ESPACE PERSONNALISÉ ===== */
+        .personal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .personal-header h3 { font-size: 16px; font-weight: 600; color: #ffffff; }
+        .personal-header .links { display: flex; gap: 12px; font-size: 12px; color: #64748b; }
+        .personal-header .links span { cursor: pointer; }
+        .personal-header .links span:hover { color: #fff; }
+                /* ===== GRILLE 2 COLONNES ===== */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
 
-        /* CARD */
+        /* ===== CARD ===== */
         .card { background: #111827; padding: 18px; border-radius: 10px; border: 1px solid #1e293b; }
         .card-title { font-size: 14px; font-weight: 600; color: #94a3b8; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .badge-red { background: #ef44441a; color: #ef4444; font-size: 10px; padding: 2px 12px; border-radius: 12px; border: 1px solid #ef444433; }
 
-        /* MAP */
-        .map { height: 130px; background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid #1e293b; font-size: 12px; color: #475569; }
+        /* ===== MAP ===== */
+        .map { height: 140px; background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid #1e293b; font-size: 12px; color: #475569; position: relative; overflow: hidden; }
+        .map::before { content: "🌍"; font-size: 48px; opacity: 0.2; position: absolute; }
+        .map span { background: #0a0e1a; padding: 6px 16px; border-radius: 20px; border: 1px solid #1e293b; font-size: 11px; color: #94a3b8; z-index: 1; }
 
-        /* ALERTES */
+        /* ===== ALERTES ===== */
         .alert { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #1e293b; }
         .alert:last-child { border-bottom: none; }
-        .alert .dot { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; margin-top: 5px; box-shadow: 0 0 10px #ef444466; }
+        .alert .dot { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; margin-top: 5px; box-shadow: 0 0 10px #ef444466; flex-shrink: 0; }
         .alert .title { font-size: 13px; font-weight: 500; }
         .alert .desc { font-size: 11px; color: #94a3b8; }
+        .alert .time { font-size: 10px; color: #64748b; margin-top: 2px; }
 
-        /* NEWS */
+        /* ===== NEWS ===== */
         .news { padding: 8px 0; border-bottom: 1px solid #1e293b; }
         .news:last-child { border-bottom: none; }
         .news .title { font-size: 13px; }
         .news .time { font-size: 10px; color: #64748b; margin-top: 2px; }
 
-        /* INDICATEURS */
+        /* ===== INDICATEURS ===== */
         .indicator { margin-bottom: 12px; }
         .indicator .label { display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; margin-bottom: 3px; }
         .indicator .bar { width: 100%; height: 6px; background: #1e293b; border-radius: 10px; overflow: hidden; }
         .indicator .bar .fill { height: 100%; border-radius: 10px; }
-        .indicator .bar .green { background: #10b981; }
-        .indicator .bar .yellow { background: #eab308; }
-        .indicator .bar .orange { background: #f97316; }
-        .indicator .bar .red { background: #ef4444; }
+        .green { background: #10b981; }
+        .yellow { background: #eab308; }
+        .orange { background: #f97316; }
+        .red { background: #ef4444; }
 
-        /* PIE */
+        /* ===== PIE ===== */
         .pie-container { display: flex; gap: 20px; align-items: center; }
-        .pie-chart { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(#3b82f6 0% 32%, #10b981 32% 56%, #eab308 56% 74%, #ef4444 74% 89%, #6366f1 89% 100%); }
+        .pie-chart { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(#3b82f6 0% 32%, #10b981 32% 56%, #eab308 56% 74%, #ef4444 74% 89%, #6366f1 89% 100%); flex-shrink: 0; }
         .pie-legend { font-size: 12px; color: #94a3b8; }
         .pie-legend .item { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
-        .pie-legend .color { width: 12px; height: 12px; border-radius: 3px; }
+        .pie-legend .color { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
 
-        
-        /* OPERATIONS */
+        /* ===== OPERATIONS ===== */
         .op { margin-bottom: 12px; }
         .op .header { display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
         .op .header span { color: #94a3b8; font-weight: 400; }
@@ -97,20 +227,23 @@
         .op .bar { width: 100%; height: 4px; background: #1e293b; border-radius: 10px; margin-top: 4px; overflow: hidden; }
         .op .bar .fill { height: 100%; background: #00d4ff; border-radius: 10px; }
 
-        /* QUICK */
+        /* ===== QUICK ===== */
         .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .quick-btn { background: #1e293b; border: 1px solid #1e293b; border-radius: 8px; padding: 10px; text-align: center; font-size: 12px; color: #94a3b8; cursor: pointer; }
+        .quick-btn:hover { background: #2d3a4f; color: #fff; }
 
-        /* ONGLETS */
+        /* ===== ONGLETS ===== */
         .tabs-section { margin-top: 20px; background: #111827; border-radius: 10px; border: 1px solid #1e293b; padding: 18px; }
         .tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; border-bottom: 1px solid #1e293b; margin-bottom: 14px; }
+        .tabs::-webkit-scrollbar { height: 3px; }
+        .tabs::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
         .tab-btn { background: transparent; border: none; color: #64748b; font-size: 12px; padding: 6px 14px; border-radius: 20px; cursor: pointer; white-space: nowrap; }
         .tab-btn:hover { background: #1e293b; color: #fff; }
         .tab-btn.active { background: #1e293b; color: #fff; border: 1px solid #00d4ff33; }
         .tab-pane { display: none; }
         .tab-pane.active { display: block; }
 
-        /* FORMULAIRES */
+        /* ===== FORMULAIRES ===== */
         .field { margin-bottom: 12px; }
         .field label { display: block; font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 3px; }
         .field input { width: 100%; padding: 10px 12px; background: #0a0e1a; border: 1px solid #1e293b; border-radius: 8px; color: #fff; font-size: 14px; outline: none; }
@@ -119,59 +252,105 @@
         .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
         .btn-save { width: 100%; padding: 14px; background: #00d4ff; border: none; border-radius: 10px; color: #0a0e1a; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 8px; }
+        .btn-save:hover { background: #00b8d4; }
 
         .entity-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 14px; }
         .entity-btn { background: #1e293b; border: 1px solid #1e293b; border-radius: 6px; padding: 6px; text-align: center; font-size: 11px; color: #94a3b8; cursor: pointer; }
         .entity-btn.active { border-color: #00d4ff; color: #00d4ff; }
 
-        /* FOOTER */
-        .footer { margin-top: 20px; padding-top: 14px; border-top: 1px solid #1e293b; display: flex; justify-content: space-between; font-size: 11px; color: #475569; }
+        /* ===== RECHERCHE ===== */
+        .search-box { display: flex; gap: 10px; margin-bottom: 16px; }
+        .search-box input { flex: 1; padding: 10px 14px; background: #0a0e1a; border: 1px solid #1e293b; border-radius: 8px; color: #fff; font-size: 14px; outline: none; }
+        .search-box input:focus { border-color: #00d4ff; }
+        .search-box input::placeholder { color: #475569; }
+        .search-box button { padding: 10px 24px; background: #00d4ff; border: none; border-radius: 8px; color: #0a0e1a; font-weight: bold; cursor: pointer; }
+        .search-box button:hover { background: #00b8d4; }
 
-        /* RESPONSIVE */
+        .result-item { padding: 10px 14px; background: #0a0e1a; border-radius: 6px; border: 1px solid #1e293b; margin-bottom: 8px; }
+        .result-item .title { font-size: 13px; font-weight: 500; }
+        .result-item .desc { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+
+        /* ===== FOOTER ===== */
+        .footer { margin-top: 20px; padding-top: 14px; border-top: 1px solid #1e293b; display: flex; justify-content: space-between; font-size: 11px; color: #475569; flex-wrap: wrap; gap: 8px; }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) { .grid-2 { grid-template-columns: 1fr; } }
         @media (max-width: 768px) {
             .sidebar { width: 100%; position: relative; height: auto; }
             .main { margin-left: 0; padding: 16px; }
-            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .grid-2 { grid-template-columns: 1fr; }
             .quick-grid { grid-template-columns: repeat(2, 1fr); }
+            .search-hero h2 { font-size: 20px; }
+            .search-box-container { flex-wrap: wrap; }
+            .search-box-container input { width: 100%; }
+            .header { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .header .right { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+            .pie-container { flex-direction: column; align-items: flex-start; }
             .entity-grid { grid-template-columns: repeat(2, 1fr); }
             .field-row { grid-template-columns: 1fr; }
-            .pie-container { flex-direction: column; align-items: flex-start; }
         }
         @media (max-width: 480px) {
-            .kpi-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-            .kpi-card .num { font-size: 18px; }
+            .search-hero h2 { font-size: 18px; }
+            .quick-grid { grid-template-columns: 1fr 1fr; }
+            .search-box-container input { font-size: 14px; padding: 12px 16px; }
+            .search-box-container button { padding: 12px 16px; font-size: 14px; }
+            .search-filters .filter { font-size: 10px; padding: 3px 10px; }
+            .entity-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
+    
+<!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
     <div class="logo">NEXUS</div>
     <div class="sub">GLOBAL INTELLIGENCE PLATFORM</div>
 
-    <div class="item active">📊 Dashboard</div>
+    <div class="item active">🏠 ACCUEIL</div>
 
-    <div class="group-title">ANALYSE & DATA</div>
+    <div class="group-title">RECHERCHE</div>
+    <div class="item" style="padding-left:12px;">🔎 RECHERCHE</div>
+
+    <div class="group-title">INTELLIGENCE</div>
     <div class="sub-item">Analyses Stratégiques</div>
-    <div class="sub-item">Données & Indicateurs</div>
     <div class="sub-item">Veille & Surveillance</div>
-    <div class="sub-item">Rapports & Briefings</div>
     <div class="sub-item">Scénarios & Simulations</div>
-    <div class="sub-item">Géométrie</div>
 
-    <div class="group-title">OPERATIONS</div>
-    <div class="sub-item">Gestion de Missions</div>
-    <div class="sub-item">Alertes & Crises</div>
-    <div class="sub-item">Observations</div>
+    <div class="group-title">MARCHÉS & FINANCE</div>
+    <div class="sub-item">Marchés financiers</div>
+    <div class="sub-item">Matières premières</div>
+    <div class="sub-item">Économie mondiale</div>
+
+    <div class="group-title">MONDE & GÉOPOLITIQUE</div>
+    <div class="sub-item">Pays & Régions</div>
+    <div class="sub-item">Relations internationales</div>
+    <div class="sub-item">Conflits & Sécurité</div>
+
+    <div class="group-title">ENTREPRISES & SECTEURS</div>
+    <div class="sub-item">Profils d'entreprises</div>
+    <div class="sub-item">Secteurs industriels</div>
+    <div class="sub-item">Startups & Innovation</div>
+
+    <div class="group-title">DONNÉES & CARTOGRAPHIE</div>
+    <div class="sub-item">Data Visualisation</div>
     <div class="sub-item">Cartographie Avancée</div>
+    <div class="sub-item">Indicateurs</div>
 
-    <div class="group-title">RESSOURCES</div>
-    <div class="sub-item">Base Documentaire</div>
-    <div class="sub-item">Annuaire & Contacts</div>
-    <div class="sub-item">Bibliothèque</div>
-    <div class="sub-item">API & Intégrations</div>
+    <div class="group-title">NEXUS AI</div>
+    <div class="sub-item">Prédictions</div>
+    <div class="sub-item">Analyse automatique</div>
+    <div class="sub-item">Assistant virtuel</div>
+
+    <div class="group-title">RAPPORTS & BRIEFINGS</div>
+    <div class="sub-item">Rapports</div>
+    <div class="sub-item">Briefings</div>
+    <div class="sub-item">Documents</div>
+
+    <div class="group-title">WORKSPACE</div>
+    <div class="sub-item">Projets</div>
+    <div class="sub-item">Équipes</div>
+    <div class="sub-item">Collaboration</div>
 
     <div class="group-title">ADMINISTRATION</div>
     <div class="sub-item">Utilisateurs & Rôles</div>
@@ -181,50 +360,143 @@
 
     <div class="item" style="margin-top:16px; color:#475569;">📞 Centre de Support</div>
 </div>
-
-<!-- MAIN -->
+<!-- ===== MAIN ===== -->
 <div class="main">
 
     <!-- HEADER -->
     <div class="header">
-        <div>
+        <div class="left">
             <h1>NEXUS <span>✦</span></h1>
             <div class="sub">GLOBAL INTELLIGENCE PLATFORM</div>
         </div>
         <div class="right">
-            <div>10:30 H 15 UTC</div>
-            <div class="badge">🔒 Confidentiel</div>
+            <span>10:30 H 15 UTC</span>
+            <span class="badge">🔒 Confidentiel</span>
+            <button class="icon-btn">🔔</button>
+            <button class="icon-btn">✉️</button>
+            <button class="icon-btn">👤</button>
         </div>
     </div>
 
-    <!-- KPI -->
-    <div class="kpi-grid">
-        <div class="kpi-card"><div class="num">12,985</div><div class="label">ACTEURS SUIVIS</div><div class="trend">▲ vs mois précédent</div></div>
-        <div class="kpi-card"><div class="num">2,472</div><div class="label">ÉVÉNEMENTS DÉTECTÉS</div><div class="trend">▲ vs mois précédent</div></div>
-        <div class="kpi-card"><div class="num">68</div><div class="label">RISQUES GLOBAUX</div><div class="trend">▲ vs mois précédent</div></div>
-        <div class="kpi-card"><div class="num">1,045</div><div class="label">RAPPORTS GÉNÉRÉS</div><div class="trend">▲ vs mois précédent</div></div>
-        <div class="kpi-card"><div class="num">195</div><div class="label">PAYS COUVERTS</div><div class="trend">▲ vs mois précédent</div></div>
-        <div class="kpi-card"><div class="num">3,287</div><div class="label">UTILISATEURS ACTIFS</div><div class="trend">▲ vs mois précédent</div></div>
-        <div class="kpi-card"><div class="num">+24%</div><div class="label">CROISSANCE</div><div class="trend">▲ vs mois précédent</div></div>
-        <div class="kpi-card"><div class="num">2.4s</div><div class="label">TEMPS RÉPONSE</div><div class="trend" style="color:#ef4444; background:#ef44441a;">▼ vs mois précédent</div></div>
+    <!-- ===== BARRE DE RECHERCHE UNIVERSELLE ===== -->
+    <div class="search-hero">
+        <h2>Que recherchez-vous ?</h2>
+        <div class="subtitle">Une entreprise, un pays, un marché, une donnée ou une question stratégique</div>
+
+        <div class="search-box-container">
+            <input placeholder="Rechercher une entreprise, personne, pays, marché, secteur, projet, donnée, événement ou poser une question à NEXUS AI…">
+            <button>🔍</button>
+            <button class="search-btn">🤖 Demander à l'IA</button>
+        </div>
+
+        <div class="search-filters">
+            <span class="filter active">Tout</span>
+            <span class="filter">📊 Marchés</span>
+            <span class="filter">🏢 Entreprises</span>
+            <span class="filter">🌍 Pays</span>
+            <span class="filter">👤 Personnes</span>
+            <span class="filter">📡 Données</span>
+            <span class="filter">📰 Actualités</span>
+            <span class="filter">📑 Rapports</span>
+        </div>
+
+        <div class="suggestions">
+            <span class="chip"><span class="icon">⚡</span> Cuivre RDC</span>
+            <span class="chip"><span class="icon">📈</span> Prix du cobalt</span>
+            <span class="chip"><span class="icon">🏢</span> Glencore</span>
+            <span class="chip"><span class="icon">🌍</span> Sahel</span>
+            <span class="chip"><span class="icon">🤖</span> Investissement Afrique</span>
+        </div>
     </div>
-<!-- CARTE + ALERTES -->
+        <!-- ===== ESPACE PERSONNALISÉ ===== -->
+    <div class="personal-header">
+        <h3>📌 Votre espace</h3>
+        <div class="links">
+            <span>📋 Dernières recherches</span>
+            <span>🔔 Alertes</span>
+            <span>⭐ Favoris</span>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-title">📋 Dernières recherches</div>
+            <div style="padding:6px 0; border-bottom:1px solid #1e293b; font-size:13px; color:#94a3b8;">🔍 <span style="color:#fff;">Investissement cuivre RDC</span> <span style="font-size:11px; color:#64748b; float:right;">Il y a 2h</span></div>
+            <div style="padding:6px 0; border-bottom:1px solid #1e293b; font-size:13px; color:#94a3b8;">🔍 <span style="color:#fff;">Prix du cobalt 2025</span> <span style="font-size:11px; color:#64748b; float:right;">Il y a 4h</span></div>
+            <div style="padding:6px 0; border-bottom:1px solid #1e293b; font-size:13px; color:#94a3b8;">🔍 <span style="color:#fff;">Glencore filiales Afrique</span> <span style="font-size:11px; color:#64748b; float:right;">Il y a 6h</span></div>
+            <div style="padding:6px 0; font-size:13px; color:#94a3b8;">🔍 <span style="color:#fff;">Zambie infrastructures minières</span> <span style="font-size:11px; color:#64748b; float:right;">Il y a 8h</span></div>
+        </div>
+        <div class="card">
+            <div class="card-title">🔔 Alertes actives</div>
+            <div style="padding:6px 0; border-bottom:1px solid #1e293b; font-size:13px;"><span style="color:#f97316;">●</span> <span style="color:#fff;">Cuivre - variation > 5%</span> <span style="font-size:11px; color:#64748b; float:right;">Active</span></div>
+            <div style="padding:6px 0; border-bottom:1px solid #1e293b; font-size:13px;"><span style="color:#ef4444;">●</span> <span style="color:#fff;">RDC - risque politique</span> <span style="font-size:11px; color:#64748b; float:right;">Active</span></div>
+            <div style="padding:6px 0; border-bottom:1px solid #1e293b; font-size:13px;"><span style="color:#10b981;">●</span> <span style="color:#fff;">Nouveau projet minier Katanga</span> <span style="font-size:11px; color:#64748b; float:right;">Active</span></div>
+            <div style="padding:6px 0; font-size:13px;"><span style="color:#3b82f6;">●</span> <span style="color:#fff;">Prix cobalt - mise à jour</span> <span style="font-size:11px; color:#64748b; float:right;">Active</span></div>
+        </div>
+    </div>
+    
+    <!-- ===== KPI ===== -->
+    <div style="font-size:16px; font-weight:600; color:#ffffff; margin-bottom:12px;">📊 Indicateurs clés</div>
+    <div class="kpi-grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px;">
+        <div class="kpi-card" style="background:#111827; padding:14px; border-radius:10px; border:1px solid #1e293b; text-align:center;">
+            <div style="font-size:22px; font-weight:bold;">12,985</div>
+            <div style="font-size:9px; color:#94a3b8; text-transform:uppercase; margin-top:4px;">ACTEURS SUIVIS</div>
+            <div style="font-size:9px; color:#10b981; background:#10b9811a; padding:2px 10px; border-radius:10px; display:inline-block; margin-top:4px;">▲ vs mois précédent</div>
+        </div>
+        <div class="kpi-card" style="background:#111827; padding:14px; border-radius:10px; border:1px solid #1e293b; text-align:center;">
+            <div style="font-size:22px; font-weight:bold;">2,472</div>
+            <div style="font-size:9px; color:#94a3b8; text-transform:uppercase; margin-top:4px;">ÉVÉNEMENTS DÉTECTÉS</div>
+            <div style="font-size:9px; color:#10b981; background:#10b9811a; padding:2px 10px; border-radius:10px; display:inline-block; margin-top:4px;">▲ vs mois précédent</div>
+        </div>
+        <div class="kpi-card" style="background:#111827; padding:14px; border-radius:10px; border:1px solid #1e293b; text-align:center;">
+            <div style="font-size:22px; font-weight:bold;">68</div>
+            <div style="font-size:9px; color:#94a3b8; text-transform:uppercase; margin-top:4px;">RISQUES GLOBAUX</div>
+            <div style="font-size:9px; color:#10b981; background:#10b9811a; padding:2px 10px; border-radius:10px; display:inline-block; margin-top:4px;">▲ vs mois précédent</div>
+        </div>
+        <div class="kpi-card" style="background:#111827; padding:14px; border-radius:10px; border:1px solid #1e293b; text-align:center;">
+            <div style="font-size:22px; font-weight:bold;">1,045</div>
+            <div style="font-size:9px; color:#94a3b8; text-transform:uppercase; margin-top:4px;">RAPPORTS GÉNÉRÉS</div>
+            <div style="font-size:9px; color:#10b981; background:#10b9811a; padding:2px 10px; border-radius:10px; display:inline-block; margin-top:4px;">▲ vs mois précédent</div>
+        </div>
+        <div class="kpi-card" style="background:#111827; padding:14px; border-radius:10px; border:1px solid #1e293b; text-align:center;">
+            <div style="font-size:22px; font-weight:bold;">195</div>
+            <div style="font-size:9px; color:#94a3b8; text-transform:uppercase; margin-top:4px;">PAYS COUVERTS</div>
+            <div style="font-size:9px; color:#10b981; background:#10b9811a; padding:2px 10px; border-radius:10px; display:inline-block; margin-top:4px;">▲ vs mois précédent</div>
+        </div>
+        <div class="kpi-card" style="background:#111827; padding:14px; border-radius:10px; border:1px solid #1e293b; text-align:center;">
+            <div style="font-size:22px; font-weight:bold;">3,287</div>
+            <div style="font-size:9px; color:#94a3b8; text-transform:uppercase; margin-top:4px;">UTILISATEURS ACTIFS</div>
+            <div style="font-size:9px; color:#10b981; background:#10b9811a; padding:2px 10px; border-radius:10px; display:inline-block; margin-top:4px;">▲ vs mois précédent</div>
+        </div>
+        <div class="kpi-card" style="background:#111827; padding:14px; border-radius:10px; border:1px solid #1e293b; text-align:center;">
+            <div style="font-size:22px; font-weight:bold;">+24%</div>
+            <div style="font-size:9px; color:#94a3b8; text-transform:uppercase; margin-top:4px;">CROISSANCE</div>
+            <div style="font-size:9px; color:#10b981; background:#10b9811a; padding:2px 10px; border-radius:10px; display:inline-block; margin-top:4px;">▲ vs mois précédent</div>
+        </div>
+        <div class="kpi-card" style="background:#111827; padding:14px; border-radius:10px; border:1px solid #1e293b; text-align:center;">
+            <div style="font-size:22px; font-weight:bold;">2.4s</div>
+            <div style="font-size:9px; color:#94a3b8; text-transform:uppercase; margin-top:4px;">TEMPS RÉPONSE</div>
+            <div style="font-size:9px; color:#ef4444; background:#ef44441a; padding:2px 10px; border-radius:10px; display:inline-block; margin-top:4px;">▼ vs mois précédent</div>
+        </div>
+    </div>
+
+    <!-- ===== GRILLE 2 COLONNES : CARTE + ALERTES ===== -->
     <div class="grid-2">
         <div class="card">
             <div class="card-title">🌐 CARTE INTELLIGENTE</div>
-            <div class="map">Vue géographique en temps réel</div>
+            <div class="map"><span>Vue géographique en temps réel</span></div>
         </div>
         <div class="card">
             <div class="card-title">🚨 ALERTES CRITIQUES <span class="badge-red">7 nouvelles</span></div>
-            <div class="alert"><div class="dot"></div><div><div class="title">Instabilité politique</div><div class="desc">Région du Sahel, Afrique</div></div></div>
-            <div class="alert"><div class="dot"></div><div><div class="title">Cybermenace avancée</div><div class="desc">Infrastructure critique</div></div></div>
-            <div class="alert"><div class="dot"></div><div><div class="title">Mouvement militaire détecté</div><div class="desc">Frontière Nord-Est</div></div></div>
-            <div class="alert"><div class="dot"></div><div><div class="title">Risque économique</div><div class="desc">Marché des matières premières</div></div></div>
-            <div class="alert"><div class="dot"></div><div><div class="title">Tension diplomatique</div><div class="desc">Aide de l'État</div></div></div>
+            <div class="alert"><div class="dot"></div><div><div class="title">Instabilité politique</div><div class="desc">Région du Sahel, Afrique</div><div class="time">10.24</div></div></div>
+            <div class="alert"><div class="dot"></div><div><div class="title">Cybermenace avancée</div><div class="desc">Infrastructure critique</div><div class="time">09.15</div></div></div>
+            <div class="alert"><div class="dot"></div><div><div class="title">Mouvement militaire détecté</div><div class="desc">Frontière Nord-Est</div><div class="time">08.42</div></div></div>
+            <div class="alert"><div class="dot"></div><div><div class="title">Risque économique</div><div class="desc">Marché des matières premières</div><div class="time">08.30</div></div></div>
+            <div class="alert"><div class="dot"></div><div><div class="title">Tension diplomatique</div><div class="desc">Aide de l'État</div><div class="time">08.12</div></div></div>
         </div>
     </div>
 
-    <!-- ACTUALITÉS + INDICATEURS -->
+    <!-- ===== GRILLE 2 COLONNES : ACTUALITÉS + INDICATEURS ===== -->
     <div class="grid-2">
         <div class="card">
             <div class="card-title">📰 ACTUALITÉS STRATÉGIQUES</div>
@@ -245,7 +517,7 @@
         </div>
     </div>
 
-    <!-- CAMEMBERT + OPÉRATIONS -->
+    <!-- ===== GRILLE 2 COLONNES : CAMEMBERT + OPÉRATIONS ===== -->
     <div class="grid-2">
         <div class="card">
             <div class="card-title">📈 RÉPARTITION DES RISQUES</div>
@@ -271,7 +543,7 @@
         </div>
     </div>
 
-    <!-- ACCÈS RAPIDE -->
+    <!-- ===== ACCÈS RAPIDE ===== -->
     <div class="card">
         <div class="card-title">⚡ ACCÈS RAPIDE</div>
         <div class="quick-grid">
@@ -286,7 +558,7 @@
         </div>
     </div>
 
-    <!-- ===== ONGLETS ===== -->
+     <!-- ===== ONGLETS ===== -->
     <div class="tabs-section">
         <div class="tabs">
             <button class="tab-btn active" onclick="showTab('identite')">IDENTITÉ</button>
@@ -299,9 +571,9 @@
             <button class="tab-btn" onclick="showTab('sante')">SANTÉ</button>
             <button class="tab-btn" onclick="showTab('risques')">RISQUES</button>
             <button class="tab-btn" onclick="showTab('documents')">DOCUMENTS</button>
+            <button class="tab-btn" onclick="showTab('recherche')">🔍 RECHERCHE</button>
         </div>
 
-        <!-- IDENTITÉ -->
         <div id="identite" class="tab-pane active">
             <div style="font-size:13px; font-weight:bold; color:#fff; margin-bottom:10px;">Type d'entité</div>
             <div class="entity-grid">
@@ -340,7 +612,6 @@
             <button class="btn-save">ENREGISTRER L'ENTITÉ</button>
         </div>
 
-        <!-- GÉOLOCALISATION -->
         <div id="geoloc" class="tab-pane">
             <div class="field"><label>Pays</label><input placeholder="Ex: République Démocratique du Congo"></div>
             <div class="field-row"><div class="field"><label>Province / État</label><input placeholder="Province"></div><div class="field"><label>Ville</label><input placeholder="Ville"></div></div>
@@ -349,7 +620,7 @@
             <div class="field-row"><div class="field"><label>Latitude</label><input placeholder="-8.9833"></div><div class="field"><label>Longitude</label><input placeholder="23.4167"></div></div>
             <button class="btn-save">ENREGISTRER L'ENTITÉ</button>
         </div>
-                <!-- CONTACT -->
+
         <div id="contact" class="tab-pane">
             <div class="field"><label>Téléphone principal</label><input placeholder="+243 81 234 5678"></div>
             <div class="field"><label>Téléphone secondaire</label><input placeholder="+243 99 876 5432"></div>
@@ -360,7 +631,6 @@
             <button class="btn-save">ENREGISTRER L'ENTITÉ</button>
         </div>
 
-        <!-- MÉNAGE -->
         <div id="menage" class="tab-pane">
             <div class="field"><label>Identifiant du ménage</label><input placeholder="M-2025-001"></div>
             <div class="field"><label>Chef / responsable</label><input placeholder="Nom complet"></div>
@@ -371,7 +641,6 @@
             <button class="btn-save">ENREGISTRER L'ENTITÉ</button>
         </div>
 
-        <!-- ÉDUCATION -->
         <div id="education" class="tab-pane">
             <div class="field"><label>Niveau d'instruction</label><input placeholder="Primaire, Secondaire, Universitaire..."></div>
             <div class="field"><label>Diplômes / Certifications</label><input placeholder="Licence, Master, Doctorat..."></div>
@@ -382,7 +651,6 @@
             <button class="btn-save">ENREGISTRER L'ENTITÉ</button>
         </div>
 
-        <!-- EMPLOI -->
         <div id="emploi" class="tab-pane">
             <div class="field"><label>Profession</label><input placeholder="Ingénieur, Enseignant, Commerçant..."></div>
             <div class="field"><label>Fonction / Poste</label><input placeholder="Directeur, Chef de projet..."></div>
@@ -393,7 +661,6 @@
             <button class="btn-save">ENREGISTRER L'ENTITÉ</button>
         </div>
 
-        <!-- ENTREPRISE -->
         <div id="entreprise" class="tab-pane">
             <div class="field"><label>Dénomination sociale</label><input placeholder="Nom officiel"></div>
             <div class="field"><label>Forme juridique</label><input placeholder="SARL, SA, EURL..."></div>
@@ -404,7 +671,6 @@
             <button class="btn-save">ENREGISTRER L'ENTITÉ</button>
         </div>
 
-        <!-- SANTÉ -->
         <div id="sante" class="tab-pane">
             <div class="field"><label>État de santé déclaré</label><input placeholder="Bon, Moyen, Mauvais"></div>
             <div class="field"><label>Maladie / condition déclarée</label><input placeholder="Diabète, Hypertension, VIH..."></div>
@@ -414,7 +680,6 @@
             <button class="btn-save">ENREGISTRER L'ENTITÉ</button>
         </div>
 
-        <!-- RISQUES -->
         <div id="risques" class="tab-pane">
             <div class="field"><label>Risque économique</label><input placeholder="Faible, Moyen, Élevé"></div>
             <div class="field"><label>Risque sécuritaire</label><input placeholder="Faible, Moyen, Élevé"></div>
@@ -422,9 +687,8 @@
             <div class="field"><label>Risque environnemental</label><input placeholder="Inondation, Sécheresse, Pollution..."></div>
             <div class="field"><label>Plan de mitigation</label><input placeholder="Mesures de prévention en place"></div>
             <button class="btn-save">ENREGISTRER L'ENTITÉ</button>
-                                                                  </div>
+        </div>
 
-    <!-- DOCUMENTS -->
         <div id="documents" class="tab-pane">
             <div class="field"><label>Type de document</label><input placeholder="Carte d'identité, Permis, Licence..."></div>
             <div class="field"><label>Numéro</label><input placeholder="Numéro du document"></div>
@@ -432,6 +696,20 @@
             <div class="field"><label>Date d'expiration</label><input placeholder="2030-01-15"></div>
             <div class="field"><label>Émetteur / Autorité</label><input placeholder="Ministère, Mairie, Tribunal..."></div>
             <button class="btn-save">ENREGISTRER L'ENTITÉ</button>
+        </div>
+
+        <div id="recherche" class="tab-pane">
+            <div style="font-size:13px; font-weight:bold; color:#fff; margin-bottom:10px;">🔍 Recherche avancée</div>
+            <div class="search-box">
+                <input placeholder="Rechercher une entité, un document, un rapport...">
+                <button>🔍 Rechercher</button>
+            </div>
+            <div style="color:#94a3b8; font-size:13px; margin-bottom:10px;">Résultats récents :</div>
+            <div class="result-item"><div class="title">📄 Rapport cybersécurité 2025</div><div class="desc">Document · Mis à jour il y a 2 heures</div></div>
+            <div class="result-item"><div class="title">🏢 Entreprise Minière SARL</div><div class="desc">Entité · Profil complet disponible</div></div>
+            <div class="result-item"><div class="title">🌍 Analyse Afrique subsaharienne</div><div class="desc">Rapport · Publié il y a 4 heures</div></div>
+            <div class="result-item"><div class="title">👤 Jean-Pierre Mukendi</div><div class="desc">Personne · Identifiant NEXUS-0042</div></div>
+            <div style="margin-top:12px; color:#64748b; font-size:11px;">16 résultats trouvés · Affichage de 1 à 4</div>
         </div>
     </div>
 
@@ -441,9 +719,8 @@
         <span>🔒 Confidentialité & Sécurité</span>
     </div>
 
-</div>
-
-<script>
+    </div>
+    <script>
     function showTab(id) {
         document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -451,12 +728,53 @@
         document.querySelector('.tab-btn[onclick="showTab(\''+id+'\')"]').classList.add('active');
     }
 
-    // Type d'entité - sélection
     document.querySelectorAll('.entity-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             document.querySelectorAll('.entity-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
         });
+    });
+
+    // Filtres de recherche
+    document.querySelectorAll('.search-filters .filter').forEach(filter => {
+        filter.addEventListener('click', function() {
+            document.querySelectorAll('.search-filters .filter').forEach(f => f.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Chips de suggestions
+    document.querySelectorAll('.suggestions .chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+            const searchInput = document.querySelector('.search-box-container input');
+            if (searchInput) {
+                searchInput.value = this.textContent.trim();
+                searchInput.focus();
+            }
+        });
+    });
+
+    // Bouton de recherche IA
+    document.querySelector('.search-box-container .search-btn')?.addEventListener('click', function() {
+        const query = document.querySelector('.search-box-container input').value;
+        if (query.trim()) {
+            alert('🤖 NEXUS AI analyse : "' + query + '"\n\n🔍 Niveau 3 - Recherche analytique\n📊 Données : Cuivre RDC\n🏢 Entreprises : 12 identifiées\n🌍 Pays : 3 opportunités\n📈 Risque : Modéré\n⏳ Analyse en cours...');
+        }
+    });
+
+    // Recherche simple
+    document.querySelector('.search-box-container button:not(.search-btn)')?.addEventListener('click', function() {
+        const query = document.querySelector('.search-box-container input').value;
+        if (query.trim()) {
+            alert('🔍 Résultats pour : "' + query + '"\n\n📊 Marchés : 8\n🏢 Entreprises : 24\n🌍 Pays : 3\n👤 Personnes : 7\n📑 Rapports : 12');
+        }
+    });
+
+    // Entrée clavier
+    document.querySelector('.search-box-container input')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.querySelector('.search-box-container .search-btn')?.click();
+        }
     });
 </script>
 
