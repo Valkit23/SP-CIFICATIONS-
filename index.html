@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>NEXUS - Partie 1</title>
+    <title>NEXUS - Prototype Complet</title>
     <style>
-        /* ---------- RESET ET BASE ---------- */
+        /* ========== RESET ET BASE ========== */
         * {
             margin: 0;
             padding: 0;
@@ -21,7 +21,7 @@
             overflow: hidden;
         }
 
-        /* ---------- SIDEBAR (menu latéral) ---------- */
+        /* ========== SIDEBAR ========== */
         #sidebar {
             position: fixed;
             top: 0;
@@ -75,10 +75,6 @@
             color: #ffffff;
         }
 
-        .menu-item .icon {
-            margin-right: 10px;
-        }
-
         .menu-group {
             margin-top: 16px;
         }
@@ -97,7 +93,7 @@
             color: #64748b;
         }
 
-        /* ---------- OVERLAY (fond sombre quand menu ouvert) ---------- */
+        /* ========== OVERLAY ========== */
         #overlay {
             position: fixed;
             top: 0;
@@ -113,16 +109,16 @@
             display: block;
         }
 
-        /* ---------- CONTENU PRINCIPAL ---------- */
+        /* ========== CONTENU PRINCIPAL ========== */
         #main {
             margin-left: 0;
-            padding: 16px 16px 24px;
+            padding: 16px;
             height: 100vh;
             overflow-y: auto;
             transition: margin-left 0.3s;
         }
 
-        /* ---------- EN-TÊTE ---------- */
+        /* ========== EN-TÊTE ========== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -184,12 +180,12 @@
             border: 1px solid #10b98133;
         }
 
-        /* ---------- GRILLE KPI (7 cartes) ---------- */
+        /* ========== KPI (7 cartes) ========== */
         .kpi-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin-bottom: 8px;
+            margin-bottom: 20px;
         }
 
         .kpi-card {
@@ -200,7 +196,6 @@
             text-align: center;
         }
 
-        /* Pour que les 2 derniers prennent 1.5 colonnes chacun (ou on laisse tel quel) */
         .kpi-card .number {
             font-size: 22px;
             font-weight: 700;
@@ -226,29 +221,420 @@
             margin-top: 4px;
         }
 
-        .kpi-card .trend.down {
-            color: #ef4444;
+        /* ========== CARTE ========== */
+        .card {
+            background: #111827;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #1e293b;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            font-size: 12px;
+            border: 1px solid #1e293b;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-placeholder::before {
+            content: "🌍";
+            font-size: 40px;
+            opacity: 0.3;
+            position: absolute;
+        }
+
+        .map-placeholder span {
+            background: #0a0e1a;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid #1e293b;
+            font-size: 10px;
+            color: #94a3b8;
+            z-index: 1;
+        }
+
+        /* ========== ALERTES ========== */
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+
+        .alert-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+            flex-shrink: 0;
+            margin-top: 4px;
+            box-shadow: 0 0 8px #ef444466;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .alert-desc {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .alert-time {
+            font-size: 10px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .alert-badge {
             background: #ef44441a;
+            color: #ef4444;
+            font-size: 10px;
+            padding: 2px 10px;
+            border-radius: 12px;
+            border: 1px solid #ef444433;
+            display: inline-block;
         }
 
-        /* Ajustement pour avoir 7 cartes bien réparties */
-        .kpi-grid .kpi-card:nth-child(7) {
-            grid-column: span 1;
+        /* ========== ACTUALITÉS ========== */
+        .news-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #1e293b;
         }
 
-        /* ---------- SCROLLBAR ---------- */
-        #main::-webkit-scrollbar {
-            width: 3px;
+        .news-item:last-child {
+            border-bottom: none;
         }
-        #main::-webkit-scrollbar-track {
-            background: transparent;
+
+        .news-title {
+            font-size: 13px;
+            color: #ffffff;
+            font-weight: 500;
         }
-        #main::-webkit-scrollbar-thumb {
+
+        .news-time {
+            font-size: 10px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* ========== INDICATEURS ========== */
+        .indicator-row {
+            margin-bottom: 12px;
+        }
+
+        .indicator-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+
+        .indicator-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .indicator-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .indicator-bar-fill.green { background: #10b981; }
+        .indicator-bar-fill.yellow { background: #eab308; }
+        .indicator-bar-fill.orange { background: #f97316; }
+        .indicator-bar-fill.red { background: #ef4444; }
+        .indicator-bar-fill.blue { background: #3b82f6; }
+
+        /* ========== CAMEMBERT ========== */
+        .pie-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .pie-chart {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #3b82f6 0% 24%,
+                #10b981 24% 42%,
+                #eab308 42% 57%,
+                #ef4444 57% 72%,
+                #6366f1 72% 100%
+            );
+            flex-shrink: 0;
+        }
+
+        .pie-legend {
+            flex: 1;
+            font-size: 12px;
+        }
+
+        .pie-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+            color: #94a3b8;
+        }
+
+        .pie-legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+
+        /* ========== OPÉRATIONS ========== */
+        .op-item {
+            margin-bottom: 12px;
+        }
+
+        .op-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .op-header span {
+            color: #94a3b8;
+            font-weight: 400;
+            font-size: 12px;
+        }
+
+        .op-desc {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .op-bar-bg {
+            width: 100%;
+            height: 4px;
+            background: #1e293b;
+            border-radius: 10px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .op-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: #00d4ff;
+        }
+
+        /* ========== ACCÈS RAPIDE ========== */
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .quick-btn {
+            background: #1e293b;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            padding: 10px 6px;
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .quick-btn:hover {
+            background: #2d3a4f;
+            color: #ffffff;
+        }
+
+        /* ========== PARTIE 3 : FORMULAIRE ========== */
+        .form-section {
+            margin-top: 20px;
+            background: #111827;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            padding: 16px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #1e293b;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tabs::-webkit-scrollbar {
+            height: 3px;
+        }
+        .tabs::-webkit-scrollbar-thumb {
             background: #1e293b;
             border-radius: 10px;
         }
 
-        /* ---------- RESPONSIVE ---------- */
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 20px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .tab-btn:hover {
+            color: #ffffff;
+            background: #1e293b;
+        }
+        .tab-btn.active {
+            color: #ffffff;
+            background: #1e293b;
+            border-color: #00d4ff33;
+        }
+
+        .tab-content {
+            display: block;
+        }
+        .tab-pane {
+            display: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+
+        .entity-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .entity-btn {
+            background: #1e293b;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            padding: 8px 6px;
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .entity-btn:hover {
+            background: #2d3a4f;
+            color: #ffffff;
+        }
+        .entity-btn.active {
+            background: #00d4ff22;
+            border-color: #00d4ff;
+            color: #00d4ff;
+        }
+
+        .field-group {
+            margin-bottom: 14px;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 10px 12px;
+            background: #0a0e1a;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .field-input:focus {
+            border-color: #00d4ff;
+        }
+        .field-input::placeholder {
+            color: #475569;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-save {
+            width: 100%;
+            padding: 14px;
+            background: #00d4ff;
+            border: none;
+            border-radius: 10px;
+            color: #0a0e1a;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn-save:hover {
+            background: #00b8d4;
+        }
+
+        /* ========== RESPONSIVE ========== */
         @media (min-width: 600px) {
             #sidebar {
                 transform: translateX(0) !important;
@@ -263,10 +649,11 @@
             .kpi-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
-            .kpi-grid .kpi-card:nth-child(5),
-            .kpi-grid .kpi-card:nth-child(6),
-            .kpi-grid .kpi-card:nth-child(7) {
-                grid-column: span 1;
+            .quick-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .entity-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -280,15 +667,46 @@
             .header-title {
                 font-size: 16px;
             }
+            .pie-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .pie-chart {
+                width: 100px;
+                height: 100px;
+                align-self: center;
+            }
+            .entity-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+            .tab-btn {
+                font-size: 10px;
+                padding: 4px 10px;
+            }
+        }
+
+        /* ========== SCROLLBAR ========== */
+        #main::-webkit-scrollbar {
+            width: 3px;
+        }
+        #main::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #main::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- OVERLAY (pour fermer le menu en cliquant à côté) -->
+    <!-- OVERLAY -->
     <div id="overlay"></div>
 
-    <!-- SIDEBAR (menu) -->
+    <!-- SIDEBAR -->
     <nav id="sidebar">
         <div class="sidebar-logo">☰ NEXUS</div>
         <div class="sidebar-sub">GLOBAL INTELLIGENCE PLATFORM</div>
@@ -329,7 +747,7 @@
             <div class="menu-item menu-item-sub">Sécurité & Conformité</div>
         </div>
 
-        <div class="menu-item" style="margin-top:20px; color:#475569;">📞 Centre de Support</div>
+             <div class="menu-item" style="margin-top:20px; color:#475569;">📞 Centre de Support</div>
     </nav>
 
     <!-- CONTENU PRINCIPAL -->
@@ -348,458 +766,445 @@
                 <div>10:30 H 15 UTC</div>
                 <div class="badge">🔒 Confidentiel</div>
             </div>
-
         </div>
 
-//fin de la partie 1//
-
-      <!-- ========== PARTIE 2 : WIDGETS ========== -->
-
-<!-- CARTE INTELLIGENTE -->
-<div class="card">
-    <div class="card-title">CARTE INTELLIGENTE</div>
-    <div class="map-placeholder">
-        <span>Vue geographique en temps reel</span>
-    </div>
-</div>
-
-<!-- ALERTES CRITIQUES -->
-<div class="card">
-    <div class="card-title" style="display:flex; justify-content:space-between;">
-        <span>ALERTES CRITIQUES</span>
-        <span class="alert-badge">7 nouvelles</span>
-    </div>
-    <div class="alert-item">
-        <div class="alert-dot"></div>
-        <div class="alert-content">
-            <div class="alert-title">Instabilite politique</div>
-            <div class="alert-desc">Region du Sahel, Afrique</div>
-            <div class="alert-time">10.24</div>
+        <!-- KPI -->
+        <div class="kpi-grid">
+            <div class="kpi-card"><div class="number">12,985</div><div class="label">ACTEURS SUIVIS</div><div class="trend">▲ vs mois précédent</div></div>
+            <div class="kpi-card"><div class="number">2,472</div><div class="label">ÉVÉNEMENTS DÉTECTÉS</div><div class="trend">▲ vs mois précédent</div></div>
+            <div class="kpi-card"><div class="number">68</div><div class="label">RISQUES GLOBAUX</div><div class="trend">▲ vs mois précédent</div></div>
+            <div class="kpi-card"><div class="number">1,045</div><div class="label">RAPPORTS GÉNÉRÉS</div><div class="trend">▲ vs mois précédent</div></div>
+            <div class="kpi-card"><div class="number">195</div><div class="label">PAYS COUVERTS</div><div class="trend">▲ vs mois précédent</div></div>
+            <div class="kpi-card"><div class="number">3,287</div><div class="label">UTILISATEURS ACTIFS</div><div class="trend">▲ vs mois précédent</div></div>
+            <div class="kpi-card"><div class="number">+24%</div><div class="label">CROISSANCE</div><div class="trend">▲ vs mois précédent</div></div>
         </div>
-    </div>
-    <div class="alert-item">
-        <div class="alert-dot"></div>
-        <div class="alert-content">
-            <div class="alert-title">Cybermenace avancee</div>
-            <div class="alert-desc">Infrastructure critique</div>
-            <div class="alert-time">09.15</div>
-        </div>
-    </div>
-    <div class="alert-item">
-        <div class="alert-dot"></div>
-        <div class="alert-content">
-            <div class="alert-title">Mouvement militaire detecte</div>
-            <div class="alert-desc">Frontiere Nord-Est</div>
-            <div class="alert-time">08.42</div>
-        </div>
-    </div>
-    <div class="alert-item">
-        <div class="alert-dot"></div>
-        <div class="alert-content">
-            <div class="alert-title">Risque economique</div>
-            <div class="alert-desc">Marche des matieres premieres</div>
-            <div class="alert-time">08.30</div>
-        </div>
-    </div>
-    <div class="alert-item">
-        <div class="alert-dot"></div>
-        <div class="alert-content">
-            <div class="alert-title">Tension diplomatique</div>
-            <div class="alert-desc">Aide de l'Etat</div>
-            <div class="alert-time">08.12</div>
-        </div>
-    </div>
-</div>
 
-<!-- ACTUALITES STRATEGIQUES -->
-<div class="card">
-    <div class="card-title">ACTUALITES STRATEGIQUES</div>
-    <div class="news-item">
-        <div class="news-title">Analyse : Evolution du paysage securitaire au Moyen-Orient</div>
-        <div class="news-time">Il y a 2 heures</div>
-    </div>
-    <div class="news-item">
-        <div class="news-title">Rapport special : Cybersecurite et menaces emergentes</div>
-        <div class="news-time">Il y a 4 heures</div>
-    </div>
-    <div class="news-item">
-        <div class="news-title">Focus : Enjeux economiques en Afrique subsaharienne</div>
-        <div class="news-time">Il y a 6 heures</div>
-    </div>
-    <div class="news-item">
-        <div class="news-title">Briefing quotidien : Situation globale</div>
-        <div class="news-time">Il y a 8 heures</div>
-    </div>
-</div>
-
-<!-- INDICATEURS CLES -->
-<div class="card">
-    <div class="card-title">INDICATEURS CLES</div>
-    <div style="font-size:11px; color:#64748b; margin-bottom:12px;">Performance globale du systeme</div>
-    <div class="indicator-row">
-        <div class="indicator-label"><span>Stabilite politique</span><span>62 / 100</span></div>
-        <div class="indicator-bar-bg"><div class="indicator-bar-fill yellow" style="width:62%;"></div></div>
-    </div>
-    <div class="indicator-row">
-        <div class="indicator-label"><span>Risque securitaire</span><span>74 / 100</span></div>
-        <div class="indicator-bar-bg"><div class="indicator-bar-fill orange" style="width:74%;"></div></div>
-    </div>
-    <div class="indicator-row">
-        <div class="indicator-label"><span>Sante economique</span><span>68 / 100</span></div>
-        <div class="indicator-bar-bg"><div class="indicator-bar-fill yellow" style="width:68%;"></div></div>
-    </div>
-    <div class="indicator-row">
-        <div class="indicator-label"><span>Tension sociale</span><span>55 / 100</span></div>
-        <div class="indicator-bar-bg"><div class="indicator-bar-fill green" style="width:55%;"></div></div>
-    </div>
-    <div class="indicator-row">
-        <div class="indicator-label"><span>Menace cyber</span><span>81 / 100</span></div>
-        <div class="indicator-bar-bg"><div class="indicator-bar-fill red" style="width:81%;"></div></div>
-    </div>
-    <div style="display:flex; gap:12px; margin-top:8px; font-size:11px; color:#94a3b8;">
-        <span><span style="color:#10b981;">-</span> Moyen</span>
-        <span><span style="color:#ef4444;">-</span> Eleve</span>
-    </div>
-</div>
-
-<!-- REPARTITION DES RISQUES (Camembert) -->
-<div class="card">
-    <div class="card-title">REPARTITION DES RISQUES</div>
-    <div style="font-size:11px; color:#64748b; margin-bottom:12px;">Par categorie</div>
-    <div class="pie-container">
-        <div class="pie-chart"></div>
-        <div class="pie-legend">
-            <div class="pie-legend-item"><span class="pie-legend-color" style="background:#3b82f6;"></span> Politique 24%</div>
-            <div class="pie-legend-item"><span class="pie-legend-color" style="background:#10b981;"></span> Economique 18%</div>
-            <div class="pie-legend-item"><span class="pie-legend-color" style="background:#eab308;"></span> Cyber 15%</div>
-            <div class="pie-legend-item"><span class="pie-legend-color" style="background:#ef4444;"></span> Social 11%</div>
-            <div class="pie-legend-item"><span class="pie-legend-color" style="background:#6366f1;"></span> Autre 32%</div>
-        </div>
-    </div>
-</div>
-
-<!-- ACTIVITE OPERATIONNELLE -->
-<div class="card">
-    <div class="card-title">ACTIVITE OPERATIONNELLE</div>
-    <div style="font-size:11px; color:#64748b; margin-bottom:12px;">Missions et operations en cours</div>
-    <div class="op-item">
-        <div class="op-header">Operation Sentinel <span>78%</span></div>
-        <div class="op-desc">Surveillance maritime - Golfe de Guinee</div>
-        <div class="op-bar-bg"><div class="op-bar-fill" style="width:78%;"></div></div>
-    </div>
-    <div class="op-item">
-        <div class="op-header">Mission Atlas <span>62%</span></div>
-        <div class="op-desc">Assurance geopolitique - Europe de l'Est</div>
-        <div class="op-bar-bg"><div class="op-bar-fill" style="width:62%;"></div></div>
-    </div>
-    <div class="op-item">
-        <div class="op-header">Operation Shield <span>91%</span></div>
-        <div class="op-desc">Cybersecurite - infrastructure critique</div>
-        <div class="op-bar-bg"><div class="op-bar-fill" style="width:91%;"></div></div>
-    </div>
-    <div class="op-item">
-        <div class="op-header">Mission Phoenix <span>45%</span></div>
-        <div class="op-desc">Veille strategique - Moyen-Orient</div>
-        <div class="op-bar-bg"><div class="op-bar-fill" style="width:45%;"></div></div>
-    </div>
-</div>
-
-<!-- ACCES RAPIDE -->
-<div class="card">
-    <div class="card-title">ACCES RAPIDE</div>
-    <div class="quick-grid">
-        <div class="quick-btn">Nouvelle Analyse</div>
-        <div class="quick-btn">Rapport Express</div>
-        <div class="quick-btn">Alerte Perso.</div>
-        <div class="quick-btn">Recherche Av.</div>
-        <div class="quick-btn">Simulation</div>
-        <div class="quick-btn">Carte 3D</div>
-        <div class="quick-btn">Exportations</div>
-        <div class="quick-btn">Demarche majeure</div>
-    </div>
-    <div style="display:flex; justify-content:space-between; margin-top:12px; font-size:10px; color:#64748b; border-top:1px solid #1e293b; padding-top:10px;">
-        <span>Confidentiel & Securite</span>
-        <span>10:30 H 15 UTC</span>
-    </div>
-</div>
-
-<!-- ========== PARTIE 3 : FORMULAIRE AVEC ONGLETS ========== -->
-
-<div class="form-section">
-
-    <!-- BARRE D'ONGLETS -->
-    <div class="tabs" id="tabHeaders">
-        <button class="tab-btn active" data-tab="tab-identite">IDENTITE</button>
-        <button class="tab-btn" data-tab="tab-geoloc">GEOLOCALISATION</button>
-        <button class="tab-btn" data-tab="tab-contact">CONTACT</button>
-        <button class="tab-btn" data-tab="tab-menage">MENAGE</button>
-        <button class="tab-btn" data-tab="tab-education">EDUCATION</button>
-        <button class="tab-btn" data-tab="tab-emploi">EMPLOI</button>
-        <button class="tab-btn" data-tab="tab-entreprise">ENTREPRISE</button>
-        <button class="tab-btn" data-tab="tab-sante">SANTE</button>
-        <button class="tab-btn" data-tab="tab-risques">RISQUES</button>
-        <button class="tab-btn" data-tab="tab-documents">DOCUMENTS</button>
-    </div>
-
-    <!-- CONTENU DES ONGLETS -->
-    <div class="tab-content">
-
-        <!-- ===== ONGLET IDENTITE ===== -->
-        <div class="tab-pane active" id="tab-identite">
-
-            <div style="font-size:13px; font-weight:600; color:#ffffff; margin-bottom:12px;">Type d'entite</div>
-            <div class="entity-grid" id="entityGrid">
-                <button class="entity-btn active" data-type="personne">Personne physique</button>
-                <button class="entity-btn" data-type="menage">Menage / famille</button>
-                <button class="entity-btn" data-type="entreprise">Entreprise</button>
-                <button class="entity-btn" data-type="institution">Institution publique</button>
-                <button class="entity-btn" data-type="gouvernement">Gouvernement / administration</button>
-                <button class="entity-btn" data-type="ong">ONG / association</button>
-                <button class="entity-btn" data-type="enseignement">Etablissement d'enseignement</button>
-                <button class="entity-btn" data-type="sante">Etablissement de sante</button>
-                <button class="entity-btn" data-type="financiere">Institution financiere</button>
-                <button class="entity-btn" data-type="miniere">Entreprise miniere</button>
-                <button class="entity-btn" data-type="industrie">Industrie / usine</button>
-                <button class="entity-btn" data-type="transport">Entreprise de transport / logistique</button>
-                <button class="entity-btn" data-type="agricole">Exploitation agricole</button>
-                <button class="entity-btn" data-type="projet">Projet / chantier</button>
-                <button class="entity-btn" data-type="infrastructure">Infrastructure</button>
-                <button class="entity-btn" data-type="localite">Localite / territoire</button>
-                <button class="entity-btn" data-type="autre">Autre entite</button>
-            </div>
-
-            <div id="dynamicFields">
-                <!-- Champs specifiques charges par JS -->
+        <!-- PARTIE 2 : WIDGETS -->
+        <div class="card">
+            <div class="card-title">CARTE INTELLIGENTE</div>
+            <div class="map-placeholder">
+                <span>Vue geographique en temps reel</span>
             </div>
         </div>
 
-        <!-- ===== ONGLET GEOLOCALISATION ===== -->
-        <div class="tab-pane" id="tab-geoloc">
-            <div class="field-group"><label class="field-label">Pays</label><input class="field-input" placeholder="Ex: Republique Democratique du Congo"></div>
-            <div class="field-row">
-                <div class="field-group"><label class="field-label">Province / Etat</label><input class="field-input" placeholder="Province"></div>
-                <div class="field-group"><label class="field-label">Ville</label><input class="field-input" placeholder="Ville"></div>
+        <div class="card">
+            <div class="card-title" style="display:flex; justify-content:space-between;">
+                <span>ALERTES CRITIQUES</span>
+                <span class="alert-badge">7 nouvelles</span>
             </div>
-            <div class="field-row">
-                <div class="field-group"><label class="field-label">Commune / District</label><input class="field-input" placeholder="Commune"></div>
-                <div class="field-group"><label class="field-label">Quartier</label><input class="field-input" placeholder="Quartier"></div>
+            <div class="alert-item">
+                <div class="alert-dot"></div>
+                <div class="alert-content">
+                    <div class="alert-title">Instabilite politique</div>
+                    <div class="alert-desc">Region du Sahel, Afrique</div>
+                    <div class="alert-time">10.24</div>
+                </div>
             </div>
-            <div class="field-group"><label class="field-label">Adresse physique</label><input class="field-input" placeholder="Avenue, rue, numero"></div>
-            <div class="field-row">
-                <div class="field-group"><label class="field-label">Latitude</label><input class="field-input" placeholder="-8.9833"></div>
-                <div class="field-group"><label class="field-label">Longitude</label><input class="field-input" placeholder="23.4167"></div>
+            <div class="alert-item">
+                <div class="alert-dot"></div>
+                <div class="alert-content">
+                    <div class="alert-title">Cybermenace avancee</div>
+                    <div class="alert-desc">Infrastructure critique</div>
+                    <div class="alert-time">09.15</div>
+                </div>
             </div>
-            <div class="field-group"><label class="field-label">Code postal</label><input class="field-input" placeholder="Code postal"></div>
-        </div>
-
-        <!-- ===== ONGLET CONTACT ===== -->
-        <div class="tab-pane" id="tab-contact">
-            <div class="field-group"><label class="field-label">Telephone principal</label><input class="field-input" placeholder="+243 81 234 5678"></div>
-            <div class="field-group"><label class="field-label">Telephone secondaire</label><input class="field-input" placeholder="+243 99 876 5432"></div>
-            <div class="field-group"><label class="field-label">WhatsApp</label><input class="field-input" placeholder="+243 81 234 5678"></div>
-            <div class="field-group"><label class="field-label">Email</label><input class="field-input" placeholder="contact@exemple.com"></div>
-            <div class="field-group"><label class="field-label">Site web</label><input class="field-input" placeholder="www.exemple.com"></div>
-            <div class="field-group"><label class="field-label">Langue de communication</label><input class="field-input" placeholder="Francais, Anglais, Swahili..."></div>
-        </div>
-
-        <!-- ===== ONGLET MENAGE ===== -->
-        <div class="tab-pane" id="tab-menage">
-            <div class="field-group"><label class="field-label">Identifiant du menage</label><input class="field-input" placeholder="M-2025-001"></div>
-            <div class="field-group"><label class="field-label">Chef / responsable</label><input class="field-input" placeholder="Nom complet"></div>
-            <div class="field-group"><label class="field-label">Nombre de personnes</label><input class="field-input" placeholder="5" type="number"></div>
-            <div class="field-group"><label class="field-label">Situation matrimoniale</label><input class="field-input" placeholder="Marie, Celibataire, Veuf..."></div>
-            <div class="field-group"><label class="field-label">Conditions de logement</label><input class="field-input" placeholder="Maison, Appartement, HLM..."></div>
-            <div class="field-row">
-                <div class="field-group"><label class="field-label">Eau</label><input class="field-input" placeholder="Oui / Non"></div>
-                <div class="field-group"><label class="field-label">Electricite</label><input class="field-input" placeholder="Oui / Non"></div>
+            <div class="alert-item">
+                <div class="alert-dot"></div>
+                <div class="alert-content">
+                    <div class="alert-title">Mouvement militaire detecte</div>
+                    <div class="alert-desc">Frontiere Nord-Est</div>
+                    <div class="alert-time">08.42</div>
+                </div>
             </div>
-            <div class="field-group"><label class="field-label">Situation economique du menage</label><input class="field-input" placeholder="Precaire, Moyenne, Aisee..."></div>
-        </div>
-
-        <!-- ===== ONGLET EDUCATION ===== -->
-        <div class="tab-pane" id="tab-education">
-            <div class="field-group"><label class="field-label">Niveau d'instruction</label><input class="field-input" placeholder="Primaire, Secondaire, Universitaire..."></div>
-            <div class="field-group"><label class="field-label">Diplomes / Certifications</label><input class="field-input" placeholder="Licence, Master, Doctorat..."></div>
-            <div class="field-group"><label class="field-label">Domaine d'etude</label><input class="field-input" placeholder="Informatique, Medecine, Economie..."></div>
-            <div class="field-group"><label class="field-label">Etablissement</label><input class="field-input" placeholder="Nom de l'ecole / universite"></div>
-            <div class="field-group"><label class="field-label">Annee d'obtention</label><input class="field-input" placeholder="2024"></div>
-            <div class="field-group"><label class="field-label">Formation en cours</label><input class="field-input" placeholder="Oui / Non"></div>
-            <div class="field-group"><label class="field-label">Competences / Langues</label><input class="field-input" placeholder="Francais, Anglais, Python, Excel..."></div>
-        </div>
-
-        <!-- ===== ONGLET EMPLOI ===== -->
-        <div class="tab-pane" id="tab-emploi">
-            <div class="field-group"><label class="field-label">Profession</label><input class="field-input" placeholder="Ingenieur, Enseignant, Commercant..."></div>
-            <div class="field-group"><label class="field-label">Fonction / Poste</label><input class="field-input" placeholder="Directeur, Chef de projet..."></div>
-            <div class="field-group"><label class="field-label">Employeur</label><input class="field-input" placeholder="Nom de l'entreprise / institution"></div>
-            <div class="field-group"><label class="field-label">Secteur d'activite</label><input class="field-input" placeholder="Prive, Public, ONG, Informel..."></div>
-            <div class="field-group"><label class="field-label">Statut professionnel</label><input class="field-input" placeholder="CDI, CDD, Freelance, Sans emploi..."></div>
-            <div class="field-row">
-                <div class="field-group"><label class="field-label">Annees d'experience</label><input class="field-input" placeholder="5" type="number"></div>
-                <div class="field-group"><label class="field-label">Revenus (tranche)</label><input class="field-input" placeholder="500-1000 USD"></div>
+            <div class="alert-item">
+                <div class="alert-dot"></div>
+                <div class="alert-content">
+                    <div class="alert-title">Risque economique</div>
+                    <div class="alert-desc">Marche des matieres premieres</div>
+                    <div class="alert-time">08.30</div>
+                </div>
             </div>
-            <div class="field-group"><label class="field-label">Entrepreneur ?</label><input class="field-input" placeholder="Oui / Non"></div>
-        </div>
-
-        <!-- ===== ONGLET ENTREPRISE ===== -->
-        <div class="tab-pane" id="tab-entreprise">
-            <div class="field-group"><label class="field-label">Denomination sociale</label><input class="field-input" placeholder="Nom officiel de l'entreprise"></div>
-            <div class="field-group"><label class="field-label">Forme juridique</label><input class="field-input" placeholder="SARL, SA, EURL..."></div>
-            <div class="field-group"><label class="field-label">Numero d'enregistrement</label><input class="field-input" placeholder="RC 2025/001"></div>
-            <div class="field-group"><label class="field-label">Numero fiscal</label><input class="field-input" placeholder="A1234567"></div>
-            <div class="field-group"><label class="field-label">Secteur principal</label><input class="field-input" placeholder="Agriculture, Mines, Technologie..."></div>
-            <div class="field-row">
-                <div class="field-group"><label class="field-label">Nombre d'employes</label><input class="field-input" placeholder="150" type="number"></div>
-                <div class="field-group"><label class="field-label">Chiffre d'affaires (tranche)</label><input class="field-input" placeholder="1-5 millions USD"></div>
+            <div class="alert-item">
+                <div class="alert-dot"></div>
+                <div class="alert-content">
+                    <div class="alert-title">Tension diplomatique</div>
+                    <div class="alert-desc">Aide de l'Etat</div>
+                    <div class="alert-time">08.12</div>
+                </div>
             </div>
-            <div class="field-group"><label class="field-label">Pays d'operation</label><input class="field-input" placeholder="RDC, Zambie, Afrique du Sud..."></div>
-            <div class="field-group"><label class="field-label">Filiales / Participations</label><input class="field-input" placeholder="Nom des filiales"></div>
         </div>
 
-        <!-- ===== ONGLET SANTE ===== -->
-        <div class="tab-pane" id="tab-sante">
-            <div class="field-group"><label class="field-label">Etat de sante declare</label><input class="field-input" placeholder="Bon, Moyen, Mauvais"></div>
-            <div class="field-group"><label class="field-label">Maladie / condition declaree</label><input class="field-input" placeholder="Diabete, Hypertension, VIH..."></div>
-            <div class="field-group"><label class="field-label">Handicap</label><input class="field-input" placeholder="Oui / Non"></div>
-            <div class="field-group"><label class="field-label">Acces aux soins</label><input class="field-input" placeholder="Public, Prive, Sans acces..."></div>
-            <div class="field-group"><label class="field-label">Etablissement frequenté</label><input class="field-input" placeholder="Hopital general, Clinique..."></div>
-            <div class="field-group"><label class="field-label">Assurance / couverture</label><input class="field-input" placeholder="RSS, Mutuelle, Privee..."></div>
-            <div class="field-group"><label class="field-label">Vaccination</label><input class="field-input" placeholder="Oui / Non (si applicable)"></div>
+        <div class="card">
+            <div class="card-title">ACTUALITES STRATEGIQUES</div>
+            <div class="news-item">
+                <div class="news-title">Analyse : Evolution du paysage securitaire au Moyen-Orient</div>
+                <div class="news-time">Il y a 2 heures</div>
+            </div>
+            <div class="news-item">
+                <div class="news-title">Rapport special : Cybersecurite et menaces emergentes</div>
+                <div class="news-time">Il y a 4 heures</div>
+            </div>
+            <div class="news-item">
+                <div class="news-title">Focus : Enjeux economiques en Afrique subsaharienne</div>
+                <div class="news-time">Il y a 6 heures</div>
+            </div>
+            <div class="news-item">
+                <div class="news-title">Briefing quotidien : Situation globale</div>
+                <div class="news-time">Il y a 8 heures</div>
+            </div>
         </div>
 
-        <!-- ===== ONGLET RISQUES ===== -->
-        <div class="tab-pane" id="tab-risques">
-            <div class="field-group"><label class="field-label">Risque economique</label><input class="field-input" placeholder="Faible, Moyen, Eleve"></div>
-            <div class="field-group"><label class="field-label">Risque securitaire</label><input class="field-input" placeholder="Faible, Moyen, Eleve"></div>
-            <div class="field-group"><label class="field-label">Risque politique</label><input class="field-input" placeholder="Faible, Moyen, Eleve"></div>
-            <div class="field-group"><label class="field-label">Risque environnemental</label><input class="field-input" placeholder="Inondation, Secheresse, Pollution..."></div>
-            <div class="field-group"><label class="field-label">Plan de mitigation</label><input class="field-input" placeholder="Mesures de prevention en place"></div>
-            <div class="field-group"><label class="field-label">Niveau de criticite</label><input class="field-input" placeholder="Critique, Eleve, Modere, Faible"></div>
+        <div class="card">
+            <div class="card-title">INDICATEURS CLES</div>
+            <div style="font-size:11px; color:#64748b; margin-bottom:12px;">Performance globale du systeme</div>
+            <div class="indicator-row">
+                <div class="indicator-label"><span>Stabilite politique</span><span>62 / 100</span></div>
+                <div class="indicator-bar-bg"><div class="indicator-bar-fill yellow" style="width:62%;"></div></div>
+            </div>
+            <div class="indicator-row">
+                <div class="indicator-label"><span>Risque securitaire</span><span>74 / 100</span></div>
+                <div class="indicator-bar-bg"><div class="indicator-bar-fill orange" style="width:74%;"></div></div>
+            </div>
+            <div class="indicator-row">
+                <div class="indicator-label"><span>Sante economique</span><span>68 / 100</span></div>
+                <div class="indicator-bar-bg"><div class="indicator-bar-fill yellow" style="width:68%;"></div></div>
+            </div>
+            <div class="indicator-row">
+                <div class="indicator-label"><span>Tension sociale</span><span>55 / 100</span></div>
+                <div class="indicator-bar-bg"><div class="indicator-bar-fill green" style="width:55%;"></div></div>
+            </div>
+            <div class="indicator-row">
+                <div class="indicator-label"><span>Menace cyber</span><span>81 / 100</span></div>
+                <div class="indicator-bar-bg"><div class="indicator-bar-fill red" style="width:81%;"></div></div>
+            </div>
+            <div style="display:flex; gap:12px; margin-top:8px; font-size:11px; color:#94a3b8;">
+                <span><span style="color:#10b981;">-</span> Moyen</span>
+                <span><span style="color:#ef4444;">-</span> Eleve</span>
+            </div>
         </div>
 
-        <!-- ===== ONGLET DOCUMENTS ===== -->
-        <div class="tab-pane" id="tab-documents">
-            <div class="field-group"><label class="field-label">Type de document</label><input class="field-input" placeholder="Carte d'identite, Permis, Licence, Contrat..."></div>
-            <div class="field-group"><label class="field-label">Numero</label><input class="field-input" placeholder="Numero du document"></div>
-            <div class="field-group"><label class="field-label">Date d'emission</label><input class="field-input" placeholder="2025-01-15"></div>
-            <div class="field-group"><label class="field-label">Date d'expiration</label><input class="field-input" placeholder="2030-01-15"></div>
-            <div class="field-group"><label class="field-label">Emetteur / Autorite</label><input class="field-input" placeholder="Ministere, Mairie, Tribunal..."></div>
-            <div class="field-group"><label class="field-label">Statut de verification</label><input class="field-input" placeholder="Verifie, En attente, Rejete"></div>
-            <div class="field-group"><label class="field-label">Niveau de confidentialite</label><input class="field-input" placeholder="Public, Restreint, Confidentiel"></div>
+        <div class="card">
+            <div class="card-title">REPARTITION DES RISQUES</div>
+            <div style="font-size:11px; color:#64748b; margin-bottom:12px;">Par categorie</div>
+            <div class="pie-container">
+                <div class="pie-chart"></div>
+                <div class="pie-legend">
+                    <div class="pie-legend-item"><span class="pie-legend-color" style="background:#3b82f6;"></span> Politique 24%</div>
+                    <div class="pie-legend-item"><span class="pie-legend-color" style="background:#10b981;"></span> Economique 18%</div>
+                    <div class="pie-legend-item"><span class="pie-legend-color" style="background:#eab308;"></span> Cyber 15%</div>
+                    <div class="pie-legend-item"><span class="pie-legend-color" style="background:#ef4444;"></span> Social 11%</div>
+                    <div class="pie-legend-item"><span class="pie-legend-color" style="background:#6366f1;"></span> Autre 32%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">ACTIVITE OPERATIONNELLE</div>
+            <div style="font-size:11px; color:#64748b; margin-bottom:12px;">Missions et operations en cours</div>
+            <div class="op-item">
+                <div class="op-header">Operation Sentinel <span>78%</span></div>
+                <div class="op-desc">Surveillance maritime - Golfe de Guinee</div>
+                <div class="op-bar-bg"><div class="op-bar-fill" style="width:78%;"></div></div>
+            </div>
+            <div class="op-item">
+                <div class="op-header">Mission Atlas <span>62%</span></div>
+                <div class="op-desc">Assurance geopolitique - Europe de l'Est</div>
+                <div class="op-bar-bg"><div class="op-bar-fill" style="width:62%;"></div></div>
+            </div>
+            <div class="op-item">
+                <div class="op-header">Operation Shield <span>91%</span></div>
+                <div class="op-desc">Cybersecurite - infrastructure critique</div>
+                <div class="op-bar-bg"><div class="op-bar-fill" style="width:91%;"></div></div>
+            </div>
+            <div class="op-item">
+                <div class="op-header">Mission Phoenix <span>45%</span></div>
+                <div class="op-desc">Veille strategique - Moyen-Orient</div>
+                <div class="op-bar-bg"><div class="op-bar-fill" style="width:45%;"></div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">ACCES RAPIDE</div>
+            <div class="quick-grid">
+                <div class="quick-btn">Nouvelle Analyse</div>
+                <div class="quick-btn">Rapport Express</div>
+                <div class="quick-btn">Alerte Perso.</div>
+                <div class="quick-btn">Recherche Av.</div>
+                <div class="quick-btn">Simulation</div>
+                <div class="quick-btn">Carte 3D</div>
+                <div class="quick-btn">Exportations</div>
+                <div class="quick-btn">Demarche majeure</div>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-top:12px; font-size:10px; color:#64748b; border-top:1px solid #1e293b; padding-top:10px;">
+                <span>Confidentiel & Securite</span>
+                <span>10:30 H 15 UTC</span>
+            </div>
+        </div>
+
+        <!-- PARTIE 3 : FORMULAIRE -->
+        <div class="form-section">
+
+            <div class="tabs" id="tabHeaders">
+                <button class="tab-btn active" data-tab="tab-identite">IDENTITE</button>
+                <button class="tab-btn" data-tab="tab-geoloc">GEOLOCALISATION</button>
+                <button class="tab-btn" data-tab="tab-contact">CONTACT</button>
+                <button class="tab-btn" data-tab="tab-menage">MENAGE</button>
+                <button class="tab-btn" data-tab="tab-education">EDUCATION</button>
+                <button class="tab-btn" data-tab="tab-emploi">EMPLOI</button>
+                <button class="tab-btn" data-tab="tab-entreprise">ENTREPRISE</button>
+                <button class="tab-btn" data-tab="tab-sante">SANTE</button>
+                <button class="tab-btn" data-tab="tab-risques">RISQUES</button>
+                <button class="tab-btn" data-tab="tab-documents">DOCUMENTS</button>
+            </div>
+
+            <div class="tab-content">
+
+                <div class="tab-pane active" id="tab-identite">
+                    <div style="font-size:13px; font-weight:600; color:#ffffff; margin-bottom:12px;">Type d'entite</div>
+                    <div class="entity-grid" id="entityGrid">
+                        <button class="entity-btn active" data-type="personne">Personne physique</button>
+                        <button class="entity-btn" data-type="menage">Menage / famille</button>
+                        <button class="entity-btn" data-type="entreprise">Entreprise</button>
+                        <button class="entity-btn" data-type="institution">Institution publique</button>
+                        <button class="entity-btn" data-type="gouvernement">Gouvernement / administration</button>
+                        <button class="entity-btn" data-type="ong">ONG / association</button>
+                        <button class="entity-btn" data-type="enseignement">Etablissement d'enseignement</button>
+                        <button class="entity-btn" data-type="sante">Etablissement de sante</button>
+                        <button class="entity-btn" data-type="financiere">Institution financiere</button>
+                        <button class="entity-btn" data-type="miniere">Entreprise miniere</button>
+                        <button class="entity-btn" data-type="industrie">Industrie / usine</button>
+                        <button class="entity-btn" data-type="transport">Entreprise de transport / logistique</button>
+                        <button class="entity-btn" data-type="agricole">Exploitation agricole</button>
+                        <button class="entity-btn" data-type="projet">Projet / chantier</button>
+                        <button class="entity-btn" data-type="infrastructure">Infrastructure</button>
+                        <button class="entity-btn" data-type="localite">Localite / territoire</button>
+                        <button class="entity-btn" data-type="autre">Autre entite</button>
+                    </div>
+                    <div id="dynamicFields"></div>
+                </div>
+
+                     <div class="tab-pane" id="tab-geoloc">
+                    <div class="field-group"><label class="field-label">Pays</label><input class="field-input" placeholder="Ex: Republique Democratique du Congo"></div>
+                    <div class="field-row"><div class="field-group"><label class="field-label">Province / Etat</label><input class="field-input" placeholder="Province"></div><div class="field-group"><label class="field-label">Ville</label><input class="field-input" placeholder="Ville"></div></div>
+                    <div class="field-row"><div class="field-group"><label class="field-label">Commune / District</label><input class="field-input" placeholder="Commune"></div><div class="field-group"><label class="field-label">Quartier</label><input class="field-input" placeholder="Quartier"></div></div>
+                    <div class="field-group"><label class="field-label">Adresse physique</label><input class="field-input" placeholder="Avenue, rue, numero"></div>
+                    <div class="field-row"><div class="field-group"><label class="field-label">Latitude</label><input class="field-input" placeholder="-8.9833"></div><div class="field-group"><label class="field-label">Longitude</label><input class="field-input" placeholder="23.4167"></div></div>
+                    <div class="field-group"><label class="field-label">Code postal</label><input class="field-input" placeholder="Code postal"></div>
+                </div>
+
+                <div class="tab-pane" id="tab-contact">
+                    <div class="field-group"><label class="field-label">Telephone principal</label><input class="field-input" placeholder="+243 81 234 5678"></div>
+                    <div class="field-group"><label class="field-label">Telephone secondaire</label><input class="field-input" placeholder="+243 99 876 5432"></div>
+                    <div class="field-group"><label class="field-label">WhatsApp</label><input class="field-input" placeholder="+243 81 234 5678"></div>
+                    <div class="field-group"><label class="field-label">Email</label><input class="field-input" placeholder="contact@exemple.com"></div>
+                    <div class="field-group"><label class="field-label">Site web</label><input class="field-input" placeholder="www.exemple.com"></div>
+                    <div class="field-group"><label class="field-label">Langue de communication</label><input class="field-input" placeholder="Francais, Anglais, Swahili..."></div>
+                </div>
+
+                <div class="tab-pane" id="tab-menage">
+                    <div class="field-group"><label class="field-label">Identifiant du menage</label><input class="field-input" placeholder="M-2025-001"></div>
+                    <div class="field-group"><label class="field-label">Chef / responsable</label><input class="field-input" placeholder="Nom complet"></div>
+                    <div class="field-group"><label class="field-label">Nombre de personnes</label><input class="field-input" placeholder="5" type="number"></div>
+                    <div class="field-group"><label class="field-label">Situation matrimoniale</label><input class="field-input" placeholder="Marie, Celibataire..."></div>
+                    <div class="field-group"><label class="field-label">Conditions de logement</label><input class="field-input" placeholder="Maison, Appartement..."></div>
+                    <div class="field-row"><div class="field-group"><label class="field-label">Eau</label><input class="field-input" placeholder="Oui / Non"></div><div class="field-group"><label class="field-label">Electricite</label><input class="field-input" placeholder="Oui / Non"></div></div>
+                    <div class="field-group"><label class="field-label">Situation economique</label><input class="field-input" placeholder="Precaire, Moyenne, Aisee..."></div>
+                </div>
+
+                <div class="tab-pane" id="tab-education">
+                    <div class="field-group"><label class="field-label">Niveau d'instruction</label><input class="field-input" placeholder="Primaire, Secondaire, Universitaire..."></div>
+                    <div class="field-group"><label class="field-label">Diplomes / Certifications</label><input class="field-input" placeholder="Licence, Master, Doctorat..."></div>
+                    <div class="field-group"><label class="field-label">Domaine d'etude</label><input class="field-input" placeholder="Informatique, Medecine, Economie..."></div>
+                    <div class="field-group"><label class="field-label">Etablissement</label><input class="field-input" placeholder="Nom de l'ecole / universite"></div>
+                    <div class="field-group"><label class="field-label">Annee d'obtention</label><input class="field-input" placeholder="2024"></div>
+                    <div class="field-group"><label class="field-label">Formation en cours</label><input class="field-input" placeholder="Oui / Non"></div>
+                    <div class="field-group"><label class="field-label">Competences / Langues</label><input class="field-input" placeholder="Francais, Anglais, Python, Excel..."></div>
+                </div>
+
+                <div class="tab-pane" id="tab-emploi">
+                    <div class="field-group"><label class="field-label">Profession</label><input class="field-input" placeholder="Ingenieur, Enseignant, Commercant..."></div>
+                    <div class="field-group"><label class="field-label">Fonction / Poste</label><input class="field-input" placeholder="Directeur, Chef de projet..."></div>
+                    <div class="field-group"><label class="field-label">Employeur</label><input class="field-input" placeholder="Nom de l'entreprise / institution"></div>
+                    <div class="field-group"><label class="field-label">Secteur d'activite</label><input class="field-input" placeholder="Prive, Public, ONG, Informel..."></div>
+                    <div class="field-group"><label class="field-label">Statut professionnel</label><input class="field-input" placeholder="CDI, CDD, Freelance, Sans emploi..."></div>
+                    <div class="field-row"><div class="field-group"><label class="field-label">Annees d'experience</label><input class="field-input" placeholder="5" type="number"></div><div class="field-group"><label class="field-label">Revenus (tranche)</label><input class="field-input" placeholder="500-1000 USD"></div></div>
+                    <div class="field-group"><label class="field-label">Entrepreneur ?</label><input class="field-input" placeholder="Oui / Non"></div>
+                </div>
+
+                <div class="tab-pane" id="tab-entreprise">
+                    <div class="field-group"><label class="field-label">Denomination sociale</label><input class="field-input" placeholder="Nom officiel"></div>
+                    <div class="field-group"><label class="field-label">Forme juridique</label><input class="field-input" placeholder="SARL, SA, EURL..."></div>
+                    <div class="field-row"><div class="field-group"><label class="field-label">Numero d'enregistrement</label><input class="field-input" placeholder="RC 2025/001"></div><div class="field-group"><label class="field-label">Numero fiscal</label><input class="field-input" placeholder="A1234567"></div></div>
+                    <div class="field-group"><label class="field-label">Secteur principal</label><input class="field-input" placeholder="Agriculture, Mines, Technologie..."></div>
+                    <div class="field-row"><div class="field-group"><label class="field-label">Nombre d'employes</label><input class="field-input" placeholder="150" type="number"></div><div class="field-group"><label class="field-label">Chiffre d'affaires (tranche)</label><input class="field-input" placeholder="1-5 millions USD"></div></div>
+                    <div class="field-group"><label class="field-label">Pays d'operation</label><input class="field-input" placeholder="RDC, Zambie..."></div>
+                    <div class="field-group"><label class="field-label">Filiales / Participations</label><input class="field-input" placeholder="Nom des filiales"></div>
+                    <div class="field-group"><label class="field-label">Fournisseurs / Partenaires</label><input class="field-input" placeholder="Noms des partenaires"></div>
+    </div>
+          <div class="tab-pane" id="tab-sante">
+                    <div class="field-group"><label class="field-label">Etat de sante declare</label><input class="field-input" placeholder="Bon, Moyen, Mauvais"></div>
+                    <div class="field-group"><label class="field-label">Maladie / condition declaree</label><input class="field-input" placeholder="Diabete, Hypertension, VIH..."></div>
+                    <div class="field-group"><label class="field-label">Handicap</label><input class="field-input" placeholder="Oui / Non"></div>
+                    <div class="field-group"><label class="field-label">Acces aux soins</label><input class="field-input" placeholder="Public, Prive, Sans acces..."></div>
+                    <div class="field-group"><label class="field-label">Etablissement frequente</label><input class="field-input" placeholder="Hopital general, Clinique..."></div>
+                    <div class="field-group"><label class="field-label">Assurance / couverture</label><input class="field-input" placeholder="RSS, Mutuelle, Privee..."></div>
+                    <div class="field-group"><label class="field-label">Vaccination</label><input class="field-input" placeholder="Oui / Non (si applicable)"></div>
+                </div>
+
+                <div class="tab-pane" id="tab-risques">
+                    <div class="field-group"><label class="field-label">Risque economique</label><input class="field-input" placeholder="Faible, Moyen, Eleve"></div>
+                    <div class="field-group"><label class="field-label">Risque securitaire</label><input class="field-input" placeholder="Faible, Moyen, Eleve"></div>
+                    <div class="field-group"><label class="field-label">Risque politique</label><input class="field-input" placeholder="Faible, Moyen, Eleve"></div>
+                    <div class="field-group"><label class="field-label">Risque environnemental</label><input class="field-input" placeholder="Inondation, Secheresse, Pollution..."></div>
+                    <div class="field-group"><label class="field-label">Plan de mitigation</label><input class="field-input" placeholder="Mesures de prevention en place"></div>
+                    <div class="field-group"><label class="field-label">Niveau de criticite</label><input class="field-input" placeholder="Critique, Eleve, Modere, Faible"></div>
+                </div>
+
+                <div class="tab-pane" id="tab-documents">
+                    <div class="field-group"><label class="field-label">Type de document</label><input class="field-input" placeholder="Carte d'identite, Permis, Licence, Contrat..."></div>
+                    <div class="field-group"><label class="field-label">Numero</label><input class="field-input" placeholder="Numero du document"></div>
+                    <div class="field-group"><label class="field-label">Date d'emission</label><input class="field-input" placeholder="2025-01-15"></div>
+                    <div class="field-group"><label class="field-label">Date d'expiration</label><input class="field-input" placeholder="2030-01-15"></div>
+                    <div class="field-group"><label class="field-label">Emetteur / Autorite</label><input class="field-input" placeholder="Ministere, Mairie, Tribunal..."></div>
+                    <div class="field-group"><label class="field-label">Statut de verification</label><input class="field-input" placeholder="Verifie, En attente, Rejete"></div>
+                    <div class="field-group"><label class="field-label">Niveau de confidentialite</label><input class="field-input" placeholder="Public, Restreint, Confidentiel"></div>
+                </div>
+
+            </div>
+
+            <button class="btn-save">ENREGISTRER L'ENTITE</button>
+
         </div>
 
     </div>
+    <!-- FIN #main -->
 
-    <!-- BOUTON ENREGISTRER -->
-    <button class="btn-save">ENREGISTRER L'ENTITE</button>
+    <script>
+        // Menu hamburger
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuToggle = document.getElementById('menuToggle');
 
-                                       </div>
-      // ========== PARTIE 3 : ONGLETS ET TYPE D'ENTITE ==========
+        function toggleMenu() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+        }
 
-// Gestion des onglets
-const tabButtons = document.querySelectorAll('.tab-btn');
-const tabPanes = document.querySelectorAll('.tab-pane');
+        menuToggle.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
 
-tabButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
-        // Desactiver tous les onglets
-        tabButtons.forEach(b => b.classList.remove('active'));
-        tabPanes.forEach(p => p.classList.remove('active'));
-        // Activer l'onglet clique
-        this.classList.add('active');
-        const target = document.getElementById(this.dataset.tab);
-        if (target) target.classList.add('active');
-    });
-});
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                if (window.innerWidth < 600) {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('show');
+                }
+            });
+        });
 
-// Gestion du type d'entite (boutons)
-const entityButtons = document.querySelectorAll('.entity-btn');
-const dynamicFields = document.getElementById('dynamicFields');
+        // Onglets
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabPanes = document.querySelectorAll('.tab-pane');
 
-// Contenu dynamique pour chaque type
-const fieldTemplates = {
-    personne: `
-        <div class="field-row">
-            <div class="field-group"><label class="field-label">Nom</label><input class="field-input" placeholder="Nom"></div>
-            <div class="field-group"><label class="field-label">Postnom</label><input class="field-input" placeholder="Postnom"></div>
-        </div>
-        <div class="field-group"><label class="field-label">Prenom</label><input class="field-input" placeholder="Prenom"></div>
-        <div class="field-row">
-            <div class="field-group"><label class="field-label">Sexe</label><input class="field-input" placeholder="Masculin / Feminin"></div>
-            <div class="field-group"><label class="field-label">Date de naissance</label><input class="field-input" placeholder="JJ/MM/AAAA"></div>
-        </div>
-        <div class="field-group"><label class="field-label">Lieu de naissance</label><input class="field-input" placeholder="Ville, pays"></div>
-        <div class="field-row">
-            <div class="field-group"><label class="field-label">Nationalite</label><input class="field-input" placeholder="Nationalite"></div>
-            <div class="field-group"><label class="field-label">Pays de residence</label><input class="field-input" placeholder="Pays"></div>
-        </div>
-        <div class="field-group"><label class="field-label">Numero d'identification national</label><input class="field-input" placeholder="NIN"></div>
-        <div class="field-row">
-            <div class="field-group"><label class="field-label">Type piece d'identite</label><input class="field-input" placeholder="CNI, Passeport..."></div>
-            <div class="field-group"><label class="field-label">Numero document</label><input class="field-input" placeholder="Numero"></div>
-        </div>
-        <div class="field-row">
-            <div class="field-group"><label class="field-label">Date emission</label><input class="field-input" placeholder="JJ/MM/AAAA"></div>
-            <div class="field-group"><label class="field-label">Date expiration</label><input class="field-input" placeholder="JJ/MM/AAAA"></div>
-        </div>
-        <div class="field-group"><label class="field-label">Autorite emettrice</label><input class="field-input" placeholder="Autorite"></div>
-        <div class="field-group"><label class="field-label">Statut de verification</label><input class="field-input" placeholder="Verifie, En attente..."></div>
-    `,
-    menage: `
-        <div class="field-group"><label class="field-label">Identifiant du menage</label><input class="field-input" placeholder="M-2025-001"></div>
-        <div class="field-group"><label class="field-label">Chef / responsable</label><input class="field-input" placeholder="Nom complet"></div>
-        <div class="field-group"><label class="field-label">Nombre de personnes</label><input class="field-input" placeholder="5" type="number"></div>
-        <div class="field-group"><label class="field-label">Situation matrimoniale</label><input class="field-input" placeholder="Marie, Celibataire..."></div>
-        <div class="field-group"><label class="field-label">Conditions de logement</label><input class="field-input" placeholder="Maison, Appartement..."></div>
-        <div class="field-row">
-            <div class="field-group"><label class="field-label">Eau</label><input class="field-input" placeholder="Oui / Non"></div>
-            <div class="field-group"><label class="field-label">Electricite</label><input class="field-input" placeholder="Oui / Non"></div>
-        </div>
-        <div class="field-group"><label class="field-label">Situation economique</label><input class="field-input" placeholder="Precaire, Moyenne, Aisee..."></div>
-    `,
-    entreprise: `
-        <div class="field-group"><label class="field-label">Denomination sociale</label><input class="field-input" placeholder="Nom officiel"></div>
-        <div class="field-group"><label class="field-label">Forme juridique</label><input class="field-input" placeholder="SARL, SA, EURL..."></div>
-        <div class="field-row">
-            <div class="field-group"><label class="field-label">Numero d'enregistrement</label><input class="field-input" placeholder="RC 2025/001"></div>
-            <div class="field-group"><label class="field-label">Numero fiscal</label><input class="field-input" placeholder="A1234567"></div>
-        </div>
-        <div class="field-group"><label class="field-label">Secteur principal</label><input class="field-input" placeholder="Agriculture, Mines, Technologie..."></div>
-        <div class="field-row">
-            <div class="field-group"><label class="field-label">Nombre d'employes</label><input class="field-input" placeholder="150" type="number"></div>
-            <div class="field-group"><label class="field-label">Chiffre d'affaires (tranche)</label><input class="field-input" placeholder="1-5 millions USD"></div>
-        </div>
-        <div class="field-group"><label class="field-label">Pays d'operation</label><input class="field-input" placeholder="RDC, Zambie..."></div>
-        <div class="field-group"><label class="field-label">Filiales / Participations</label><input class="field-input" placeholder="Nom des filiales"></div>
-        <div class="field-group"><label class="field-label">Fournisseurs / Partenaires</label><input class="field-input" placeholder="Noms des partenaires"></div>
-    `,
-    // Pour tous les autres types, on affiche un message ou un champ générique
-    default: `
-        <div style="color:#64748b; font-size:13px; padding:16px; text-align:center; border:1px dashed #1e293b; border-radius:8px;">
-            Profil specifique a ce type d'entite.<br>
-            (Les champs seront charges dynamiquement)
-        </div>
-    `
-};
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                tabButtons.forEach(b => b.classList.remove('active'));
+                tabPanes.forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                const target = document.getElementById(this.dataset.tab);
+                if (target) target.classList.add('active');
+            });
+        });
 
-function updateFields(type) {
-    const template = fieldTemplates[type] || fieldTemplates.default;
-    dynamicFields.innerHTML = template;
-}
+        // Type d'entite - Champs dynamiques
+        const entityButtons = document.querySelectorAll('.entity-btn');
+        const dynamicFields = document.getElementById('dynamicFields');
 
-entityButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
-        entityButtons.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        const type = this.dataset.type;
-        updateFields(type);
-    });
-});
+        const fieldTemplates = {
+            personne: `
+                <div class="field-row">
+                    <div class="field-group"><label class="field-label">Nom</label><input class="field-input" placeholder="Nom"></div>
+                    <div class="field-group"><label class="field-label">Postnom</label><input class="field-input" placeholder="Postnom"></div>
+                </div>
+                <div class="field-group"><label class="field-label">Prenom</label><input class="field-input" placeholder="Prenom"></div>
+                <div class="field-row">
+                    <div class="field-group"><label class="field-label">Sexe</label><input class="field-input" placeholder="Masculin / Feminin"></div>
+                    <div class="field-group"><label class="field-label">Date de naissance</label><input class="field-input" placeholder="JJ/MM/AAAA"></div>
+                </div>
+                <div class="field-group"><label class="field-label">Lieu de naissance</label><input class="field-input" placeholder="Ville, pays"></div>
+                <div class="field-row">
+                    <div class="field-group"><label class="field-label">Nationalite</label><input class="field-input" placeholder="Nationalite"></div>
+                    <div class="field-group"><label class="field-label">Pays de residence</label><input class="field-input" placeholder="Pays"></div>
+                </div>
+                <div class="field-group"><label class="field-label">Numero d'identification national</label><input class="field-input" placeholder="NIN"></div>
+                <div class="field-row">
+                    <div class="field-group"><label class="field-label">Type piece d'identite</label><input class="field-input" placeholder="CNI, Passeport..."></div>
+                    <div class="field-group"><label class="field-label">Numero document</label><input class="field-input" placeholder="Numero"></div>
+                </div>
+                <div class="field-row">
+                    <div class="field-group"><label class="field-label">Date emission</label><input class="field-input" placeholder="JJ/MM/AAAA"></div>
+                    <div class="field-group"><label class="field-label">Date expiration</label><input class="field-input" placeholder="JJ/MM/AAAA"></div>
+                </div>
+                <div class="field-group"><label class="field-label">Autorite emettrice</label><input class="field-input" placeholder="Autorite"></div>
+                <div class="field-group"><label class="field-label">Statut de verification</label><input class="field-input" placeholder="Verifie, En attente..."></div>
+            `,
+            menage: `
+                <div class="field-group"><label class="field-label">Identifiant du menage</label><input class="field-input" placeholder="M-2025-001"></div>
+                <div class="field-group"><label class="field-label">Chef / responsable</label><input class="field-input" placeholder="Nom complet"></div>
+                <div class="field-group"><label class="field-label">Nombre de personnes</label><input class="field-input" placeholder="5" type="number"></div>
+                <div class="field-group"><label class="field-label">Situation matrimoniale</label><input class="field-input" placeholder="Marie, Celibataire..."></div>
+                <div class="field-group"><label class="field-label">Conditions de logement</label><input class="field-input" placeholder="Maison, Appartement..."></div>
+                <div class="field-row">
+                    <div class="field-group"><label class="field-label">Eau</label><input class="field-input" placeholder="Oui / Non"></div>
+                    <div class="field-group"><label class="field-label">Electricite</label><input class="field-input" placeholder="Oui / Non"></div>
+                </div>
+                <div class="field-group"><label class="field-label">Situation economique</label><input class="field-input" placeholder="Precaire, Moyenne, Aisee..."></div>
+            `,
+            entreprise: `
+                <div class="field-group"><label class="field-label">Denomination sociale</label><input class="field-input" placeholder="Nom officiel"></div>
+                <div class="field-group"><label class="field-label">Forme juridique</label><input class="field-input" placeholder="SARL, SA, EURL..."></div>
+                <div class="field-row">
+                    <div class="field-group"><label class="field-label">Numero d'enregistrement</label><input class="field-input" placeholder="RC 2025/001"></div>
+                    <div class="field-group"><label class="field-label">Numero fiscal</label><input class="field-input" placeholder="A1234567"></div>  
 
-// Charger le type par defaut (Personne)
-updateFields('personne');
-      
-          </script>
+                        </div>
+                <div class="field-group"><label class="field-label">Secteur principal</label><input class="field-input" placeholder="Agriculture, Mines, Technologie..."></div>
+                <div class="field-row">
+                    <div class="field-group"><label class="field-label">Nombre d'employes</label><input class="field-input" placeholder="150" type="number"></div>
+                    <div class="field-group"><label class="field-label">Chiffre d'affaires (tranche)</label><input class="field-input" placeholder="1-5 millions USD"></div>
+                </div>
+                <div class="field-group"><label class="field-label">Pays d'operation</label><input class="field-input" placeholder="RDC, Zambie..."></div>
+                <div class="field-group"><label class="field-label">Filiales / Participations</label><input class="field-input" placeholder="Nom des filiales"></div>
+                <div class="field-group"><label class="field-label">Fournisseurs / Partenaires</label><input class="field-input" placeholder="Noms des partenaires"></div>
+            `,
+            default: `
+                <div style="color:#64748b; font-size:13px; padding:16px; text-align:center; border:1px dashed #1e293b; border-radius:8px;">
+                    Profil specifique a ce type d'entite.<br>
+                    (Les champs seront charges dynamiquement)
+                </div>
+            `
+        };
+
+        function updateFields(type) {
+            const template = fieldTemplates[type] || fieldTemplates.default;
+            if (dynamicFields) dynamicFields.innerHTML = template;
+        }
+
+        if (entityButtons) {
+            entityButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    entityButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const type = this.dataset.type;
+                    updateFields(type);
+                });
+            });
+        }
+
+        // Charger le type par defaut (Personne)
+        updateFields('personne');
+    </script>
 
 </body>
 </html>
+```
