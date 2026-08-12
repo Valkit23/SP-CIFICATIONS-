@@ -2,6 +2,61 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <style>
+  /* Conteneur principal de la sidebar */
+  .sidebar {
+    background-color: #1e293b; /* Fond bleu foncé professionnel */
+    color: #e2e8f0; /* Couleur du texte clair */
+    width: 260px;   /* Largeur fixe */
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Espace entre les éléments */
+  }
+
+  /* Le logo */
+  .logo {
+    margin-bottom: 20px;
+  }
+
+  /* Le titre "ACCUEIL" qui est actif */
+  .item.active {
+    background-color: #334155;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  /* Les catégories (ex: RECHERCHE, INTELLIGENCE...) */
+  .group-title {
+    color: #94a3b8; /* Gris clair */
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+
+  /* Les éléments de menu (ex: Analyses Stratégiques) */
+  .sub-item, .item {
+    padding: 6px 0;
+    font-size: 14px;
+    color: #cbd5e1;
+    cursor: pointer;
+    padding-left: 10px;
+  }
+
+  /* Effet quand on passe la souris dessus */
+  .sub-item:hover, .item:hover {
+    color: white;
+    background-color: #334155;
+    border-radius: 4px;
+    padding-left: 15px;
+    transition: 0.2s;
+  }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
