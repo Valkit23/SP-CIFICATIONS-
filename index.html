@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="screen-orientation" content="landscape">
     <title>NEXUS - Intelligence Platform</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
@@ -276,6 +278,19 @@
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 768px) {
+            /* Force le paysage */
+    body {
+        transform: rotate(0deg);
+        width: 100vh;
+        height: 100vw;
+        overflow: hidden;
+    }
+    .main {
+        width: 100vh;
+        height: 100vw;
+        overflow-y: auto;
+    }
+        }
             .sidebar { width: 100%; position: relative; height: auto; }
             .main { margin-left: 0; padding: 16px; }
             .grid-2 { grid-template-columns: 1fr; }
